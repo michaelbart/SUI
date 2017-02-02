@@ -64,7 +64,7 @@ public class Widget {
     cashedProperties.set(property:property, to:value)
     return value
   }
-  init () {
-    type=anyWidgetType
+  init (type:WidgetType) {
+    self.type=type
   }
 }

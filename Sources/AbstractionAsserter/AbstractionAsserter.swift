@@ -5,7 +5,7 @@ import Foundation
   Call abstractInit() on all initializers of abstract class. Call abstractMethod() on any abstract method.
   These function's will assert if these abstract method or initialiser are called and fail during runtime.
 */
-public protocol AbstractionAsserter {
+public protocol AbstractionAsserter: class {
 }
 
 extension AbstractionAsserter {

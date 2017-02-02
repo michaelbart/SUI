@@ -8,11 +8,12 @@ let package = Package(
       dependencies: [
         .Target(name: "HashableUsingAddress"),
         .Target(name: "AbstractionAsserter"),
-
+        .Target(name: "Weak"),
       ]
     ),
     Target(name: "HashableUsingAddress"),
     Target(name: "AbstractionAsserter"),
+    Target(name: "Weak"),
   ],
   dependencies: [
     .Package(url: "https://github.com/Quick/Nimble.git", majorVersion: 5, minor: 1),
