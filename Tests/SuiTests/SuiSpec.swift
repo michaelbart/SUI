@@ -31,9 +31,9 @@ class SuiSpec: QuickSpec {
       beforeEach {
         grandParent=Widget(type:grandParentType)
         parent=Widget(type:parentType)
-        parent.parent=grandParent
+        parent.container=grandParent
         widget=Widget(type:widgetType)
-        widget.parent=parent
+        widget.container=parent
       }
  
       context("with style") {
@@ -58,7 +58,7 @@ class SuiSpec: QuickSpec {
         parent.style=Style(properties:Properties(PropertyValue(test, 13)))
         grandParent.style=Style(properties:Properties(PropertyValue(test, 14)))
         expect{widget.get(property:test)}.to(equal(13))
-        widget.parent=grandParent
+        widget.container=grandParent
         expect{widget.get(property:test)}.to(equal(14))
       }
     }
@@ -110,9 +110,9 @@ class SuiSpec: QuickSpec {
       beforeEach {
         grandParent=Widget(type:grandParentType)
         parent=Widget(type:parentType)
-        parent.parent=grandParent
+        parent.container=grandParent
         widget=Widget(type:widgetType)
-        widget.parent=parent
+        widget.container=parent
       }
       it("gets properties matching self"){
         let value="set"

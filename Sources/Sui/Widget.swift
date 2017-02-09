@@ -1,13 +1,13 @@
 public class Widget {
   var type:WidgetType
   private(set) var children:[Widget]=[]
-  weak var parent:Widget? {
+  weak var container:Widget? {
     didSet {
-      if oldValue !== parent {
+      if oldValue !== container {
         if let index = oldValue?.children.index(where: {$0 === self}) {
           oldValue?.children.remove(at: index)
         }
-        parent?.children.append(self)
+        container?.children.append(self)
         clearCashedProperties()
       }
     }
@@ -41,20 +41,20 @@ public class Widget {
     }
 
     var hierarchy:[Widget]=[]
-    var parent:Widget=self
+    var container:Widget=self
     while(true) {
-      hierarchy.append(parent)
-      guard let nextParent=parent.parent else {
+      hierarchy.append(container)
+      guard let nextContainer=container.container else {
         break;
       }
-      parent = nextParent
+      container = nextContainer
     }
   
     let typeHierarchy=Array(hierarchy.map{$0.type}.reversed())
 
-    /* for each parent */
-    for parent in hierarchy {
-      if let value = parent.style?.get(property:property, of:typeHierarchy) {
+    /* for each container */
+    for container in hierarchy {
+      if let value = container.style?.get(property:property, of:typeHierarchy) {
         cashedProperties.set(property:property, to:value)
         return value
       }
