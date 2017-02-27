@@ -1,36 +1,42 @@
-public class Widget {
+import HashableUsingAddress
+import GeneratedValue
+
+public class Widget: HashableUsingAddress {
   var type:WidgetType
-  private(set) var children:[Widget]=[]
+  private(set) var contents:[Widget]=[]
   weak var container:Widget? {
     didSet {
       if oldValue !== container {
-        if let index = oldValue?.children.index(where: {$0 === self}) {
-          oldValue?.children.remove(at: index)
+        if let index = oldValue?.contents.index(where: {$0 === self}) {
+          oldValue?.contents.remove(at: index)
         }
-        container?.children.append(self)
-        clearCashedProperties()
+        oldValue?.clearRequestedSizeCashe()
+        container?.contents.append(self)
+        clearStyleCashe()
+        container?.clearRequestedSizeCashe()
       }
     }
   }
   var style:Style? {
     didSet {
-     clearCashedProperties()
+      clearStyleCashe()
     }
   }
-  private var cashedProperties=Properties()
-  func clearCashedProperties() {
-    for child in children {
-      child.clearCashedProperties()
+  private var cashedProperties=Properties() /* TODO change to StyleCashe */
+  func clearStyleCashe() {
+    for child in contents {
+      child.clearStyleCashe()
     }
     cashedProperties=Properties()
+    clearRequestedSizeCashe()
   }
 
   /**
      Get style property for widget.
      - Parameter property: The property to get.
-    - Returns: The property.
+     - Returns: The property.
   */
-  func get<T:Any>(property:Property<T>) -> T? {
+  func get<T:Any>(property:Property<T>) -> T {
     if let value = cashedProperties.get(property:property) {
       return value;
     }
@@ -64,6 +70,45 @@ public class Widget {
     cashedProperties.set(property:property, to:value)
     return value
   }
+
+  private var requestedSizeCashe=GeneratedValue {
+    (widget:Widget) in
+    widget.get(property:layoutProperty).getRequestedSize(widget)
+  }
+
+  public var requestedSize: RequestedSize {
+    get {
+      return requestedSizeCashe.get(self)
+    }
+  }
+
+  func clearRequestedSizeCashe() {
+    requestedSizeCashe.clearCashe()
+    container?.clearRequestedSizeCashe()
+    clearAllocatedSpaceCashe()
+  }
+
+  private var allocatedSpaceCashe=GeneratedValue<Widget,AllocatedSpace> {
+    (widget:Widget) in
+    if let container=widget.container {
+      return container.get(property:layoutProperty).allocateSpace(widget)
+    }
+    return AllocatedSpace(Point(0,0), widget.requestedSize.min)
+  }
+
+  public var allocatedSpace:AllocatedSpace {
+    get {
+      return allocatedSpaceCashe.get(self)
+    }
+  }
+
+  func clearAllocatedSpaceCashe() {
+    allocatedSpaceCashe.clearCashe()
+    for child in contents {
+      child.clearAllocatedSpaceCashe()
+    }
+  }
+
   init (type:WidgetType) {
     self.type=type
   }

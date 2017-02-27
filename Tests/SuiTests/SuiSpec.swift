@@ -2,7 +2,7 @@ import Quick
 import Nimble
 @testable import Sui
 import Foundation
-
+import LimitOperator
 
 class MockModelWidget<T:Any> : ModelWidget<T> {
   override init(of model:Model<T>) {
@@ -35,7 +35,7 @@ class SuiSpec: QuickSpec {
         widget=Widget(type:widgetType)
         widget.container=parent
       }
- 
+
       context("with style") {
         beforeEach {
           widget.style=Style(properties:Properties(PropertyValue(test, 12)))
@@ -1400,7 +1400,7 @@ class SuiSpec: QuickSpec {
         )
         expect{widget.get(property:property)}.to(equal("grandParent->any->widget"))
       }
- 
+
       it("gets properties matching any->any->widget over any->widget"){
         widget.style=Style(
           children:[
@@ -1839,7 +1839,7 @@ class SuiSpec: QuickSpec {
         )
         expect{widget.get(property:property)}.to(equal("grandParent->any->widget"))
       }
- 
+
       it("gets properties of parent matching any->any->widget over any->widget"){
         parent.style=Style(
           children:[
@@ -2284,7 +2284,7 @@ class SuiSpec: QuickSpec {
         )
         expect{widget.get(property:property)}.to(equal("grandParent->any->widget"))
       }
- 
+
       it("gets properties of grandParent matching any->any->widget over any->widget"){
         grandParent.style=Style(
           children:[
@@ -2600,7 +2600,7 @@ class SuiSpec: QuickSpec {
         )
         expect{widget.get(property:property)}.to(equal("grandParent"))
       }
- 
+
     }
 
     describe("Properties") {
@@ -2652,7 +2652,7 @@ class SuiSpec: QuickSpec {
         expect{properties.get(property:testTouple)?.4}.to(equal(16))
         expect{properties.get(property:testTouple)?.5}.to(equal(17))
         expect{properties.get(property:testInt2)}.to(equal(15))
- 
+
       }
     }
 
@@ -2683,7 +2683,7 @@ class SuiSpec: QuickSpec {
         expect{dic[parent]}.to(equal("parent"))
         expect{dic[anyWidgetType]}.to(equal("anyWidgetType"))
       }
- 
+
       it("will identify parents") {
         expect{child.isChild(of:parent)}.to(equal(true))
         expect{child.isChild(of:anyWidgetType)}.to(equal(true))
@@ -2753,6 +2753,200 @@ class SuiSpec: QuickSpec {
     }
 
     describe("Control") {
+      /* TODO */
+    }
+
+    describe("Point") {
+      it("can check for equality") {
+        expect{Point(2,3)==Point(2,3)}.to(equal(true))
+        expect{Point(3,3)==Point(2,3)}.to(equal(false))
+        expect{Point(2,4)==Point(2,3)}.to(equal(false))
+      }
+      it("can add to another Point") {
+        expect{Point(2,3)+Point(7,4)}.to(equal(Point(9,7)))
+      }
+      it("can limit add to another Point") {
+        expect{Point(Int32.max,3)^+Point(7,4)}.to(equal(Point(Int32.max,7)))
+        expect{Point(3,Int32.max)^+Point(7,4)}.to(equal(Point(10,Int32.max)))
+      }
+      it("can subtract from another Point") {
+        expect{Point(9,7)-Point(2,3)}.to(equal(Point(7,4)))
+      }
+      it("can be devided by an int") {
+        expect{Point(4,6)/2}.to(equal(Point(2,3)))
+        expect{Point(5,6)/2}.to(equal(Point(2,3)))
+      }
+      it("can be divided by another Point") {
+        expect{Point(2,6)/Point(2,3)}.to(equal(Point(1,2)))
+      }
+      it("can be multiplied by another Point") {
+        expect{Point(2,6)*Point(2,3)}.to(equal(Point(4,18)))
+      }
+      it("can get the max value for each dimension") {
+        expect{max(Point(2,6),Point(4,3))}.to(equal(Point(4,6)))
+      }
+      it("can get the min value for each dimension") {
+        expect{min(Point(2,6),Point(4,3))}.to(equal(Point(2,3)))
+      }
+    }
+
+    describe("RequestedSize") {
+      it("can check for equality") {
+        expect{RequestedSize(Point(7,1),Point(8,2))==RequestedSize(Point(7,1),Point(8,2))}.to(equal(true))
+        expect{RequestedSize(Point(8,1),Point(8,2))==RequestedSize(Point(7,1),Point(8,2))}.to(equal(false))
+        expect{RequestedSize(Point(7,2),Point(8,2))==RequestedSize(Point(7,1),Point(8,2))}.to(equal(false))
+        expect{RequestedSize(Point(7,1),Point(9,2))==RequestedSize(Point(7,1),Point(8,2))}.to(equal(false))
+        expect{RequestedSize(Point(7,1),Point(8,3))==RequestedSize(Point(7,1),Point(8,2))}.to(equal(false))
+      }
+    }
+
+    describe("AllocatedSpace") {
+      it("can check for equality") {
+        expect{AllocatedSpace(Point(7,1),Point(8,2))==AllocatedSpace(Point(7,1),Point(8,2))}.to(equal(true))
+        expect{AllocatedSpace(Point(8,1),Point(8,2))==AllocatedSpace(Point(7,1),Point(8,2))}.to(equal(false))
+        expect{AllocatedSpace(Point(7,2),Point(8,2))==AllocatedSpace(Point(7,1),Point(8,2))}.to(equal(false))
+        expect{AllocatedSpace(Point(7,1),Point(9,2))==AllocatedSpace(Point(7,1),Point(8,2))}.to(equal(false))
+        expect{AllocatedSpace(Point(7,1),Point(8,3))==AllocatedSpace(Point(7,1),Point(8,2))}.to(equal(false))
+      }
+    }
+
+    describe("LayoutProperty") {
+      it("'s default behavior is VerticalLayout") {
+        let widgetType=WidgetType(parent:anyWidgetType)
+        let widget=Widget(type:widgetType)
+        expect{String(describing:type(of:widget.get(property:layoutProperty)))}
+          .to(equal(String(describing:VerticalLayout.self)))
+      }
+   }
+
+    describe("FixedLayout") {
+      it("will getRequestedSize") {
+        let widgetType=WidgetType(parent:anyWidgetType)
+        let widget=Widget(type:widgetType)
+        widget.style=Style(
+          properties:Properties(
+            PropertyValue(
+              layoutProperty,
+              FixedLayout(min:Point(1,2), max:Point(3,4))
+            )
+          )
+        )
+        expect{widget.requestedSize}.to(equal(RequestedSize(Point(1,2),Point(3,4))))
+      }
+    }
+
+    describe("VerticalLayout") {
+      let widgetType=WidgetType(parent:anyWidgetType)
+      var widget=Widget(type:widgetType)
+      var child1=Widget(type:widgetType)
+      var child2=Widget(type:widgetType)
+      beforeEach{
+        widget=Widget(type:widgetType)
+        child1=Widget(type:widgetType)
+        child2=Widget(type:widgetType)
+        child1.container=widget
+        child2.container=widget
+
+        widget.style=Style(
+          properties:Properties(PropertyValue(layoutProperty, VerticalLayout())),
+          children:[
+            widgetType:Style(
+              properties:Properties(
+                PropertyValue(
+                  layoutProperty,
+                  FixedLayout(min:Point(1,2), max:Point(3,4))
+                )
+              )
+            )
+          ]
+        )
+      }
+      it("will getRequestedSize") {
+        expect{widget.requestedSize}.to(equal(RequestedSize(Point(1,4),Point(3,8))))
+      }
+      it("will allocateSpace for contents") {
+        expect(child1.allocatedSpace).to(equal(AllocatedSpace(Point(0,0), Point(1,2))))
+        expect(child2.allocatedSpace).to(equal(AllocatedSpace(Point(0,2), Point(1,2))))
+      }
+    }
+
+    describe("Widget") {
+      context("will clear cashe") {
+        var widgetType=WidgetType(parent:anyWidgetType)
+        var widget=MockWidget(type:widgetType)
+        beforeEach{
+          widgetType=WidgetType(parent:anyWidgetType)
+          widget=MockWidget(type:widgetType)
+        }
+        context("of style") {
+          afterEach{
+            expect(widget.cashedStyleCleared).to(equal(true))
+          }
+          it("when wiget is moved to a container") {
+            let parent=MockWidget(type:widgetType)
+            widget.container=parent
+          }
+          it("when style is changed") {
+            widget.style=Style()
+          }
+          it("when container's styleCashe is cleared") {
+            let container=MockWidget(type:widgetType)
+            widget.container=container
+            widget.cashedStyleCleared=false
+            container.clearStyleCashe()
+          }
+        }
+        context("of RequestSize") {
+          var widgetType=WidgetType(parent:anyWidgetType)
+          var widget=MockWidget(type:widgetType)
+          beforeEach{
+            widgetType=WidgetType(parent:anyWidgetType)
+            widget=MockWidget(type:widgetType)
+          }
+          afterEach{
+            expect(widget.cashedRequestedSizeCleared).to(equal(true))
+          }
+          it("when styleCase is cleared") {
+            widget.clearStyleCashe()
+          }
+          it("contents have been added") {
+            let contained=MockWidget(type:widgetType)
+            contained.container=widget
+          }
+          it("when contents have been removed") {
+            let contained=MockWidget(type:widgetType)
+            contained.container=widget
+            widget.cashedRequestedSizeCleared=false
+            contained.container=nil
+          }
+          it("when a contained's RequestSize has been cleared") {
+            let contained=MockWidget(type:widgetType)
+            contained.container=widget
+            widget.cashedRequestedSizeCleared=false
+            contained.clearRequestedSizeCashe()
+          }
+        }
+        context("of AllocatedSpace") {
+          var widgetType=WidgetType(parent:anyWidgetType)
+          var widget=MockWidget(type:widgetType)
+          beforeEach{
+            widgetType=WidgetType(parent:anyWidgetType)
+            widget=MockWidget(type:widgetType)
+          }
+          afterEach{
+            expect(widget.cashedAllocatedSpaceCleared).to(equal(true))
+          }
+          it("when requestedSize has been cleared") {
+            widget.clearRequestedSizeCashe()
+          }
+          it("when container's allocatedSpace has been cleared") {
+            let container=MockWidget(type:widgetType)
+            widget.container=container
+            widget.cashedAllocatedSpaceCleared=false
+            container.clearAllocatedSpaceCashe()
+          }
+        }
+      }
     }
   }
 }
