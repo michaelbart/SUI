@@ -10,6 +10,7 @@ let package = Package(
         .Target(name: "AbstractionAsserter"),
         .Target(name: "Weak"),
         .Target(name: "GeneratedValue"),
+        .Target(name: "Properties"),
       ]
     ),
     Target(name: "HashableUsingAddress"),
@@ -17,6 +18,7 @@ let package = Package(
     Target(name: "Weak"),
     Target(name: "GeneratedValue"),
     Target(name: "LimitOperator"),
+    Target(name: "Properties"),
   ],
   dependencies: [
     .Package(url: "https://github.com/Quick/Nimble.git", majorVersion: 5, minor: 1),

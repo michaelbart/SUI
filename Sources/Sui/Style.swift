@@ -3,7 +3,7 @@ public struct Style {
     The properties for the style.
     Treat this a let exsept for init.
   */
-  private var properties:Properties?
+  private var properties:StyleProperties?
 
   /**
     The children Styles. 
@@ -38,7 +38,7 @@ public struct Style {
    - Parameter property: The property to get
    - Parameter of: The typeHierarchy of the type to get the paramiter for.
   */
-  public func get<T>(property:Property<T>, of:[WidgetType]=[]) -> T? {
+  public func get<T>(property:StyleProperty<T>, of:[WidgetType]=[]) -> T? {
     var typeHierarchy=of
     if typeHierarchy.count != 0 {
       var type=typeHierarchy.removeLast()
@@ -63,7 +63,7 @@ public struct Style {
     - Parameter properties: The properties for the style.
     - Parameter children: The children Styles. 
   */
-  public init(properties:Properties?=nil, children:[WidgetType:Style]=[:]) {
+  public init(properties:StyleProperties?=nil, children:[WidgetType:Style]=[:]) {
     self.properties=properties
     self.children=[:]
     for (childType, child) in children {

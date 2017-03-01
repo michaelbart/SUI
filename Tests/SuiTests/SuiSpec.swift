@@ -18,7 +18,7 @@ class SuiSpec: QuickSpec {
   override func spec() {
 
     describe("Widget") {
-      let test:Property<Int> = Property(23)
+      let test:StyleProperty<Int> = StyleProperty(23)
 
       let widgetType=WidgetType(parent:anyWidgetType)
       let parentType=WidgetType(parent:anyWidgetType)
@@ -38,65 +38,65 @@ class SuiSpec: QuickSpec {
 
       context("with style") {
         beforeEach {
-          widget.style=Style(properties:Properties(PropertyValue(test, 12)))
+          widget.style=Style(properties:StyleProperties(StylePropertyValue(test, 12)))
         }
         it("can get property"){
           expect{widget.get(property:test)}.to(equal(12))
         }
         it("can change styles"){
           expect{widget.get(property:test)}.to(equal(12))
-          widget.style=Style(properties:Properties(PropertyValue(test, 13)))
+          widget.style=Style(properties:StyleProperties(StylePropertyValue(test, 13)))
           expect{widget.get(property:test)}.to(equal(13))
         }
       }
       it("can change styles when parent changes style"){
         expect{widget.get(property:test)}.to(equal(23))
-        parent.style=Style(properties:Properties(PropertyValue(test, 13)))
+        parent.style=Style(properties:StyleProperties(StylePropertyValue(test, 13)))
         expect{widget.get(property:test)}.to(equal(13))
       }
       it("can change styles when moved to a new parent"){
-        parent.style=Style(properties:Properties(PropertyValue(test, 13)))
-        grandParent.style=Style(properties:Properties(PropertyValue(test, 14)))
+        parent.style=Style(properties:StyleProperties(StylePropertyValue(test, 13)))
+        grandParent.style=Style(properties:StyleProperties(StylePropertyValue(test, 14)))
         expect{widget.get(property:test)}.to(equal(13))
         widget.container=grandParent
         expect{widget.get(property:test)}.to(equal(14))
       }
     }
 
-    describe("Property") {
-      let intProperty:GenericProperty=Property(12)
-      let stringProperty:GenericProperty=Property("String")
+    describe("StyleProperty") {
+      let intStyleProperty:GenericStyleProperty=StyleProperty(12)
+      let stringStyleProperty:GenericStyleProperty=StyleProperty("String")
 
       it("will compare") {
-        expect{intProperty == intProperty}.to(equal(true))
-        expect{intProperty == stringProperty}.to(equal(false))
-        expect{stringProperty == intProperty}.to(equal(false))
-        expect{stringProperty == stringProperty}.to(equal(true))
+        expect{intStyleProperty == intStyleProperty}.to(equal(true))
+        expect{intStyleProperty == stringStyleProperty}.to(equal(false))
+        expect{stringStyleProperty == intStyleProperty}.to(equal(false))
+        expect{stringStyleProperty == stringStyleProperty}.to(equal(true))
       }
 
       it("will hash") {
-        expect{intProperty.hashValue == intProperty.hashValue}.to(equal(true))
-        expect{stringProperty.hashValue == stringProperty.hashValue}.to(equal(true))
+        expect{intStyleProperty.hashValue == intStyleProperty.hashValue}.to(equal(true))
+        expect{stringStyleProperty.hashValue == stringStyleProperty.hashValue}.to(equal(true))
       }
 
       it("can be used as a key for a dictionary") {
         let dic=[
-          intProperty:"intValue",
-          stringProperty:"stringValue",
+          intStyleProperty:"intValue",
+          stringStyleProperty:"stringValue",
         ]
-        expect{dic[stringProperty]}.to(equal("stringValue"))
-        expect{dic[intProperty]}.to(equal("intValue"))
+        expect{dic[stringStyleProperty]}.to(equal("stringValue"))
+        expect{dic[intStyleProperty]}.to(equal("intValue"))
       }
       it("has default value") {
-        expect{(intProperty as? Property<Int>)?.defaultValue}.to(equal(12))
-        expect{(stringProperty as? Property<String>)?.defaultValue}.to(equal("String"))
+        expect{(intStyleProperty as? StyleProperty<Int>)?.defaultValue}.to(equal(12))
+        expect{(stringStyleProperty as? StyleProperty<String>)?.defaultValue}.to(equal("String"))
       }
     }
 
     describe("style") {
 
-      let property:Property = Property("default value")
-      let otherProperty:Property = Property("other property")
+      let property:StyleProperty = StyleProperty("default value")
+      let otherStyleProperty:StyleProperty = StyleProperty("other property")
 
       let widgetType=WidgetType(parent:anyWidgetType)
       let parentType=WidgetType(parent:anyWidgetType)
@@ -116,7 +116,7 @@ class SuiSpec: QuickSpec {
       }
       it("gets properties matching self"){
         let value="set"
-        widget.style=Style(properties:Properties(PropertyValue(property,value)))
+        widget.style=Style(properties:StyleProperties(StylePropertyValue(property,value)))
         expect{widget.get(property:property)}.to(equal(value))
       }
       it("gets properties matching grandParent->parent->widget"){
@@ -128,7 +128,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -147,7 +147,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -164,7 +164,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -181,7 +181,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -200,7 +200,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -217,7 +217,7 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -232,7 +232,7 @@ class SuiSpec: QuickSpec {
             grandParentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -245,7 +245,7 @@ class SuiSpec: QuickSpec {
         widget.style=Style(
           children:[
             widgetType:Style(
-              properties:Properties(PropertyValue(property,value))
+              properties:StyleProperties(StylePropertyValue(property,value))
             )
           ]
         )
@@ -260,7 +260,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -279,7 +279,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -296,7 +296,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -313,7 +313,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -332,7 +332,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -349,7 +349,7 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -364,7 +364,7 @@ class SuiSpec: QuickSpec {
             grandParentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -377,7 +377,7 @@ class SuiSpec: QuickSpec {
         widget.style=Style(
           children:[
             anyWidgetType:Style(
-              properties:Properties(PropertyValue(property,value)))
+              properties:StyleProperties(StylePropertyValue(property,value)))
             ]
           )
         expect{widget.get(property:property)}.to(equal(value))
@@ -389,7 +389,7 @@ class SuiSpec: QuickSpec {
             grandParentType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -404,7 +404,7 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -417,7 +417,7 @@ class SuiSpec: QuickSpec {
         widget.style=Style(
           children:[
             parentType:Style(
-              properties:Properties(PropertyValue(property,value))
+              properties:StyleProperties(StylePropertyValue(property,value))
             )
           ]
         )
@@ -428,7 +428,7 @@ class SuiSpec: QuickSpec {
         widget.style=Style(
           children:[
             grandParentType:Style(
-              properties:Properties(PropertyValue(property,value))
+              properties:StyleProperties(StylePropertyValue(property,value))
             )
           ]
         )
@@ -438,7 +438,7 @@ class SuiSpec: QuickSpec {
       it("gets properties of parent matching self"){
         let value="set"
         parent.style=Style(
-          properties:Properties(PropertyValue(property,value))
+          properties:StyleProperties(StylePropertyValue(property,value))
         )
         expect{widget.get(property:property)}.to(equal(value))
       }
@@ -451,7 +451,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -470,7 +470,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -487,7 +487,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -504,7 +504,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -523,7 +523,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -540,7 +540,7 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -555,7 +555,7 @@ class SuiSpec: QuickSpec {
             grandParentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -568,7 +568,7 @@ class SuiSpec: QuickSpec {
         parent.style=Style(
           children:[
             widgetType:Style(
-              properties:Properties(PropertyValue(property,value))
+              properties:StyleProperties(StylePropertyValue(property,value))
             )
           ]
         )
@@ -583,7 +583,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -602,7 +602,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -619,7 +619,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -636,7 +636,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -655,7 +655,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -672,7 +672,7 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -687,7 +687,7 @@ class SuiSpec: QuickSpec {
             grandParentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -700,7 +700,7 @@ class SuiSpec: QuickSpec {
         parent.style=Style(
           children:[
             anyWidgetType:Style(
-              properties:Properties(PropertyValue(property,value))
+              properties:StyleProperties(StylePropertyValue(property,value))
             )
           ]
         )
@@ -713,7 +713,7 @@ class SuiSpec: QuickSpec {
             grandParentType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -728,7 +728,7 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -741,7 +741,7 @@ class SuiSpec: QuickSpec {
         parent.style=Style(
           children:[
             parentType:Style(
-              properties:Properties(PropertyValue(property,value))
+              properties:StyleProperties(StylePropertyValue(property,value))
             )
           ]
         )
@@ -752,7 +752,7 @@ class SuiSpec: QuickSpec {
         parent.style=Style(
           children:[
             grandParentType:Style(
-              properties:Properties(PropertyValue(property,value))
+              properties:StyleProperties(StylePropertyValue(property,value))
             )
           ]
         )
@@ -761,7 +761,7 @@ class SuiSpec: QuickSpec {
       it("gets properties of parent matching self"){
         let value="set"
         parent.style=Style(
-          properties:Properties(PropertyValue(property,value))
+          properties:StyleProperties(StylePropertyValue(property,value))
         )
         expect{widget.get(property:property)}.to(equal(value))
       }
@@ -774,7 +774,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -793,7 +793,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -810,7 +810,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -827,7 +827,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -846,7 +846,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -863,7 +863,7 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -878,7 +878,7 @@ class SuiSpec: QuickSpec {
             grandParentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -891,7 +891,7 @@ class SuiSpec: QuickSpec {
         grandParent.style=Style(
           children:[
             widgetType:Style(
-              properties:Properties(PropertyValue(property,value))
+              properties:StyleProperties(StylePropertyValue(property,value))
             )
           ]
         )
@@ -906,7 +906,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -925,7 +925,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -942,7 +942,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -959,7 +959,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -978,7 +978,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,value))
+                      properties:StyleProperties(StylePropertyValue(property,value))
                     )
                   ]
                 )
@@ -995,7 +995,7 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -1010,7 +1010,7 @@ class SuiSpec: QuickSpec {
             grandParentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -1023,7 +1023,7 @@ class SuiSpec: QuickSpec {
         grandParent.style=Style(
           children:[
             anyWidgetType:Style(
-              properties:Properties(PropertyValue(property,value))
+              properties:StyleProperties(StylePropertyValue(property,value))
             )
           ]
         )
@@ -1036,7 +1036,7 @@ class SuiSpec: QuickSpec {
             grandParentType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -1051,7 +1051,7 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,value))
+                  properties:StyleProperties(StylePropertyValue(property,value))
                 )
               ]
             )
@@ -1064,7 +1064,7 @@ class SuiSpec: QuickSpec {
         grandParent.style=Style(
           children:[
             parentType:Style(
-              properties:Properties(PropertyValue(property,value))
+              properties:StyleProperties(StylePropertyValue(property,value))
             )
           ]
         )
@@ -1075,7 +1075,7 @@ class SuiSpec: QuickSpec {
         grandParent.style=Style(
           children:[
             grandParentType:Style(
-              properties:Properties(PropertyValue(property,value))
+              properties:StyleProperties(StylePropertyValue(property,value))
             )
           ]
         )
@@ -1088,31 +1088,31 @@ class SuiSpec: QuickSpec {
         let style=Style(
           children: [
             otherWidgetType:Style(
-              properties:Properties(PropertyValue(property,"self"))
+              properties:StyleProperties(StylePropertyValue(property,"self"))
             ),
             widgetType:Style(
               children: [
                 otherWidgetType:Style(
-                  properties:Properties(PropertyValue(property,"widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"widget"))
                 )
               ]
             ),
             anyWidgetType:Style(
               children: [
                 otherWidgetType:Style(
-                  properties:Properties(PropertyValue(property,"any"))
+                  properties:StyleProperties(StylePropertyValue(property,"any"))
                 ),
                 anyWidgetType:Style(
                   children: [
                     otherWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->any"))
                     ),
                   ]
                 ),
                 widgetType:Style(
                   children: [
                     otherWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->widget"))
                     ),
                   ]
                 ),
@@ -1121,19 +1121,19 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children: [
                 otherWidgetType:Style(
-                  properties:Properties(PropertyValue(property,"parent"))
+                  properties:StyleProperties(StylePropertyValue(property,"parent"))
                 ),
                 anyWidgetType:Style(
                   children: [
                     otherWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"parent->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"parent->any"))
                     ),
                   ]
                 ),
                 widgetType:Style(
                   children: [
                     otherWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"parent->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"parent->widget"))
                     ),
                   ]
                 ),
@@ -1148,72 +1148,72 @@ class SuiSpec: QuickSpec {
       }
       it("does not get properties when property does not match"){
         let style=Style(
-          properties:Properties(
-            PropertyValue(otherProperty,"self")
+          properties:StyleProperties(
+            StylePropertyValue(otherStyleProperty,"self")
           ),
           children:[
             widgetType:Style(
-              properties:Properties(
-                PropertyValue(otherProperty,"widget")
+              properties:StyleProperties(
+                StylePropertyValue(otherStyleProperty,"widget")
               )
             ),
             parentType:Style(
-              properties:Properties(
-                PropertyValue(otherProperty,"parent")
+              properties:StyleProperties(
+                StylePropertyValue(otherStyleProperty,"parent")
               ),
               children:[
                 widgetType:Style(
-                  properties:Properties(
-                    PropertyValue(otherProperty,"parent->widget")
+                  properties:StyleProperties(
+                    StylePropertyValue(otherStyleProperty,"parent->widget")
                   )
                 ),
                 anyWidgetType:Style(
-                  properties:Properties(
-                    PropertyValue(otherProperty,"parent->any")
+                  properties:StyleProperties(
+                    StylePropertyValue(otherStyleProperty,"parent->any")
                   )
                 )
               ]
             ),
             grandParentType:Style(
-              properties:Properties(
-                PropertyValue(otherProperty,"grandParent")
+              properties:StyleProperties(
+                StylePropertyValue(otherStyleProperty,"grandParent")
               ),
               children:[
                 widgetType:Style(
-                  properties:Properties(
-                    PropertyValue(otherProperty,"grandParent->widget")
+                  properties:StyleProperties(
+                    StylePropertyValue(otherStyleProperty,"grandParent->widget")
                   )
                 ),
                 anyWidgetType:Style(
-                  properties:Properties(
-                    PropertyValue(otherProperty,"grandParent->any")
+                  properties:StyleProperties(
+                    StylePropertyValue(otherStyleProperty,"grandParent->any")
                   ),
                   children:[
                     widgetType:Style(
-                      properties:Properties(
-                        PropertyValue(otherProperty,"grandParent->any->widget")
+                      properties:StyleProperties(
+                        StylePropertyValue(otherStyleProperty,"grandParent->any->widget")
                       )
                     ),
                     anyWidgetType:Style(
-                      properties:Properties(
-                        PropertyValue(otherProperty,"grandParent->any->any")
+                      properties:StyleProperties(
+                        StylePropertyValue(otherStyleProperty,"grandParent->any->any")
                       )
                     )
                   ]
                 ),
                 parentType:Style(
-                  properties:Properties(
-                    PropertyValue(otherProperty,"grandParent->parent")
+                  properties:StyleProperties(
+                    StylePropertyValue(otherStyleProperty,"grandParent->parent")
                   ),
                   children:[
                     widgetType:Style(
-                      properties:Properties(
-                        PropertyValue(otherProperty,"grandParent->parent->widget")
+                      properties:StyleProperties(
+                        StylePropertyValue(otherStyleProperty,"grandParent->parent->widget")
                       )
                     ),
                     anyWidgetType:Style(
-                      properties:Properties(
-                        PropertyValue(otherProperty,"grandParent->parent->any")
+                      properties:StyleProperties(
+                        StylePropertyValue(otherStyleProperty,"grandParent->parent->any")
                       )
                     )
                   ]
@@ -1221,45 +1221,45 @@ class SuiSpec: QuickSpec {
               ]
             ),
             anyWidgetType:Style(
-              properties:Properties(
-                PropertyValue(otherProperty,"any")
+              properties:StyleProperties(
+                StylePropertyValue(otherStyleProperty,"any")
               ),
               children:[
                 widgetType:Style(
-                  properties:Properties(
-                    PropertyValue(otherProperty,"any->widget")
+                  properties:StyleProperties(
+                    StylePropertyValue(otherStyleProperty,"any->widget")
                   )
                 ),
                 anyWidgetType:Style(
-                  properties:Properties(
-                    PropertyValue(otherProperty,"any->any")
+                  properties:StyleProperties(
+                    StylePropertyValue(otherStyleProperty,"any->any")
                   ),
                   children:[
                     widgetType:Style(
-                      properties:Properties(
-                        PropertyValue(otherProperty,"any->any->widget")
+                      properties:StyleProperties(
+                        StylePropertyValue(otherStyleProperty,"any->any->widget")
                       )
                     ),
                     anyWidgetType:Style(
-                      properties:Properties(
-                        PropertyValue(otherProperty,"any->any->any")
+                      properties:StyleProperties(
+                        StylePropertyValue(otherStyleProperty,"any->any->any")
                       )
                     )
                   ]
                 ),
                 parentType:Style(
-                  properties:Properties(
-                    PropertyValue(otherProperty,"any->parent")
+                  properties:StyleProperties(
+                    StylePropertyValue(otherStyleProperty,"any->parent")
                   ),
                   children:[
                     widgetType:Style(
-                      properties:Properties(
-                        PropertyValue(otherProperty,"any->parent->widget")
+                      properties:StyleProperties(
+                        StylePropertyValue(otherStyleProperty,"any->parent->widget")
                       )
                     ),
                     anyWidgetType:Style(
-                      properties:Properties(
-                        PropertyValue(otherProperty,"any->parent->any")
+                      properties:StyleProperties(
+                        StylePropertyValue(otherStyleProperty,"any->parent->any")
                       )
                     )
                   ]
@@ -1275,14 +1275,14 @@ class SuiSpec: QuickSpec {
       }
       it("gets properties matching self over grandParent->parent->widget"){
         widget.style=Style(
-          properties:Properties(PropertyValue(property,"self")),
+          properties:StyleProperties(StylePropertyValue(property,"self")),
           children:[
             grandParentType:Style(
               children:[
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->parent->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->parent->widget"))
                     )
                   ]
                 )
@@ -1300,7 +1300,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->parent->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->parent->widget"))
                     )
                   ]
                 )
@@ -1311,7 +1311,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->parent->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->parent->widget"))
                     )
                   ]
                 )
@@ -1327,7 +1327,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"parent->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"parent->widget"))
                 )
               ]
             ),
@@ -1336,7 +1336,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->parent->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->parent->widget"))
                     )
                   ]
                 )
@@ -1354,7 +1354,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->any->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->any->widget"))
                     )
                   ]
                 )
@@ -1363,7 +1363,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"parent->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"parent->widget"))
                 )
               ]
             )
@@ -1379,7 +1379,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->any->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->any->widget"))
                     )
                   ]
                 )
@@ -1390,7 +1390,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->any->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->any->widget"))
                     )
                   ]
                 )
@@ -1407,12 +1407,12 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"any->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"any->widget"))
                 ),
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->any->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->any->widget"))
                     )
                   ]
                 )
@@ -1428,14 +1428,14 @@ class SuiSpec: QuickSpec {
             grandParentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"grandParent->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"grandParent->widget"))
                 )
               ]
             ),
             anyWidgetType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"any->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"any->widget"))
                 )
               ]
             )
@@ -1447,12 +1447,12 @@ class SuiSpec: QuickSpec {
         widget.style=Style(
           children:[
             widgetType:Style(
-              properties:Properties(PropertyValue(property,"widget"))
+              properties:StyleProperties(StylePropertyValue(property,"widget"))
             ),
             grandParentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"grandParent->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"grandParent->widget"))
                 )
               ]
             )
@@ -1468,14 +1468,14 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->parent->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->parent->any"))
                     )
                   ]
                 )
               ]
             ),
             widgetType:Style(
-              properties:Properties(PropertyValue(property,"widget"))
+              properties:StyleProperties(StylePropertyValue(property,"widget"))
             )
           ]
         )
@@ -1489,7 +1489,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->parent->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->parent->any"))
                     )
                   ]
                 )
@@ -1500,7 +1500,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->parent->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->parent->any"))
                     )
                   ]
                 )
@@ -1516,7 +1516,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,"parent->any"))
+                  properties:StyleProperties(StylePropertyValue(property,"parent->any"))
                 )
               ]
             ),
@@ -1525,7 +1525,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->parent->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->parent->any"))
                     )
                   ]
                 )
@@ -1543,7 +1543,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->any->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->any->any"))
                     )
                   ]
                 )
@@ -1552,7 +1552,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,"parent->any"))
+                  properties:StyleProperties(StylePropertyValue(property,"parent->any"))
                 )
               ]
             )
@@ -1568,7 +1568,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->any->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->any->any"))
                     )
                   ]
                 )
@@ -1579,7 +1579,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->any->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->any->any"))
                     )
                   ]
                 )
@@ -1595,10 +1595,10 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,"any->any")),
+                  properties:StyleProperties(StylePropertyValue(property,"any->any")),
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->any->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->any->any"))
                     )
                   ]
                 )
@@ -1614,7 +1614,7 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,"any->any"))
+                  properties:StyleProperties(StylePropertyValue(property,"any->any"))
                 )
               ]
             )
@@ -1626,10 +1626,10 @@ class SuiSpec: QuickSpec {
         widget.style=Style(
           children:[
             grandParentType:Style(
-              properties:Properties(PropertyValue(property,"any")),
+              properties:StyleProperties(StylePropertyValue(property,"any")),
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"grandParent->any"))
+                  properties:StyleProperties(StylePropertyValue(property,"grandParent->any"))
                 )
               ]
             )
@@ -1643,12 +1643,12 @@ class SuiSpec: QuickSpec {
             grandParentType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,"grandParent->parent"))
+                  properties:StyleProperties(StylePropertyValue(property,"grandParent->parent"))
                 )
               ]
             ),
             anyWidgetType:Style(
-              properties:Properties(PropertyValue(property,"any"))
+              properties:StyleProperties(StylePropertyValue(property,"any"))
             )
           ]
         )
@@ -1660,14 +1660,14 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,"any->parent"))
+                  properties:StyleProperties(StylePropertyValue(property,"any->parent"))
                 )
               ]
             ),
             grandParentType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,"grandParent->parent"))
+                  properties:StyleProperties(StylePropertyValue(property,"grandParent->parent"))
                 )
               ]
             )
@@ -1679,12 +1679,12 @@ class SuiSpec: QuickSpec {
         widget.style=Style(
           children:[
             parentType:Style(
-              properties:Properties(PropertyValue(property,"parent"))
+              properties:StyleProperties(StylePropertyValue(property,"parent"))
             ),
             anyWidgetType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,"any->parent"))
+                  properties:StyleProperties(StylePropertyValue(property,"any->parent"))
                 )
               ]
             )
@@ -1696,10 +1696,10 @@ class SuiSpec: QuickSpec {
         widget.style=Style(
           children:[
             grandParentType:Style(
-              properties:Properties(PropertyValue(property,"grandParent"))
+              properties:StyleProperties(StylePropertyValue(property,"grandParent"))
             ),
             parentType:Style(
-              properties:Properties(PropertyValue(property,"parent"))
+              properties:StyleProperties(StylePropertyValue(property,"parent"))
             )
           ]
         )
@@ -1710,7 +1710,7 @@ class SuiSpec: QuickSpec {
         widget.style=Style(
           children:[
             grandParentType:Style(
-              properties:Properties(PropertyValue(property,"grandParent"))
+              properties:StyleProperties(StylePropertyValue(property,"grandParent"))
             ),
           ]
         )
@@ -1721,7 +1721,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->parent->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->parent->widget"))
                     )
                   ]
                 )
@@ -1739,7 +1739,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->parent->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->parent->widget"))
                     )
                   ]
                 )
@@ -1750,7 +1750,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->parent->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->parent->widget"))
                     )
                   ]
                 )
@@ -1766,7 +1766,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"parent->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"parent->widget"))
                 )
               ]
             ),
@@ -1775,7 +1775,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->parent->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->parent->widget"))
                     )
                   ]
                 )
@@ -1793,7 +1793,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->any->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->any->widget"))
                     )
                   ]
                 )
@@ -1802,7 +1802,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"parent->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"parent->widget"))
                 )
               ]
             )
@@ -1818,7 +1818,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->any->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->any->widget"))
                     )
                   ]
                 )
@@ -1829,7 +1829,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->any->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->any->widget"))
                     )
                   ]
                 )
@@ -1846,12 +1846,12 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"any->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"any->widget"))
                 ),
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->any->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->any->widget"))
                     )
                   ]
                 )
@@ -1867,14 +1867,14 @@ class SuiSpec: QuickSpec {
             grandParentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"grandParent->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"grandParent->widget"))
                 )
               ]
             ),
             anyWidgetType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"any->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"any->widget"))
                 )
               ]
             )
@@ -1886,12 +1886,12 @@ class SuiSpec: QuickSpec {
         parent.style=Style(
           children:[
             widgetType:Style(
-              properties:Properties(PropertyValue(property,"widget"))
+              properties:StyleProperties(StylePropertyValue(property,"widget"))
             ),
             grandParentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"grandParent->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"grandParent->widget"))
                 )
               ]
             )
@@ -1907,14 +1907,14 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->parent->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->parent->any"))
                     )
                   ]
                 )
               ]
             ),
             widgetType:Style(
-              properties:Properties(PropertyValue(property,"widget"))
+              properties:StyleProperties(StylePropertyValue(property,"widget"))
             )
           ]
         )
@@ -1928,7 +1928,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->parent->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->parent->any"))
                     )
                   ]
                 )
@@ -1939,7 +1939,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->parent->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->parent->any"))
                     )
                   ]
                 )
@@ -1955,7 +1955,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,"parent->any"))
+                  properties:StyleProperties(StylePropertyValue(property,"parent->any"))
                 )
               ]
             ),
@@ -1964,7 +1964,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->parent->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->parent->any"))
                     )
                   ]
                 )
@@ -1982,7 +1982,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->any->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->any->any"))
                     )
                   ]
                 )
@@ -1991,7 +1991,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,"parent->any"))
+                  properties:StyleProperties(StylePropertyValue(property,"parent->any"))
                 )
               ]
             )
@@ -2007,7 +2007,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->any->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->any->any"))
                     )
                   ]
                 )
@@ -2018,7 +2018,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->any->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->any->any"))
                     )
                   ]
                 )
@@ -2034,10 +2034,10 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,"any->any")),
+                  properties:StyleProperties(StylePropertyValue(property,"any->any")),
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->any->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->any->any"))
                     )
                   ]
                 )
@@ -2053,7 +2053,7 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,"any->any"))
+                  properties:StyleProperties(StylePropertyValue(property,"any->any"))
                 )
               ]
             )
@@ -2065,10 +2065,10 @@ class SuiSpec: QuickSpec {
         parent.style=Style(
           children:[
             grandParentType:Style(
-              properties:Properties(PropertyValue(property,"any")),
+              properties:StyleProperties(StylePropertyValue(property,"any")),
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"grandParent->any"))
+                  properties:StyleProperties(StylePropertyValue(property,"grandParent->any"))
                 )
               ]
             )
@@ -2082,12 +2082,12 @@ class SuiSpec: QuickSpec {
             grandParentType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,"grandParent->parent"))
+                  properties:StyleProperties(StylePropertyValue(property,"grandParent->parent"))
                 )
               ]
             ),
             anyWidgetType:Style(
-              properties:Properties(PropertyValue(property,"any"))
+              properties:StyleProperties(StylePropertyValue(property,"any"))
             )
           ]
         )
@@ -2099,14 +2099,14 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,"any->parent"))
+                  properties:StyleProperties(StylePropertyValue(property,"any->parent"))
                 )
               ]
             ),
             grandParentType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,"grandParent->parent"))
+                  properties:StyleProperties(StylePropertyValue(property,"grandParent->parent"))
                 )
               ]
             )
@@ -2118,12 +2118,12 @@ class SuiSpec: QuickSpec {
         parent.style=Style(
           children:[
             parentType:Style(
-              properties:Properties(PropertyValue(property,"parent"))
+              properties:StyleProperties(StylePropertyValue(property,"parent"))
             ),
             anyWidgetType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,"any->parent"))
+                  properties:StyleProperties(StylePropertyValue(property,"any->parent"))
                 )
               ]
             )
@@ -2135,10 +2135,10 @@ class SuiSpec: QuickSpec {
         parent.style=Style(
           children:[
             grandParentType:Style(
-              properties:Properties(PropertyValue(property,"grandParent"))
+              properties:StyleProperties(StylePropertyValue(property,"grandParent"))
             ),
             parentType:Style(
-              properties:Properties(PropertyValue(property,"parent"))
+              properties:StyleProperties(StylePropertyValue(property,"parent"))
             )
           ]
         )
@@ -2146,10 +2146,10 @@ class SuiSpec: QuickSpec {
       }
       it("gets properties of parent matching grandParent over self"){
         parent.style=Style(
-          properties:Properties(PropertyValue(property,"self")),
+          properties:StyleProperties(StylePropertyValue(property,"self")),
           children:[
             grandParentType:Style(
-              properties:Properties(PropertyValue(property,"grandParent"))
+              properties:StyleProperties(StylePropertyValue(property,"grandParent"))
             ),
           ]
         )
@@ -2157,7 +2157,7 @@ class SuiSpec: QuickSpec {
       }
       it("gets properties of parent over properties of grandParent"){
         parent.style=Style(
-          properties:Properties(PropertyValue(property,"self"))
+          properties:StyleProperties(StylePropertyValue(property,"self"))
         )
         grandParent.style=Style(
           children:[
@@ -2166,7 +2166,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"self"))
+                      properties:StyleProperties(StylePropertyValue(property,"self"))
                     )
                   ]
                 )
@@ -2184,7 +2184,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->parent->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->parent->widget"))
                     )
                   ]
                 )
@@ -2195,7 +2195,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->parent->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->parent->widget"))
                     )
                   ]
                 )
@@ -2211,7 +2211,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"parent->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"parent->widget"))
                 )
               ]
             ),
@@ -2220,7 +2220,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->parent->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->parent->widget"))
                     )
                   ]
                 )
@@ -2238,7 +2238,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->any->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->any->widget"))
                     )
                   ]
                 )
@@ -2247,7 +2247,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"parent->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"parent->widget"))
                 )
               ]
             )
@@ -2263,7 +2263,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->any->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->any->widget"))
                     )
                   ]
                 )
@@ -2274,7 +2274,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->any->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->any->widget"))
                     )
                   ]
                 )
@@ -2291,12 +2291,12 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"any->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"any->widget"))
                 ),
                 anyWidgetType:Style(
                   children:[
                     widgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->any->widget"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->any->widget"))
                     )
                   ]
                 )
@@ -2312,14 +2312,14 @@ class SuiSpec: QuickSpec {
             grandParentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"grandParent->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"grandParent->widget"))
                 )
               ]
             ),
             anyWidgetType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"any->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"any->widget"))
                 )
               ]
             )
@@ -2331,12 +2331,12 @@ class SuiSpec: QuickSpec {
         grandParent.style=Style(
           children:[
             widgetType:Style(
-              properties:Properties(PropertyValue(property,"widget"))
+              properties:StyleProperties(StylePropertyValue(property,"widget"))
             ),
             grandParentType:Style(
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"grandParent->widget"))
+                  properties:StyleProperties(StylePropertyValue(property,"grandParent->widget"))
                 )
               ]
             )
@@ -2352,14 +2352,14 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->parent->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->parent->any"))
                     )
                   ]
                 )
               ]
             ),
             widgetType:Style(
-              properties:Properties(PropertyValue(property,"widget"))
+              properties:StyleProperties(StylePropertyValue(property,"widget"))
             )
           ]
         )
@@ -2373,7 +2373,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->parent->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->parent->any"))
                     )
                   ]
                 )
@@ -2384,7 +2384,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->parent->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->parent->any"))
                     )
                   ]
                 )
@@ -2400,7 +2400,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,"parent->any"))
+                  properties:StyleProperties(StylePropertyValue(property,"parent->any"))
                 )
               ]
             ),
@@ -2409,7 +2409,7 @@ class SuiSpec: QuickSpec {
                 parentType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->parent->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->parent->any"))
                     )
                   ]
                 )
@@ -2427,7 +2427,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->any->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->any->any"))
                     )
                   ]
                 )
@@ -2436,7 +2436,7 @@ class SuiSpec: QuickSpec {
             parentType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,"parent->any"))
+                  properties:StyleProperties(StylePropertyValue(property,"parent->any"))
                 )
               ]
             )
@@ -2452,7 +2452,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->any->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->any->any"))
                     )
                   ]
                 )
@@ -2463,7 +2463,7 @@ class SuiSpec: QuickSpec {
                 anyWidgetType:Style(
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"grandParent->any->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"grandParent->any->any"))
                     )
                   ]
                 )
@@ -2479,10 +2479,10 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,"any->any")),
+                  properties:StyleProperties(StylePropertyValue(property,"any->any")),
                   children:[
                     anyWidgetType:Style(
-                      properties:Properties(PropertyValue(property,"any->any->any"))
+                      properties:StyleProperties(StylePropertyValue(property,"any->any->any"))
                     )
                   ]
                 )
@@ -2498,7 +2498,7 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 anyWidgetType:Style(
-                  properties:Properties(PropertyValue(property,"any->any"))
+                  properties:StyleProperties(StylePropertyValue(property,"any->any"))
                 )
               ]
             )
@@ -2510,10 +2510,10 @@ class SuiSpec: QuickSpec {
         grandParent.style=Style(
           children:[
             grandParentType:Style(
-              properties:Properties(PropertyValue(property,"any")),
+              properties:StyleProperties(StylePropertyValue(property,"any")),
               children:[
                 widgetType:Style(
-                  properties:Properties(PropertyValue(property,"grandParent->any"))
+                  properties:StyleProperties(StylePropertyValue(property,"grandParent->any"))
                 )
               ]
             )
@@ -2527,12 +2527,12 @@ class SuiSpec: QuickSpec {
             grandParentType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,"grandParent->parent"))
+                  properties:StyleProperties(StylePropertyValue(property,"grandParent->parent"))
                 )
               ]
             ),
             anyWidgetType:Style(
-              properties:Properties(PropertyValue(property,"any"))
+              properties:StyleProperties(StylePropertyValue(property,"any"))
             )
           ]
         )
@@ -2544,14 +2544,14 @@ class SuiSpec: QuickSpec {
             anyWidgetType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,"any->parent"))
+                  properties:StyleProperties(StylePropertyValue(property,"any->parent"))
                 )
               ]
             ),
             grandParentType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,"grandParent->parent"))
+                  properties:StyleProperties(StylePropertyValue(property,"grandParent->parent"))
                 )
               ]
             )
@@ -2563,12 +2563,12 @@ class SuiSpec: QuickSpec {
         grandParent.style=Style(
           children:[
             parentType:Style(
-              properties:Properties(PropertyValue(property,"parent"))
+              properties:StyleProperties(StylePropertyValue(property,"parent"))
             ),
             anyWidgetType:Style(
               children:[
                 parentType:Style(
-                  properties:Properties(PropertyValue(property,"any->parent"))
+                  properties:StyleProperties(StylePropertyValue(property,"any->parent"))
                 )
               ]
             )
@@ -2580,10 +2580,10 @@ class SuiSpec: QuickSpec {
         grandParent.style=Style(
           children:[
             grandParentType:Style(
-              properties:Properties(PropertyValue(property,"grandParent"))
+              properties:StyleProperties(StylePropertyValue(property,"grandParent"))
             ),
             parentType:Style(
-              properties:Properties(PropertyValue(property,"parent"))
+              properties:StyleProperties(StylePropertyValue(property,"parent"))
             )
           ]
         )
@@ -2591,10 +2591,10 @@ class SuiSpec: QuickSpec {
       }
       it("gets properties of grandPrarent matching grandParent over self"){
         grandParent.style=Style(
-          properties:Properties(PropertyValue(property,"self")),
+          properties:StyleProperties(StylePropertyValue(property,"self")),
           children:[
             grandParentType:Style(
-              properties:Properties(PropertyValue(property,"grandParent"))
+              properties:StyleProperties(StylePropertyValue(property,"grandParent"))
             ),
           ]
         )
@@ -2603,16 +2603,16 @@ class SuiSpec: QuickSpec {
 
     }
 
-    describe("Properties") {
-      let test:Property<Int> = Property(23)
-      let testInt1:Property<Int> = Property(12)
-      let testInt2:Property<Int> = Property(15)
-      let testString:Property<String> = Property("This is a test")
-      let testTouple:Property = Property((12,13,14,15,16,17))
+    describe("StyleProperties") {
+      let test:StyleProperty<Int> = StyleProperty(23)
+      let testInt1:StyleProperty<Int> = StyleProperty(12)
+      let testInt2:StyleProperty<Int> = StyleProperty(15)
+      let testString:StyleProperty<String> = StyleProperty("This is a test")
+      let testTouple:StyleProperty = StyleProperty((12,13,14,15,16,17))
 
-      var properties=Properties()
+      var properties=StyleProperties()
       beforeEach {
-        properties=Properties()
+        properties=StyleProperties()
       }
       it("will return nil when retrieving an unset property"){
         expect{properties.get(property:test)}.to(beNil())
@@ -2637,11 +2637,11 @@ class SuiSpec: QuickSpec {
         expect{properties.get(property:testInt2)}.to(equal(15))
       }
       it("can be initallized with values") {
-        properties=Properties(
-          PropertyValue(testInt1,12),
-          PropertyValue(testString,"This is a test"),
-          PropertyValue(testTouple,(12,13,14,15,16,17)),
-          PropertyValue(testInt2,15)
+        properties=StyleProperties(
+          StylePropertyValue(testInt1,12),
+          StylePropertyValue(testString,"This is a test"),
+          StylePropertyValue(testTouple,(12,13,14,15,16,17)),
+          StylePropertyValue(testInt2,15)
         )
         expect{properties.get(property:testInt1)}.to(equal(12))
         expect{properties.get(property:testString)}.to(equal("This is a test"))
@@ -2824,8 +2824,8 @@ class SuiSpec: QuickSpec {
         let widgetType=WidgetType(parent:anyWidgetType)
         let widget=Widget(type:widgetType)
         widget.style=Style(
-          properties:Properties(
-            PropertyValue(
+          properties:StyleProperties(
+            StylePropertyValue(
               layoutProperty,
               FixedLayout(min:Point(1,2), max:Point(3,4))
             )
@@ -2848,11 +2848,11 @@ class SuiSpec: QuickSpec {
         child2.container=widget
 
         widget.style=Style(
-          properties:Properties(PropertyValue(layoutProperty, VerticalLayout())),
+          properties:StyleProperties(StylePropertyValue(layoutProperty, VerticalLayout())),
           children:[
             widgetType:Style(
-              properties:Properties(
-                PropertyValue(
+              properties:StyleProperties(
+                StylePropertyValue(
                   layoutProperty,
                   FixedLayout(min:Point(1,2), max:Point(3,4))
                 )

@@ -22,12 +22,12 @@ public class Widget: HashableUsingAddress {
       clearStyleCashe()
     }
   }
-  private var cashedProperties=Properties() /* TODO change to StyleCashe */
+  private var styleCashe=StyleProperties()
   func clearStyleCashe() {
     for child in contents {
       child.clearStyleCashe()
     }
-    cashedProperties=Properties()
+    styleCashe=StyleProperties()
     clearRequestedSizeCashe()
   }
 
@@ -36,13 +36,13 @@ public class Widget: HashableUsingAddress {
      - Parameter property: The property to get.
      - Returns: The property.
   */
-  func get<T:Any>(property:Property<T>) -> T {
-    if let value = cashedProperties.get(property:property) {
+  func get<T:Any>(property:StyleProperty<T>) -> T {
+    if let value = styleCashe.get(property:property) {
       return value;
     }
 
     if let value = style?.get(property:property) {
-      cashedProperties.set(property:property, to:value)
+      styleCashe.set(property:property, to:value)
       return value;
     }
 
@@ -61,13 +61,13 @@ public class Widget: HashableUsingAddress {
     /* for each container */
     for container in hierarchy {
       if let value = container.style?.get(property:property, of:typeHierarchy) {
-        cashedProperties.set(property:property, to:value)
+        styleCashe.set(property:property, to:value)
         return value
       }
     }
 
     let value = property.defaultValue
-    cashedProperties.set(property:property, to:value)
+    styleCashe.set(property:property, to:value)
     return value
   }
 

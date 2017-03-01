@@ -35,5 +35,5 @@ open /*abstract*/ class Layout: AbstractionAsserter {
   }
 }
 
-let layoutProperty=Property(VerticalLayout() as Layout)
+let layoutProperty=StyleProperty(VerticalLayout() as Layout)
 
