@@ -12,8 +12,8 @@ public /* abstract */ class GenericModel: AbstractionAsserter {
   }
 
   /**
-    Create a Control of model.
-    - Returns: The new Control.
+    Create a new Model.
+    - Returns: The new Model.
   */
   public /*abstract*/ func createControl() -> Widget {
     abstractMethod()

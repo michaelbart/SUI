@@ -3,7 +3,7 @@ public struct AllocatedSpace {
   var size:Point
 
   /**
-    Creates a newAllocatedSpace.
+    Creates a new AllocatedSpace.
     - Parameter position: The position of the allocated space.
     - Parameter size: The size of the allocated space.
   */

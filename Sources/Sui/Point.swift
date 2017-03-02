@@ -5,7 +5,7 @@ public struct Point {
   public var y:Int32
 
   /**
-    Create a new point.
+    Create a new Point.
     - Parameter x: The x value.
     - Parameter y: The y value.
   */

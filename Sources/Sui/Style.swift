@@ -1,6 +1,6 @@
 public struct Style {
   /**
-    The properties for the style.
+    The properties for the Style.
     Treat this a let exsept for init.
   */
   private var properties:StyleProperties?
