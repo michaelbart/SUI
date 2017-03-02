@@ -63,36 +63,6 @@ class SuiSpec: QuickSpec {
       }
     }
 
-    describe("StyleProperty") {
-      let intStyleProperty:GenericStyleProperty=StyleProperty(12)
-      let stringStyleProperty:GenericStyleProperty=StyleProperty("String")
-
-      it("will compare") {
-        expect{intStyleProperty == intStyleProperty}.to(equal(true))
-        expect{intStyleProperty == stringStyleProperty}.to(equal(false))
-        expect{stringStyleProperty == intStyleProperty}.to(equal(false))
-        expect{stringStyleProperty == stringStyleProperty}.to(equal(true))
-      }
-
-      it("will hash") {
-        expect{intStyleProperty.hashValue == intStyleProperty.hashValue}.to(equal(true))
-        expect{stringStyleProperty.hashValue == stringStyleProperty.hashValue}.to(equal(true))
-      }
-
-      it("can be used as a key for a dictionary") {
-        let dic=[
-          intStyleProperty:"intValue",
-          stringStyleProperty:"stringValue",
-        ]
-        expect{dic[stringStyleProperty]}.to(equal("stringValue"))
-        expect{dic[intStyleProperty]}.to(equal("intValue"))
-      }
-      it("has default value") {
-        expect{(intStyleProperty as? StyleProperty<Int>)?.defaultValue}.to(equal(12))
-        expect{(stringStyleProperty as? StyleProperty<String>)?.defaultValue}.to(equal("String"))
-      }
-    }
-
     describe("style") {
 
       let property:StyleProperty = StyleProperty("default value")
