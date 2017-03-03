@@ -2723,7 +2723,25 @@ class SuiSpec: QuickSpec {
     }
 
     describe("Control") {
-      /* TODO */
+      it("has the same genericWidgetTypes as ModelWidget") {
+        expect{Control<Int>.genericWidgetType}.to(equal(ModelWidget<Int>.genericWidgetType))
+        expect{Control<String>.genericWidgetType}.to(equal(ModelWidget<String>.genericWidgetType))
+        expect{Control<[Int]>.genericWidgetType}.to(equal(ModelWidget<[Int]>.genericWidgetType))
+      }
+      it("'s ControlWidgetTypes are different then genericWidgetTypes") {
+        expect{Control<Int>.controlWidgetType}.notTo(equal(Control<Int>.genericWidgetType))
+        expect{Control<String>.controlWidgetType}.notTo(equal(Control<String>.genericWidgetType))
+        expect{Control<[Int]>.controlWidgetType}.notTo(equal(Control<[Int]>.genericWidgetType))
+      }
+      it("can get different ControlWidgetTypes") {
+        expect{Control<Int>.controlWidgetType}.to(equal(Control<Int>.controlWidgetType))
+        expect{Control<String>.controlWidgetType}.to(equal(Control<String>.controlWidgetType))
+        expect{Control<[Int]>.controlWidgetType}.to(equal(Control<[Int]>.controlWidgetType))
+
+        expect{Control<Int>.controlWidgetType}.notTo(equal(Control<String>.controlWidgetType))
+        expect{Control<Int>.controlWidgetType}.notTo(equal(Control<[Int]>.controlWidgetType))
+        expect{Control<String>.controlWidgetType}.notTo(equal(Control<[Int]>.controlWidgetType))
+      }
     }
 
     describe("Point") {
