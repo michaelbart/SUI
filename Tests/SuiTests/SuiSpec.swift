@@ -2858,6 +2858,41 @@ class SuiSpec: QuickSpec {
       }
     }
 
+    describe("HorizontalLayout") {
+      let widgetType=WidgetType(parent:anyWidgetType)
+      var widget=Widget(type:widgetType)
+      var child1=Widget(type:widgetType)
+      var child2=Widget(type:widgetType)
+      beforeEach{
+        widget=Widget(type:widgetType)
+        child1=Widget(type:widgetType)
+        child2=Widget(type:widgetType)
+        child1.container=widget
+        child2.container=widget
+
+        widget.style=Style(
+          properties:StyleProperties(StylePropertyValue(layoutProperty, HorizontalLayout())),
+          children:[
+            widgetType:Style(
+              properties:StyleProperties(
+                StylePropertyValue(
+                  layoutProperty,
+                  FixedLayout(min:Point(1,2), max:Point(3,4))
+                )
+              )
+            )
+          ]
+        )
+      }
+      it("will getRequestedSize") {
+        expect{widget.requestedSize}.to(equal(RequestedSize(Point(2,2),Point(6,4))))
+      }
+      it("will allocateSpace for contents") {
+        expect(child1.allocatedSpace).to(equal(AllocatedSpace(Point(0,0), Point(1,2))))
+        expect(child2.allocatedSpace).to(equal(AllocatedSpace(Point(1,0), Point(1,2))))
+      }
+    }
+
     describe("Widget") {
       context("will clear cashe") {
         var widgetType=WidgetType(parent:anyWidgetType)
