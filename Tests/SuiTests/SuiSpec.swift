@@ -80,12 +80,6 @@ class SuiSpec: QuickSpec {
           }
         }
         context("of RequestSize") {
-          var widgetType=WidgetType(parent:anyWidgetType)
-          var widget=MockWidget(type:widgetType)
-          beforeEach{
-            widgetType=WidgetType(parent:anyWidgetType)
-            widget=MockWidget(type:widgetType)
-          }
           afterEach{
             expect(widget.cashedRequestedSizeCleared).to(equal(true))
           }
@@ -110,12 +104,6 @@ class SuiSpec: QuickSpec {
           }
         }
         context("of AllocatedSpace") {
-          var widgetType=WidgetType(parent:anyWidgetType)
-          var widget=MockWidget(type:widgetType)
-          beforeEach{
-            widgetType=WidgetType(parent:anyWidgetType)
-            widget=MockWidget(type:widgetType)
-          }
           afterEach{
             expect(widget.cashedAllocatedSpaceCleared).to(equal(true))
           }
