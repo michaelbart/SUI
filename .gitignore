@@ -1,5 +1,6 @@
 Sources/Sui/StyleProperties.swift
 Sources/Sui/WidgetProperties.swift
+Sources/SdlSui/constants.swift
 Tests/LinuxMain.swift
 Tests/PropertiesTests/Properties.swift
 .build
