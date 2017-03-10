@@ -4,6 +4,18 @@ let package = Package(
   name: "Sui",
   targets: [
     Target(
+      name: "SdlSui",
+      dependencies: [
+        .Target(name: "Sui"),
+      ]
+    ),
+    Target(
+      name: "MockSui",
+      dependencies: [
+        .Target(name: "Sui"),
+      ]
+    ),
+    Target(
       name: "Sui",
       dependencies: [
         .Target(name: "HashableUsingAddress"),
