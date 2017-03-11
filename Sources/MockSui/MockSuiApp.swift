@@ -1,6 +1,6 @@
 import Sui
 
-public class MockSuiApp:App {
+class MockSuiApp:App {
   /**
     Creates a MockSuiApp. This App does not create physical windows and widgets, 
     Instead it only creates them in memory. This should be used for testing.
@@ -8,5 +8,9 @@ public class MockSuiApp:App {
   override public init() {
     super.init()
   }
+}
+
+public func initMockSuiApp() {
+  initSui(app:MockSuiApp())
 }
 

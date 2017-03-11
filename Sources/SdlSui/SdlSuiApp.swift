@@ -1,7 +1,7 @@
 import Sui
 import CSDL2
 
-public class SdlSuiApp:App {
+class SdlSuiApp:App {
   /**
     Creates a SdlSuiApp. This App creates windows and widgets using the SDL library.
   */
@@ -9,9 +9,7 @@ public class SdlSuiApp:App {
     if SDL_Init(Uint32(SDL_INIT_VIDEO)) < 0 {
       assert(false, "error initialising SDL")
     }
-    TTF_Init()
     super.init()
-    SDL_StartTextInput()
   }
 
   deinit {
@@ -19,3 +17,10 @@ public class SdlSuiApp:App {
   }
 
 }
+
+public func initSdlSuiApp() {
+  TTF_Init()
+  SDL_StartTextInput()
+  initSui(app:SdlSuiApp())
+}
+

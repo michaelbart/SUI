@@ -1,6 +1,6 @@
 import HashableUsingAddress
 
-public class WidgetType: HashableUsingAddress {
+open class WidgetType: HashableUsingAddress {
   /**
     The parent Widget Type.
     This is only Nil for the root WidgetType(anyWidgetType)
