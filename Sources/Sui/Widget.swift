@@ -49,20 +49,20 @@ public class Widget: HashableUsingAddress {
     }
 
     var hierarchy:[Widget]=[]
-    var container:Widget=self
+    var current_container:Widget=self
     while(true) {
-      hierarchy.append(container)
-      guard let nextContainer=container.container else {
+      hierarchy.append(current_container)
+      guard let nextContainer=current_container.container else {
         break;
       }
-      container = nextContainer
+      current_container = nextContainer
     }
   
     let typeHierarchy=Array(hierarchy.map{$0.type}.reversed())
 
     /* for each container */
-    for container in hierarchy {
-      if let value = container.style?.get(property:property, of:typeHierarchy) {
+    for current_container in hierarchy {
+      if let value = current_container.style?.get(property:property, of:typeHierarchy) {
         styleCashe.set(property:property, to:value)
         return value
       }
