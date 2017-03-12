@@ -3,7 +3,8 @@ import GeneratedValue
 
 public class Widget: HashableUsingAddress {
   var type:WidgetType
-  private(set) var contents:[Widget]=[]
+  private(set) var contents:[Widget]
+
   weak var container:Widget? {
     didSet {
       if oldValue !== container {
@@ -17,6 +18,7 @@ public class Widget: HashableUsingAddress {
       }
     }
   }
+
   var style:Style? {
     didSet {
       clearStyleCashe()
@@ -129,7 +131,8 @@ public class Widget: HashableUsingAddress {
     widgetProperties.set(property:property, to:value)
   }
 
-  init (type:WidgetType) {
+  init (type:WidgetType, contents:[Widget]=[]) {
     self.type=type
+    self.contents=contents
   }
 }
