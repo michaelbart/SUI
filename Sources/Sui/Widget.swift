@@ -114,7 +114,7 @@ public class Widget: HashableUsingAddress {
   private var properties=WidgetProperties()
 
   /**
-     Get style property for widget.
+     Get widget property for widget.
      - Parameter property: The property to get.
      - Returns: The property.
   */
@@ -123,7 +123,7 @@ public class Widget: HashableUsingAddress {
   }
 
   /**
-     Set style property for widget.
+     Set widget property for widget.
      - Parameter property: The property to set.
      - Parameter to value: The value to set the property to.
   */
