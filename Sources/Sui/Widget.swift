@@ -111,7 +111,7 @@ public class Widget: HashableUsingAddress {
     }
   }
 
-  private var widgetProperties=WidgetProperties()
+  private var properties=WidgetProperties()
 
   /**
      Get style property for widget.
@@ -119,7 +119,7 @@ public class Widget: HashableUsingAddress {
      - Returns: The property.
   */
   func get<T:Any>(property:WidgetProperty<T>) -> T {
-    return widgetProperties.get(property:property) ?? property.defaultValue
+    return properties.get(property:property) ?? property.defaultValue
   }
 
   /**
@@ -128,12 +128,12 @@ public class Widget: HashableUsingAddress {
      - Parameter to value: The value to set the property to.
   */
   func set<T:Any>(property:WidgetProperty<T>, to value:T) {
-    widgetProperties.set(property:property, to:value)
+    properties.set(property:property, to:value)
   }
 
   init (type:WidgetType, properties:WidgetProperties?=nil, style:Style?=nil, contents:[Widget]=[]) {
     self.type=type
-    self.widgetProperties=properties ?? WidgetProperties()
+    self.properties=properties ?? WidgetProperties()
     self.style=style
     self.contents=contents
   }
