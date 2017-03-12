@@ -131,8 +131,10 @@ public class Widget: HashableUsingAddress {
     widgetProperties.set(property:property, to:value)
   }
 
-  init (type:WidgetType, contents:[Widget]=[]) {
+  init (type:WidgetType, properties:WidgetProperties?=nil, style:Style?=nil, contents:[Widget]=[]) {
     self.type=type
+    self.widgetProperties=properties ?? WidgetProperties()
+    self.style=style
     self.contents=contents
   }
 }
