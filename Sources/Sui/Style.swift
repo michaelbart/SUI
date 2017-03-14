@@ -33,12 +33,38 @@ public struct Style {
     }
   }
 
+  static func get<T:Any>(property:StyleProperty<T>, of widget:Widget) -> T {
+    if let value=widget.style?.get(property:property) {
+      return value
+    }
+
+    var hierarchy:[Widget]=[]
+    var container:Widget=widget
+    while(true) {
+      hierarchy.append(container)
+      guard let nextContainer=container.container else {
+        break;
+      }
+      container = nextContainer
+    }
+
+    let typeHierarchy=Array(hierarchy.map{$0.type}.reversed())
+
+    /* for each container */
+    for container in hierarchy {
+      if let value = container.style?.get(property:property, of:typeHierarchy) {
+        return value
+      }
+    }
+   return property.defaultValue
+  }
+
   /**
    Gets the the property from the style with the closest matching typeHierarchy.
    - Parameter property: The property to get
    - Parameter of: The typeHierarchy of the type to get the paramiter for.
   */
-  public func get<T>(property:StyleProperty<T>, of:[WidgetType]=[]) -> T? {
+  private func get<T>(property:StyleProperty<T>, of:[WidgetType]=[]) -> T? {
     var typeHierarchy=of
     if typeHierarchy.count != 0 {
       var type=typeHierarchy.removeLast()

@@ -43,34 +43,9 @@ public class Widget: HashableUsingAddress {
       return value;
     }
 
-    if let value = style?.get(property:property) {
-      styleCashe.set(property:property, to:value)
-      return value;
-    }
-
-    var hierarchy:[Widget]=[]
-    var current_container:Widget=self
-    while(true) {
-      hierarchy.append(current_container)
-      guard let nextContainer=current_container.container else {
-        break;
-      }
-      current_container = nextContainer
-    }
-  
-    let typeHierarchy=Array(hierarchy.map{$0.type}.reversed())
-
-    /* for each container */
-    for current_container in hierarchy {
-      if let value = current_container.style?.get(property:property, of:typeHierarchy) {
-        styleCashe.set(property:property, to:value)
-        return value
-      }
-    }
-
-    let value = property.defaultValue
+    let value = Style.get(property: property, of: self)
     styleCashe.set(property:property, to:value)
-    return value
+    return value;
   }
 
   private var requestedSizeCashe=GeneratedValue {
@@ -91,11 +66,8 @@ public class Widget: HashableUsingAddress {
   }
 
   private var allocatedSpaceCashe=GeneratedValue<Widget,AllocatedSpace> {
-    (widget:Widget) in
-    if let container=widget.container {
-      return container.get(property:layoutProperty).allocateSpace(widget)
-    }
-    return AllocatedSpace(Point(0,0), widget.requestedSize.min)
+    $0.container?.get(property:layoutProperty).allocateSpace($0)
+    ?? AllocatedSpace(Point(0,0), $0.requestedSize.min)
   }
 
   public var allocatedSpace:AllocatedSpace {
