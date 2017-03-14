@@ -2,7 +2,7 @@ import HashableUsingAddress
 import GeneratedValue
 
 public class Widget: HashableUsingAddress {
-  var type:WidgetType
+  let type:WidgetType
   private(set) var contents:[Widget]
 
   weak var container:Widget? {
