@@ -1,4 +1,5 @@
-public protocol Implementation {
-  func initialize()
+public struct Implementation {
+  public init() {
+  }
 }
 

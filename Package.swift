@@ -10,12 +10,6 @@ let package = Package(
       ]
     ),
     Target(
-      name: "MockSui",
-      dependencies: [
-        .Target(name: "Sui"),
-      ]
-    ),
-    Target(
       name: "Sui",
       dependencies: [
         .Target(name: "HashableUsingAddress"),
