@@ -11,10 +11,16 @@ public class Widget: HashableUsingAddress {
         if let index = oldValue?.contents.index(where: {$0 === self}) {
           oldValue?.contents.remove(at: index)
         }
+        oldValue?.get(property:removedContained)(oldValue!, self)
+        get(property:removedFromContainer)(oldValue, self)
+
         oldValue?.clearRequestedSizeCashe()
         container?.contents.append(self)
         clearStyleCashe()
         container?.clearRequestedSizeCashe()
+
+        container?.get(property:addedContained)(container!, self)
+        get(property:addedToContainer)(container, self)
       }
     }
   }
