@@ -86,6 +86,57 @@ class SuiLayoutSpec: QuickSpec {
       }
     }
 
+    describe("SpriteLayout") {
+      it("will getRequestedSize") {
+        let widgetType=WidgetType(parent:anyWidgetType)
+        let widget=Widget(type:widgetType)
+        widget.style=Style(
+          properties:StyleProperties(
+            StylePropertyValue(
+              layoutProperty,
+              SpriteLayout()
+            )
+          )
+        )
+        let contained=Widget(type:widgetType)
+        contained.style=Style(
+          properties:StyleProperties(
+            StylePropertyValue(
+              layoutProperty,
+              FixedLayout(min:Point(1,2), max:Point(3,4))
+            )
+          )
+        )
+        contained.container=widget
+        expect{widget.requestedSize}.to(equal(RequestedSize(Point(0,0),Point(Int32.max,Int32.max))))
+        expect{contained.requestedSize}.to(equal(RequestedSize(Point(1,2),Point(3,4))))
+      }
+      it("will AllocateSpace") {
+        let widgetType=WidgetType(parent:anyWidgetType)
+        let widget=Widget(type:widgetType)
+        widget.style=Style(
+          properties:StyleProperties(
+            StylePropertyValue(
+              layoutProperty,
+              SpriteLayout()
+            )
+          )
+        )
+        let contained=Widget(type:widgetType)
+        contained.style=Style(
+          properties:StyleProperties(
+            StylePropertyValue(
+              layoutProperty,
+              FixedLayout(min:Point(1,2), max:Point(3,4))
+            )
+          )
+        )
+        contained.container=widget
+        expect{widget.allocatedSpace}.to(equal(AllocatedSpace(Point(0,0),Point(0,0))))
+        expect{contained.allocatedSpace}.to(equal(AllocatedSpace(Point(0,0),Point(1,2))))
+      }
+    }
+
     describe("VerticalLayout") {
       let widgetType=WidgetType(parent:anyWidgetType)
       var widget=Widget(type:widgetType)
