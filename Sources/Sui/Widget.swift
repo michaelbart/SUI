@@ -5,7 +5,7 @@ public class Widget: HashableUsingAddress {
   let type:WidgetType
   private(set) var contents:[Widget]
 
-  weak var container:Widget? {
+  public weak var container:Widget? {
     didSet {
       if oldValue !== container {
         if let index = oldValue?.contents.index(where: {$0 === self}) {
@@ -44,7 +44,7 @@ public class Widget: HashableUsingAddress {
      - Parameter property: The property to get.
      - Returns: The property.
   */
-  func get<T:Any>(property:StyleProperty<T>) -> T {
+  public func get<T:Any>(property:StyleProperty<T>) -> T {
     if let value = styleCashe.get(property:property) {
       return value;
     }
@@ -96,7 +96,7 @@ public class Widget: HashableUsingAddress {
      - Parameter property: The property to get.
      - Returns: The property.
   */
-  func get<T:Any>(property:WidgetProperty<T>) -> T {
+  public func get<T:Any>(property:WidgetProperty<T>) -> T {
     return properties.get(property:property) ?? property.defaultValue
   }
 
@@ -105,11 +105,11 @@ public class Widget: HashableUsingAddress {
      - Parameter property: The property to set.
      - Parameter to value: The value to set the property to.
   */
-  func set<T:Any>(property:WidgetProperty<T>, to value:T) {
+  public func set<T:Any>(property:WidgetProperty<T>, to value:T) {
     properties.set(property:property, to:value)
   }
 
-  init (type:WidgetType, properties:WidgetProperties?=nil, style:Style?=nil, contents:[Widget]=[]) {
+  public init (type:WidgetType, properties:WidgetProperties?=nil, style:Style?=nil, contents:[Widget]=[]) {
     self.type=type
     self.properties=properties ?? WidgetProperties()
     self.style=style
