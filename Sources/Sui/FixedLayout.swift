@@ -20,7 +20,7 @@ public class FixedLayout: Layout {
     - Parameter min: The minimum requested size for x and y.
     - Parameter max: The maximum requested size for x and y.
   */
-  init(min:Point, max:Point)  {
+  public init(min:Point, max:Point)  {
     requestedSize=RequestedSize(min,max)
     super.init()
   }

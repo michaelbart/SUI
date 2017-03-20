@@ -1,6 +1,6 @@
 public struct AllocatedSpace {
-  var position:Point
-  var size:Point
+  public var position:Point
+  public var size:Point
 
   /**
     Creates a new AllocatedSpace.
