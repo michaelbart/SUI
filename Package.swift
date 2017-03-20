@@ -4,6 +4,12 @@ let package = Package(
   name: "Sui",
   targets: [
     Target(
+      name: "SdlSuiDemo",
+      dependencies: [
+        .Target(name: "SdlSui"),
+      ]
+    ),
+    Target(
       name: "SdlSui",
       dependencies: [
         .Target(name: "Sui"),

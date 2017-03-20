@@ -1,8 +1,8 @@
 import Foundation
 
-private let appWidgetType=WidgetType(parent:anyWidgetType)
+let appWidgetType=WidgetType(parent:anyWidgetType)
 
-private let impementationProperty:WidgetProperty<Implementation> = WidgetProperty(Implementation())
+let impementationProperty:WidgetProperty<Implementation> = WidgetProperty(Implementation())
 
 public func createApp(
   implementation:Implementation,
@@ -11,6 +11,7 @@ public func createApp(
 ) -> Widget {
   let widget=Widget(type:appWidgetType, properties:properties, style:style)
   widget.set(property:impementationProperty, to:implementation)
+  widget.container=rootWidget
   return widget
 }
 
