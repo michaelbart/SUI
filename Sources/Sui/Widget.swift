@@ -8,19 +8,27 @@ public class Widget: HashableUsingAddress {
   public weak var container:Widget? {
     didSet {
       if oldValue !== container {
-        if let index = oldValue?.contents.index(where: {$0 === self}) {
-          oldValue?.contents.remove(at: index)
+        if let oldContainer=oldValue {
+          if let index = oldContainer.contents.index(where: {$0 === self}) {
+            oldContainer.contents.remove(at: index)
+          }
+          oldContainer.get(property:removedContained)(oldContainer, self)
+          get(property:removedFromContainer)(oldContainer, self)
+          if oldContainer.contents.count == 0 {
+            oldContainer.get(property:contentsEmptied)(oldContainer)
+          }
+          oldContainer.clearRequestedSizeCashe()
         }
-        oldValue?.get(property:removedContained)(oldValue!, self)
-        get(property:removedFromContainer)(oldValue, self)
 
-        oldValue?.clearRequestedSizeCashe()
-        container?.contents.append(self)
         clearStyleCashe()
-        container?.clearRequestedSizeCashe()
 
-        container?.get(property:addedContained)(container!, self)
-        get(property:addedToContainer)(container, self)
+        if let newContainer=container {
+          newContainer.contents.append(self)
+          newContainer.clearRequestedSizeCashe()
+
+          newContainer.get(property:addedContained)(newContainer, self)
+          get(property:addedToContainer)(newContainer, self)
+        }
       }
     }
   }

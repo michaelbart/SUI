@@ -14,6 +14,7 @@ class SuiStylePropertiesSpec: QuickSpec {
         let newContainerType=WidgetType(parent:anyWidgetType)
 
         var widget=Widget(type:anyWidgetType)
+        var otherWidget=Widget(type:anyWidgetType)
         var oldContainer=Widget(type:anyWidgetType)
         var newContainer=Widget(type:anyWidgetType)
 
@@ -21,6 +22,7 @@ class SuiStylePropertiesSpec: QuickSpec {
           oldContainer=Widget(type:oldContainerType)
           newContainer=Widget(type:newContainerType)
           widget=Widget(type:widgetType)
+          otherWidget=Widget(type:widgetType)
           widget.container=oldContainer
 
           called=false
@@ -90,6 +92,25 @@ class SuiStylePropertiesSpec: QuickSpec {
               }
             )
           )
+          widget.container=newContainer
+        }
+
+        it("contentsEmptied when contents are emptied") {
+          oldContainer.style=Style(
+            properties:StyleProperties(
+              StylePropertyValue(
+                contentsEmptied
+              ) {
+                (container) in
+                expect{container}.to(equal(oldContainer))
+                called=true
+              }
+            )
+          )
+          otherWidget.container=oldContainer
+          expect{called}.to(equal(false))
+          otherWidget.container=newContainer
+          expect{called}.to(equal(false))
           widget.container=newContainer
         }
       }
