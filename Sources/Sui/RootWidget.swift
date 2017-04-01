@@ -25,6 +25,12 @@ let rootWidget=Widget(
             container.get(
               property:impementationProperty
             ).destroyWindow(contained)
+          },
+          StylePropertyValue(
+            contentsEmptied
+          ) {
+            (widget) in
+            eventLoopStop()
           }
         )
       ),
@@ -39,6 +45,11 @@ let rootWidget=Widget(
             removedContained
           ) {
             (container, contained) in
+          },
+          StylePropertyValue(
+            contentsEmptied
+          ) {
+            (widget) in
           }
         )
       )

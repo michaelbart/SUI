@@ -121,6 +121,9 @@ public class Widget: HashableUsingAddress {
     self.type=type
     self.properties=properties ?? WidgetProperties()
     self.style=style
-    self.contents=contents
+    self.contents=[]
+    for contained in contents {
+      contained.container=self
+    }
   }
 }

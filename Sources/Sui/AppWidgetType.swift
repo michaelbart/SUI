@@ -9,13 +9,16 @@ public func createApp(
   properties:WidgetProperties?=nil,
   style:Style?=nil, contents:[Widget]=[]
 ) -> Widget {
-  let widget=Widget(type:appWidgetType, properties:properties, style:style)
+  let widget=Widget(type:appWidgetType, properties:properties, style:style, contents:contents)
   widget.set(property:impementationProperty, to:implementation)
   widget.container=rootWidget
+  if widget.contents.count != 0 {
+    eventLoopRun()
+  }
   return widget
 }
 
-public func mockCreateApp(
+@discardableResult public func mockCreateApp(
   properties:WidgetProperties?=nil,
   style:Style?=nil,
   contents:[Widget]=[]
@@ -23,7 +26,8 @@ public func mockCreateApp(
   return createApp(
     implementation:Implementation(),
     properties:properties,
-    style:style
+    style:style,
+    contents:contents
   )
 }
 
