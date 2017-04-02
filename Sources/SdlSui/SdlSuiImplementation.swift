@@ -1,7 +1,10 @@
+import Dispatch
+
 import Sui
 import CSDL2
 
 let sdlWindow:WidgetProperty<OpaquePointer?> = WidgetProperty(nil)
+private var sdlHasInit=false
 
 public func sdlCreateApp(
   properties:WidgetProperties?=nil,
@@ -11,8 +14,17 @@ public func sdlCreateApp(
   if SDL_Init(Uint32(SDL_INIT_VIDEO)) < 0 {
     assert(false, "error initialising SDL")
   }
-  TTF_Init()
-  SDL_StartTextInput()
+  if sdlHasInit==false {
+    sdlHasInit=true
+    DispatchQueue(label: "com.amnykon.sui.sdlEventLoop").async {
+      TTF_Init()
+      SDL_StartTextInput()
+      while true {
+        var evt:SDL_Event = SDL_Event()
+        SDL_PollEvent(&evt)
+      }
+    }
+  }
   return createApp(
     implementation:Implementation(
       createWindow:{
