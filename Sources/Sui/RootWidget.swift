@@ -6,11 +6,11 @@ let rootWidget=Widget(
     children:[
       appWidgetType:Style(
         properties:StyleProperties(
-         StylePropertyValue(
+          StylePropertyValue(
             layoutProperty,
             SpriteLayout()
-         ),
-         StylePropertyValue(
+          ),
+          StylePropertyValue(
             addedContained
           ) {
             (container, contained) in
