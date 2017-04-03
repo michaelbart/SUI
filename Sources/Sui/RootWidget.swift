@@ -3,6 +3,28 @@ private let rootWidgetType=WidgetType(parent:anyWidgetType)
 let rootWidget=Widget(
   type:rootWidgetType,
   style:Style(
+    properties:StyleProperties(
+      StylePropertyValue(
+        addedContained
+      ) {
+        (container, contained) in
+        for window in contained.contents {
+          contained.get(
+            property:impementationProperty
+          ).createWindow(window)
+        }
+      },
+      StylePropertyValue(
+        removedContained
+      ) {
+        (container, contained) in
+        for window in contained.contents {
+          contained.get(
+            property:impementationProperty
+          ).destroyWindow(contained)
+        }
+      }
+    ),
     children:[
       appWidgetType:Style(
         properties:StyleProperties(

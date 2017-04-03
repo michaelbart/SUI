@@ -1,14 +1,10 @@
 import SdlSui
 import Sui
-import Glibc
 
 let app=sdlCreateApp(
+  contents:[
+    Widget(
+      type:anyWidgetType
+    )
+  ]
 )
-
-let widget=Widget(
-  type:anyWidgetType
-)
-
-widget.container=app
-
-sleep(1)

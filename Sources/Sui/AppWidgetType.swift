@@ -9,8 +9,15 @@ public func createApp(
   properties:WidgetProperties?=nil,
   style:Style?=nil, contents:[Widget]=[]
 ) -> Widget {
-  let widget=Widget(type:appWidgetType, properties:properties, style:style, contents:contents)
-  widget.set(property:impementationProperty, to:implementation)
+  var widgetProperties=properties ?? WidgetProperties()
+  widgetProperties.set(property:impementationProperty, to:implementation)
+  let widget=Widget(
+    type:appWidgetType,
+    properties:widgetProperties,
+    style:style,
+    contents:contents
+  )
+
   widget.container=rootWidget
   if widget.contents.count != 0 {
     eventLoopRun()
