@@ -5,7 +5,7 @@ import CoreFoundation
 
   eventLooprun may be called recursively. When calling recusivly, eventLoopStop will only unblock last called eventLoopRun.
 **/
-func eventLoopRun() {
+public func eventLoopRun() {
   CFRunLoopRun()
 }
 
@@ -14,7 +14,7 @@ func eventLoopRun() {
 
   If eventLoopRan was called recusivly, eventLoopStop will only unblock last called eventLoopRun.
 **/
-func eventLoopStop() {
+public func eventLoopStop() {
   eventLoopPerform{
     CFRunLoopStop(CFRunLoopGetCurrent())
   }
@@ -24,7 +24,7 @@ func eventLoopStop() {
 /**
   Adds an closure to be ran on the EventLoop.
 */
-func eventLoopPerform(_ block: @escaping ()->()) {
+public func eventLoopPerform(_ block: @escaping ()->()) {
   CFRunLoopPerformBlock(CFRunLoopGetCurrent(), kCFRunLoopDefaultMode, block) 
   CFRunLoopWakeUp(CFRunLoopGetCurrent())
 }
