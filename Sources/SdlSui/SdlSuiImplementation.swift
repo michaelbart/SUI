@@ -4,6 +4,7 @@ import Sui
 import CSDL2
 
 let sdlWindow:WidgetProperty<OpaquePointer?> = WidgetProperty(nil)
+var openWindows:[UInt32:Widget]=[:]
 private var sdlHasInit=false
 
 public func sdlCreateApp(
@@ -21,7 +22,20 @@ public func sdlCreateApp(
       SDL_StartTextInput()
       while true {
         var evt:SDL_Event = SDL_Event()
-        SDL_PollEvent(&evt)
+        SDL_WaitEvent(&evt)
+        DispatchQueue.main.sync {
+          switch SDL_EventType(evt.type) {
+          case SDL_WINDOWEVENT:
+            switch evt.window.event {
+            case SDL_WINDOWEVENT_CLOSE:
+              openWindows[evt.window.windowID]!.container=nil
+            default:
+              break
+            }
+          default:
+            break
+          }
+        }
       }
     }
   }
@@ -29,9 +43,7 @@ public func sdlCreateApp(
     implementation:Implementation(
       createWindow:{
         widget in
-        widget.set(
-          property:sdlWindow,
-          to:SDL_CreateWindow(
+        let window:OpaquePointer=SDL_CreateWindow(
             "Hello World",
             widget.allocatedSpace.position.x,
             widget.allocatedSpace.position.y,
@@ -39,15 +51,23 @@ public func sdlCreateApp(
             widget.allocatedSpace.size.y,
             SDL_WINDOW_RESIZABLE
           )
+        widget.set(
+          property:sdlWindow,
+          to:window
         )
+        openWindows[SDL_GetWindowID(window)]=widget
       },
       destroyWindow:{
         widget in
+        openWindows.removeValue(
+          forKey:SDL_GetWindowID(widget.get(property:sdlWindow))
+        )
         SDL_DestroyWindow(widget.get(property:sdlWindow))
       }
     ),
     properties:properties,
-    style:style
+    style:style,
+    contents:contents
   )
 }
 
