@@ -1,24 +1,22 @@
 public struct RequestedSize {
-  var min:Point
-  var max:Point
+  var size:Point
+  var moldable:Point
 
   /**
     Creates a new RequestedSize.
-    - Paramiter min: The minimum requested size for x and y.
-    - Parameter max: The maximum requested size for x and y.
+    - Paramiter size: The requested size for x and y.
+    - Parameter moldable: The willingness widget has to accept a different size.
   */
-  init(_ min:Point, _ max:Point) {
-    assert(min.x<=max.x, "create requestSize with invalid min.x(\(min.x))/max.x(\(max.x))")
-    assert(min.y<=max.y, "create requestSize with invalid min.y(\(min.y))/max.y(\(max.y))")
-    self.min=min
-    self.max=max
+  init(_ size:Point, moldable:Point=Point(1,1)) {
+    self.size=size
+    self.moldable=moldable
   }
 }
 
 extension RequestedSize:Equatable {
 
   public static func ==(lhs: RequestedSize, rhs: RequestedSize) -> Bool {
-      return lhs.min == rhs.min && lhs.max == rhs.max
+      return lhs.size == rhs.size && lhs.moldable == rhs.moldable
   }
 }
 

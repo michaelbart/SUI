@@ -11,7 +11,7 @@ open /*abstract*/ class Layout: AbstractionAsserter {
   */
   public func getRequestedSize(_ widget:Widget) -> RequestedSize {
     abstractMethod()
-    return RequestedSize(Point(0,0),Point(0,0))
+    return RequestedSize(Point(0,0))
   }
 
   /**

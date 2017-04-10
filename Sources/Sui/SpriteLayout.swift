@@ -13,7 +13,7 @@ public class SpriteLayout: Layout {
     - Returns: The RequestedSize for the widget.
   */
   override public func getRequestedSize(_ widget:Widget) -> RequestedSize {
-    return RequestedSize(Point(0,0),Point(Int32.max,Int32.max))
+    return RequestedSize(Point(0,0))
 }
 
   /**
@@ -26,7 +26,7 @@ public class SpriteLayout: Layout {
   override public func allocateSpace(_ widget:Widget) -> AllocatedSpace {
     return AllocatedSpace(
       Point(0,0),
-      widget.requestedSize.min
+      widget.requestedSize.size
     )
   }
 

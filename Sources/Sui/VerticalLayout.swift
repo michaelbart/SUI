@@ -1,6 +1,10 @@
-import Foundation
 import AbstractionAsserter
 import LimitOperator
+
+private let topSide:WidgetProperty<Int32> = WidgetProperty(0)
+private let bottomSide:WidgetProperty<Int32> = WidgetProperty(0)
+private let topMoldable:WidgetProperty<Int32> = WidgetProperty(0)
+private let bottomMoldable:WidgetProperty<Int32> = WidgetProperty(0)
 
 public class VerticalLayout: Layout {
   /**
@@ -11,22 +15,44 @@ public class VerticalLayout: Layout {
     - Returns: The RequestedSize for the widget.
   */
   override public func getRequestedSize(_ widget:Widget) -> RequestedSize {
-    var requestedSize=RequestedSize(Point(0,0),Point(Int32.max,0))
+    var requestedSize=RequestedSize(Point(0,0))
 
     for child in widget.contents {
       let childRequestedSize=child.requestedSize
+
+      child.set(property:topSide, to: requestedSize.size.y)
+      child.set(property:topMoldable, to: requestedSize.moldable.y)
+
       requestedSize=RequestedSize(
         Point(
-          max(requestedSize.min.x,childRequestedSize.min.x),
-          requestedSize.min.y^+childRequestedSize.min.y
+          (
+            requestedSize.moldable.x
+              * requestedSize.size.x
+              * requestedSize.size.y
+            + childRequestedSize.moldable.x
+              * childRequestedSize.size.x
+              * childRequestedSize.size.y
+          ) / (
+            requestedSize.size.y * requestedSize.moldable.x
+            + childRequestedSize.size.y * childRequestedSize.moldable.x
+          ),
+          requestedSize.size.y^+childRequestedSize.size.y
         ),
-        Point(
-          min(requestedSize.max.x,childRequestedSize.max.x),
-          requestedSize.max.y^+childRequestedSize.max.y 
+        moldable:Point(
+          (
+            requestedSize.moldable.x * requestedSize.size.y
+            + childRequestedSize.moldable.x * childRequestedSize.size.y
+          ) / (
+            requestedSize.size.y + childRequestedSize.size.y
+          ),
+          childRequestedSize.moldable.y + (
+            (requestedSize.size.y == 0) ? 0 : requestedSize.moldable.y
+          )
         )
       )
+      child.set(property:bottomSide, to: requestedSize.size.y)
+      child.set(property:bottomMoldable, to: requestedSize.moldable.y)
     }
-
     return requestedSize
   }
 
@@ -42,41 +68,30 @@ public class VerticalLayout: Layout {
       /* TODO Swift warn */
       return AllocatedSpace(
         Point(0,0),
-        widget.requestedSize.min
+        widget.requestedSize.size
       )
     }
 
-    var miny:Int32=0
-    var maxy:Int32=0
-    var allocatedSpace:Int32=0
-    for contained in container.contents {
-      miny = miny ^+ contained.requestedSize.min.y
-      maxy = maxy ^+ contained.requestedSize.min.y
-      if contained === widget {
-        return AllocatedSpace(
-          Point(
-            0,
-            allocatedSpace
-          ),
-          Point(
-            container.allocatedSpace.size.x,
-            (
-              container.allocatedSpace.size.y ^- container.requestedSize.min.y
-            ) ^* (
-              maxy ^- miny
-            ) / (
-              container.requestedSize.max.y ^+ container.requestedSize.min.y
-            ) ^+ miny ^- allocatedSpace
-          )
-        )
-      }
-      allocatedSpace = allocatedSpace ^+ contained.allocatedSpace.size.y
-    }
-    /* TODO Swift warn */
+    let remainder=container.requestedSize.size.y - container.allocatedSpace.size.y
+
+    let modledTopSide =
+       widget.get(property:topSide) + remainder
+       * container.requestedSize.moldable.y / widget.get(property:topMoldable)
+
+    let modledBottomSide =
+        widget.get(property:bottomSide) + remainder
+        * container.requestedSize.moldable.y / widget.get(property:bottomMoldable)
+        - modledTopSide
+
     return AllocatedSpace(
-      Point(0,0),
-      widget.requestedSize.min
+      Point(
+        0,
+        modledTopSide
+      ),
+      Point(
+        container.allocatedSpace.size.x,
+        modledBottomSide
+      )
     )
   }
 }
-

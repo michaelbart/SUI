@@ -81,7 +81,7 @@ public class Widget: HashableUsingAddress {
 
   private var allocatedSpaceCashe=GeneratedValue<Widget,AllocatedSpace> {
     $0.container?.get(property:layoutProperty).allocateSpace($0)
-    ?? AllocatedSpace(Point(0,0), $0.requestedSize.min)
+    ?? AllocatedSpace(Point(0,0), $0.requestedSize.size)
   }
 
   public var allocatedSpace:AllocatedSpace {

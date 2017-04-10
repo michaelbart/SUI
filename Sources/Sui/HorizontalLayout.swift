@@ -2,6 +2,11 @@ import Foundation
 import AbstractionAsserter
 import LimitOperator
 
+private let leftSide:WidgetProperty<Int32> = WidgetProperty(0)
+private let rightSide:WidgetProperty<Int32> = WidgetProperty(0)
+private let leftMoldable:WidgetProperty<Int32> = WidgetProperty(0)
+private let rightMoldable:WidgetProperty<Int32> = WidgetProperty(0)
+
 public class HorizontalLayout: Layout {
   /**
     Gets RequestedSize of widget.
@@ -11,20 +16,43 @@ public class HorizontalLayout: Layout {
     - Returns: The RequestedSize for the widget.
   */
   override public func getRequestedSize(_ widget:Widget) -> RequestedSize {
-    var requestedSize=RequestedSize(Point(0,0),Point(0,Int32.max))
+    var requestedSize=RequestedSize(Point(0,0))
 
     for child in widget.contents {
       let childRequestedSize=child.requestedSize
+
+      child.set(property:leftSide, to: requestedSize.size.x)
+      child.set(property:leftMoldable, to: requestedSize.moldable.x)
+
       requestedSize=RequestedSize(
         Point(
-          requestedSize.min.x^+childRequestedSize.min.x,
-          max(requestedSize.min.y,childRequestedSize.min.y)
+          requestedSize.size.x^+childRequestedSize.size.x,
+          (
+            requestedSize.moldable.y
+              * requestedSize.size.x
+              * requestedSize.size.y
+            + childRequestedSize.moldable.y
+              * childRequestedSize.size.x
+              * childRequestedSize.size.y
+          ) / (
+            requestedSize.size.x * requestedSize.moldable.y
+            + childRequestedSize.size.x * childRequestedSize.moldable.y
+          )
         ),
-        Point(
-          requestedSize.max.x^+childRequestedSize.max.x,
-          min(requestedSize.max.y,childRequestedSize.max.y)
+        moldable:Point(
+          childRequestedSize.moldable.x + (
+            (requestedSize.size.x == 0) ? 0 : requestedSize.moldable.x
+          ),
+          (
+            requestedSize.moldable.y * requestedSize.size.x
+            + childRequestedSize.moldable.y * childRequestedSize.size.x
+          ) / (
+            requestedSize.size.x + childRequestedSize.size.x
+          )
         )
       )
+      child.set(property:rightSide, to: requestedSize.size.x)
+      child.set(property:rightMoldable, to: requestedSize.moldable.x)
     }
 
     return requestedSize
@@ -42,40 +70,30 @@ public class HorizontalLayout: Layout {
       /* TODO Swift warn */
       return AllocatedSpace(
         Point(0,0),
-        widget.requestedSize.min
+        widget.requestedSize.size
       )
     }
 
-    var miny:Int32=0
-    var maxy:Int32=0
-    var allocatedSpace:Int32=0
-    for contained in container.contents {
-      miny = miny ^+ contained.requestedSize.min.x
-      maxy = maxy ^+ contained.requestedSize.min.x
-      if contained === widget {
-        return AllocatedSpace(
-          Point(
-            allocatedSpace,
-            0
-          ),
-          Point(
-            (
-              container.allocatedSpace.size.x ^- container.requestedSize.min.x
-            ) ^* (
-              maxy ^- miny
-            ) / (
-              container.requestedSize.max.x ^+ container.requestedSize.min.x
-            ) ^+ miny ^- allocatedSpace,
-            container.allocatedSpace.size.y
-          )
-        )
-      }
-      allocatedSpace = allocatedSpace ^+ contained.allocatedSpace.size.x
-    }
-    /* TODO Swift warn */
+    let remainder=container.requestedSize.size.x - container.allocatedSpace.size.x
+
+    let modledLeftSide =
+       widget.get(property:leftSide) + remainder
+       * container.requestedSize.moldable.x / widget.get(property:leftMoldable)
+
+    let modledRightSide =
+        widget.get(property:rightSide) + remainder
+        * container.requestedSize.moldable.x / widget.get(property:rightMoldable)
+        - modledLeftSide
+
     return AllocatedSpace(
-      Point(0,0),
-      widget.requestedSize.min
+      Point(
+        modledLeftSide,
+        0
+      ),
+      Point(
+        modledRightSide,
+        container.allocatedSpace.size.y
+      )
     )
   }
 }

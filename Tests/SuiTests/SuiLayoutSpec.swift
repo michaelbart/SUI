@@ -43,11 +43,9 @@ class SuiLayoutSpec: QuickSpec {
 
     describe("RequestedSize") {
       it("can check for equality") {
-        expect{RequestedSize(Point(7,1),Point(8,2))==RequestedSize(Point(7,1),Point(8,2))}.to(equal(true))
-        expect{RequestedSize(Point(8,1),Point(8,2))==RequestedSize(Point(7,1),Point(8,2))}.to(equal(false))
-        expect{RequestedSize(Point(7,2),Point(8,2))==RequestedSize(Point(7,1),Point(8,2))}.to(equal(false))
-        expect{RequestedSize(Point(7,1),Point(9,2))==RequestedSize(Point(7,1),Point(8,2))}.to(equal(false))
-        expect{RequestedSize(Point(7,1),Point(8,3))==RequestedSize(Point(7,1),Point(8,2))}.to(equal(false))
+        expect{RequestedSize(Point(7,1))==RequestedSize(Point(7,1))}.to(equal(true))
+        expect{RequestedSize(Point(8,1))==RequestedSize(Point(7,1))}.to(equal(false))
+        expect{RequestedSize(Point(7,2))==RequestedSize(Point(7,1))}.to(equal(false))
       }
     }
 
@@ -78,11 +76,11 @@ class SuiLayoutSpec: QuickSpec {
           properties:StyleProperties(
             StylePropertyValue(
               layoutProperty,
-              FixedLayout(min:Point(1,2), max:Point(3,4))
+              FixedLayout(RequestedSize(Point(1,2)))
             )
           )
         )
-        expect{widget.requestedSize}.to(equal(RequestedSize(Point(1,2),Point(3,4))))
+        expect{widget.requestedSize}.to(equal(RequestedSize(Point(1,2))))
       }
     }
 
@@ -103,13 +101,13 @@ class SuiLayoutSpec: QuickSpec {
           properties:StyleProperties(
             StylePropertyValue(
               layoutProperty,
-              FixedLayout(min:Point(1,2), max:Point(3,4))
+              FixedLayout(RequestedSize(Point(1,2)))
             )
           )
         )
         contained.container=widget
-        expect{widget.requestedSize}.to(equal(RequestedSize(Point(0,0),Point(Int32.max,Int32.max))))
-        expect{contained.requestedSize}.to(equal(RequestedSize(Point(1,2),Point(3,4))))
+        expect{widget.requestedSize}.to(equal(RequestedSize(Point(0,0))))
+        expect{contained.requestedSize}.to(equal(RequestedSize(Point(1,2))))
       }
       it("will AllocateSpace") {
         let widgetType=WidgetType(parent:anyWidgetType)
@@ -127,7 +125,7 @@ class SuiLayoutSpec: QuickSpec {
           properties:StyleProperties(
             StylePropertyValue(
               layoutProperty,
-              FixedLayout(min:Point(1,2), max:Point(3,4))
+              FixedLayout(RequestedSize(Point(1,2)))
             )
           )
         )
@@ -156,7 +154,7 @@ class SuiLayoutSpec: QuickSpec {
               properties:StyleProperties(
                 StylePropertyValue(
                   layoutProperty,
-                  FixedLayout(min:Point(1,2), max:Point(3,4))
+                  FixedLayout(RequestedSize(Point(1,2)))
                 )
               )
             )
@@ -164,7 +162,7 @@ class SuiLayoutSpec: QuickSpec {
         )
       }
       it("will getRequestedSize") {
-        expect{widget.requestedSize}.to(equal(RequestedSize(Point(1,4),Point(3,8))))
+        expect{widget.requestedSize}.to(equal(RequestedSize(Point(1,4), moldable:Point(1,2))))
       }
       it("will allocateSpace for contents") {
         expect(child1.allocatedSpace).to(equal(AllocatedSpace(Point(0,0), Point(1,2))))
@@ -191,7 +189,7 @@ class SuiLayoutSpec: QuickSpec {
               properties:StyleProperties(
                 StylePropertyValue(
                   layoutProperty,
-                  FixedLayout(min:Point(1,2), max:Point(3,4))
+                  FixedLayout(RequestedSize(Point(1,2)))
                 )
               )
             )
@@ -199,7 +197,7 @@ class SuiLayoutSpec: QuickSpec {
         )
       }
       it("will getRequestedSize") {
-        expect{widget.requestedSize}.to(equal(RequestedSize(Point(2,2),Point(6,4))))
+        expect{widget.requestedSize}.to(equal(RequestedSize(Point(2,2), moldable:Point(2,1))))
       }
       it("will allocateSpace for contents") {
         expect(child1.allocatedSpace).to(equal(AllocatedSpace(Point(0,0), Point(1,2))))
