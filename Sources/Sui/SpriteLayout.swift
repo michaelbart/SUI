@@ -1,7 +1,8 @@
 import Foundation
 import AbstractionAsserter
 
-public let SpriteSpace=WidgetProperty(AllocatedSpace(Point(0,0), Point(0,0)))
+public let spritePosition=WidgetProperty(Point(0,0))
+/* TODO update allocatedSpace when spritePosition is changed */
 
 public class SpriteLayout: Layout {
 
@@ -25,7 +26,7 @@ public class SpriteLayout: Layout {
   */
   override public func allocateSpace(_ widget:Widget) -> AllocatedSpace {
     return AllocatedSpace(
-      Point(0,0),
+      widget.get(property:spritePosition),
       widget.requestedSize.size
     )
   }
