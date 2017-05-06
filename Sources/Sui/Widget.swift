@@ -3,63 +3,82 @@ import GeneratedValue
 
 public class Widget: HashableUsingAddress {
   let type:WidgetType
-  private(set) var contents:[Widget]
 
+  // MARK: property contents
+  private static func onWillSetContainerEvent1(widget:Widget, oldContainer:Widget) {
+    if let index = oldContainer.contents.index(where: {$0 === widget}) {
+      oldContainer.contents.remove(at: index)
+    }
+  }
+
+  private static func onDidSetContainerEvent1(widget:Widget, newContainer:Widget) {
+      newContainer.contents.append(widget)
+  }
+
+  private(set) var contents:[Widget] {
+    didSet {
+      if oldValue != contents {
+        Widget.didSetContentsEvent(widget:self)
+      }
+    }
+  }
+
+  private static func didSetContentsEvent(widget:Widget) {
+    onDidSetContentsEvent1(widget:widget)
+  }
+
+  // MARK: property container
   public weak var container:Widget? {
+    willSet {
+      if newValue !== container {
+        if let oldContainer=container {
+          Widget.willSetContainerEvent(widget:self, oldContainer:oldContainer)
+        }
+      }
+    }
     didSet {
       if oldValue !== container {
-        if let oldContainer=oldValue {
-          if let index = oldContainer.contents.index(where: {$0 === self}) {
-            oldContainer.contents.remove(at: index)
-          }
-          oldContainer.get(property:removedContained)(oldContainer, self)
-          get(property:removedFromContainer)(oldContainer, self)
-          if oldContainer.contents.count == 0 {
-            oldContainer.get(property:contentsEmptied)(oldContainer)
-          }
-          oldContainer.clearRequestedSizeCashe()
-        }
-
-        clearStyleCashe()
-
+        Widget.containerChangedEvent(widget:self)
         if let newContainer=container {
-          newContainer.contents.append(self)
-          newContainer.clearRequestedSizeCashe()
-
-          newContainer.get(property:addedContained)(newContainer, self)
-          get(property:addedToContainer)(newContainer, self)
+          Widget.didSetContainerEvent(widget:self, newContainer:newContainer)
         }
       }
     }
   }
 
-  var style:Style? {
-    didSet {
-      clearStyleCashe()
-    }
-  }
-  private var styleCashe=StyleProperties()
-  func clearStyleCashe() {
-    for child in contents {
-      child.clearStyleCashe()
-    }
-    styleCashe=StyleProperties()
-    clearRequestedSizeCashe()
+  private static func willSetContainerEvent(widget:Widget, oldContainer:Widget) {
+      onWillSetContainerEvent1(widget:widget, oldContainer:oldContainer)
+      onWillSetContainerEvent2(widget:widget, oldContainer:oldContainer)
+      onWillSetContainerEvent3(widget:widget, oldContainer:oldContainer)
+      onWillSetContainerEvent4(widget:widget, oldContainer:oldContainer)
   }
 
-  /**
-     Get style property for widget.
-     - Parameter property: The property to get.
-     - Returns: The property.
-  */
-  public func get<T:Any>(property:StyleProperty<T>) -> T {
-    if let value = styleCashe.get(property:property) {
-      return value;
-    }
+  private static func containerChangedEvent(widget:Widget) {
+    onContainerChangedEvent1(widget:widget)
+  }
 
-    let value = Style.get(property: property, of: self)
-    styleCashe.set(property:property, to:value)
-    return value;
+  private static func didSetContainerEvent(widget:Widget, newContainer:Widget) {
+      onDidSetContainerEvent1(widget:widget, newContainer:newContainer)
+      onDidSetContainerEvent2(widget:widget, newContainer:newContainer)
+      onDidSetContainerEvent3(widget:widget, newContainer:newContainer)
+      onDidSetContainerEvent4(widget:widget, newContainer:newContainer)
+  }
+
+  // MARK: property requestedSize
+  private static func onStyleCasheClearedEvent2(widget:Widget) {
+    widget.clearRequestedSizeCashe()
+  }
+
+  private static func onWillSetContainerEvent4(widget:Widget, oldContainer:Widget) {
+      oldContainer.clearRequestedSizeCashe()
+  }
+
+  private static func onDidSetContainerEvent2(widget:Widget, newContainer:Widget) {
+      newContainer.clearRequestedSizeCashe()
+  }
+
+  private static func onRequestedSizeCasheClearedEvent1(widget:Widget) {
+    widget.container?.clearRequestedSizeCashe()
   }
 
   private var requestedSizeCashe=GeneratedValue {
@@ -75,8 +94,23 @@ public class Widget: HashableUsingAddress {
 
   func clearRequestedSizeCashe() {
     requestedSizeCashe.clearCashe()
-    container?.clearRequestedSizeCashe()
-    clearAllocatedSpaceCashe()
+    Widget.requestedSizeCasheClearedEvent(widget:self)
+  }
+
+  static func requestedSizeCasheClearedEvent(widget:Widget) {
+    onRequestedSizeCasheClearedEvent1(widget:widget)
+    onRequestedSizeCasheClearedEvent2(widget:widget)
+  }
+
+  // MARK: property allocatedSpace
+  private static func onAllocatedSpaceClearedEvent1(widget:Widget) {
+    for child in widget.contents {
+      child.clearAllocatedSpaceCashe()
+    }
+  }
+
+  private static func onRequestedSizeCasheClearedEvent2(widget:Widget) {
+      widget.clearAllocatedSpaceCashe()
   }
 
   private var allocatedSpaceCashe=GeneratedValue<Widget,AllocatedSpace> {
@@ -97,6 +131,64 @@ public class Widget: HashableUsingAddress {
     }
   }
 
+  static func allocatedSpaceCasheClearedEvent(widget:Widget) {
+    onAllocatedSpaceClearedEvent1(widget:widget)
+  }
+
+  // MARK: styleCashe
+  private static func onContainerChangedEvent1(widget:Widget) {
+    widget.clearStyleCashe()
+  }
+
+  private static func onStyleCasheClearedEvent1(widget:Widget) {
+    for child in widget.contents {
+      child.clearStyleCashe()
+    }
+  }
+
+  private static func didSetStyle1Event(widget:Widget) {
+      widget.clearStyleCashe()
+  }
+
+  private var styleCashe=StyleProperties()
+
+  func clearStyleCashe() {
+    styleCashe=StyleProperties()
+    Widget.styleCasheClearedEvent(widget:self)
+  }
+
+  private static func styleCasheClearedEvent(widget:Widget) {
+    onStyleCasheClearedEvent1(widget:widget)
+    onStyleCasheClearedEvent2(widget:widget)
+  }
+
+  // MARK: property style
+  var style:Style? {
+    didSet {
+      Widget.didSetStyleEvent(widget:self)
+    }
+  }
+
+  private static func didSetStyleEvent(widget:Widget) {
+    didSetStyle1Event(widget:widget)
+  }
+
+  /**
+     Get style property for widget.
+     - Parameter property: The property to get.
+     - Returns: The property.
+  */
+  public func get<T:Any>(property:StyleProperty<T>) -> T {
+    if let value = styleCashe.get(property:property) {
+      return value;
+    }
+
+    let value = Style.get(property: property, of: self)
+    styleCashe.set(property:property, to:value)
+    return value;
+  }
+
+  // MARK: WidgetProperties
   private var properties=WidgetProperties()
 
   /**
@@ -117,6 +209,7 @@ public class Widget: HashableUsingAddress {
     properties.set(property:property, to:value)
   }
 
+  // MARK: init
   public init (type:WidgetType, properties:WidgetProperties?=nil, style:Style?=nil, contents:[Widget]=[]) {
     self.type=type
     self.properties=properties ?? WidgetProperties()
@@ -129,3 +222,4 @@ public class Widget: HashableUsingAddress {
     }
   }
 }
+
