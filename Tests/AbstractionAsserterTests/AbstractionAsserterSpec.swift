@@ -29,4 +29,5 @@ class AbstractionAsserterSpec: QuickSpec {
  
     #endif
   }
+
 }

@@ -1,5 +1,6 @@
 import SdlSui
 import Sui
+import Foundation
 
 let app=sdlCreateApp(
   contents:[
@@ -8,3 +9,5 @@ let app=sdlCreateApp(
     )
   ]
 )
+
+RunLoop.main.run()

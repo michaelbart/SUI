@@ -19,9 +19,6 @@ public func createApp(
   )
 
   widget.container=rootWidget
-  if widget.contents.count != 0 {
-    eventLoopRun()
-  }
   return widget
 }
 

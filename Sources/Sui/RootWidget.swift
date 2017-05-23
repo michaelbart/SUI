@@ -1,4 +1,5 @@
 private let rootWidgetType=WidgetType(parent:anyWidgetType)
+import Darwin
 
 let rootWidget=Widget(
   type:rootWidgetType,
@@ -52,7 +53,7 @@ let rootWidget=Widget(
             contentsEmptied
           ) {
             (widget) in
-            eventLoopStop()
+            exit(0)
           }
         )
       ),

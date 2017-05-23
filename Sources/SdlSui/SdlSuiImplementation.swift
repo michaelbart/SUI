@@ -17,28 +17,30 @@ public func sdlCreateApp(
   }
   if sdlHasInit==false {
     sdlHasInit=true
-    DispatchQueue(label: "com.amnykon.sui.sdlEventLoop").async {
-      TTF_Init()
-      SDL_StartTextInput()
-      while true {
-        var evt:SDL_Event = SDL_Event()
-        SDL_WaitEvent(&evt)
-        DispatchQueue.main.sync {
-          switch SDL_EventType(evt.type) {
-          case SDL_WINDOWEVENT:
-            switch evt.window.event {
-            case SDL_WINDOWEVENT_CLOSE:
-              openWindows[evt.window.windowID]!.container=nil
-            default:
-              break
-            }
+    TTF_Init()
+    SDL_StartTextInput()
+
+    var block={}
+    block={
+      var evt:SDL_Event = SDL_Event()
+      while( SDL_PollEvent(&evt) != 0) {
+        switch SDL_EventType(evt.type) {
+        case SDL_WINDOWEVENT:
+          switch evt.window.event {
+          case SDL_WINDOWEVENT_CLOSE:
+            openWindows[evt.window.windowID]!.container=nil
           default:
             break
           }
+        default:
+          break
         }
       }
+      DispatchQueue.main.asyncAfter(deadline: DispatchTime.init(uptimeNanoseconds: 2000), execute: block)
     }
+    DispatchQueue.main.async(execute:block)
   }
+
   return createApp(
     implementation:Implementation(
       createWindow:{
