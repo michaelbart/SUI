@@ -21,11 +21,26 @@ public class ${TYPE}Property<T:Any>: Generic${TYPE}Property{
   public let defaultValue:T
 
   /**
+    An observer that is called when the value of the property changes.
+  */
+  public let didSetObserver:((${FOR_TYPE})->())?
+
+  /**
     Creates a new Generic${TYPE}Property.
     - parameter defaultValue: The default value for property.
   */
   public init(_ defaultValue:T) {
     self.defaultValue=defaultValue
+    self.didSetObserver=nil
+  }
+
+  /**
+    creates a new generic${type}property.
+    - parameter defaultValue: the default value for property.
+  */
+  public init(_ defaultValue:T, didSetObserver: @escaping ((${FOR_TYPE})->())) {
+    self.defaultValue=defaultValue
+    self.didSetObserver=didSetObserver
   }
 }
 
@@ -95,9 +110,14 @@ public struct ${TYPE}Properties {
     Sets the ${TYPE}Property.
     - Prameter property: The property to set the value for.
     - Prameter to value: The value of the propety to set.
+    - Prameter for obj: The object to set the propety property for.
+        If obj is nil, didSetObserver will not be called.
   */
-  public mutating func set<T:Any>(property:${TYPE}Property<T>, to value:T) {
+  public mutating func set<T:Any>(property:${TYPE}Property<T>, to value:T, for obj:${FOR_TYPE}? = nil) {
     properties[property]=value
+    if let obj = obj {
+      property.didSetObserver?(obj)
+    }
   }
 
   /**

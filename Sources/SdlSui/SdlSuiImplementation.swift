@@ -27,8 +27,12 @@ public func sdlCreateApp(
         switch SDL_EventType(evt.type) {
         case SDL_WINDOWEVENT:
           switch evt.window.event {
+          case SDL_WINDOWEVENT_MOVED:
+            openWindows[evt.window.windowID]?.set(property:spritePosition, to: Point(evt.window.data1,evt.window.data2))
+          case SDL_WINDOWEVENT_RESIZED:
+            openWindows[evt.window.windowID]?.set(property:spriteSize, to: Point(evt.window.data1,evt.window.data2))
           case SDL_WINDOWEVENT_CLOSE:
-            openWindows[evt.window.windowID]!.container=nil
+            openWindows[evt.window.windowID]?.container=nil
           default:
             break
           }

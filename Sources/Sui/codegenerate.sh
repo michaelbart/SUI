@@ -5,5 +5,5 @@ cd $(dirname $0)
 TYPE=Style ../Properties/Properties.sh
 
 #codegenerate WidgetProperties.swift
-TYPE=Widget ../Properties/Properties.sh
+TYPE=Widget FOR_TYPE=Widget ../Properties/Properties.sh
 

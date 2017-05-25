@@ -5,7 +5,10 @@ import Foundation
 let app=sdlCreateApp(
   contents:[
     Widget(
-      type:anyWidgetType
+      type:anyWidgetType,
+      properties:WidgetProperties(
+        WidgetPropertyValue(spriteSize, Point(200,300))
+      )
     )
   ]
 )

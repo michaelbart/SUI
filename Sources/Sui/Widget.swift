@@ -206,7 +206,7 @@ public class Widget: HashableUsingAddress {
      - Parameter to value: The value to set the property to.
   */
   public func set<T:Any>(property:WidgetProperty<T>, to value:T) {
-    properties.set(property:property, to:value)
+    properties.set(property:property, to:value, for: self)
   }
 
   // MARK: init

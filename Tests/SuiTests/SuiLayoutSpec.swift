@@ -130,9 +130,10 @@ class SuiLayoutSpec: QuickSpec {
           )
         )
         contained.set(property:spritePosition, to:Point(3,4))
+        contained.set(property:spriteSize, to:Point(4,5))
         contained.container=widget
         expect{widget.allocatedSpace}.to(equal(AllocatedSpace(Point(0,0),Point(0,0))))
-        expect{contained.allocatedSpace}.to(equal(AllocatedSpace(Point(3,4),Point(1,2))))
+        expect{contained.allocatedSpace}.to(equal(AllocatedSpace(Point(3,4),Point(4,5))))
       }
     }
 
