@@ -151,10 +151,10 @@ public class Widget: HashableUsingAddress {
       widget.clearStyleCashe()
   }
 
-  private var styleCashe=PropertyValues<Style>()
+  private var styleCashe:[GenericProperty<Style>: Any] = [:]
 
   func clearStyleCashe() {
-    styleCashe=PropertyValues()
+    styleCashe=[:]
     Widget.styleCasheClearedEvent(widget:self)
   }
 
@@ -180,12 +180,12 @@ public class Widget: HashableUsingAddress {
      - Returns: The property.
   */
   public func get<T:Any>(property:Property<T,Style>) -> T {
-    if let value = styleCashe.get(property:property) {
+    if let value = styleCashe[property] as? T {
       return value;
     }
 
     let value = Style.get(property: property, of: self)
-    styleCashe.set(property:property, to:value)
+    styleCashe[property] = value
     return value;
   }
 
@@ -213,7 +213,7 @@ public class Widget: HashableUsingAddress {
   // MARK: init
   public init (
     type:WidgetType,
-    properties:PropertyValues<Widget>=PropertyValues(),
+    properties:[GenericPropertyValue<Widget>]=[],
     style:Style?=nil,
     contents:[Widget]=[]
   ) {

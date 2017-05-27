@@ -7,11 +7,11 @@ let impementationProperty = Property<Implementation, Widget>(Implementation())
 
 public func createApp(
   implementation:Implementation,
-  properties:PropertyValues<Widget>=PropertyValues(),
+  properties:[GenericPropertyValue<Widget>]=[],
   style:Style?=nil, contents:[Widget]=[]
 ) -> Widget {
   var properties=properties
-  properties.set(property:impementationProperty, to:implementation) // TODO: only write if unset
+  properties.append(PropertyValue(impementationProperty, implementation)) // TODO: only write if unset
   let widget=Widget(
     type:appWidgetType,
     properties:properties,
@@ -24,7 +24,7 @@ public func createApp(
 }
 
 @discardableResult public func mockCreateApp(
-  properties:PropertyValues<Widget>=PropertyValues(),
+  properties:[GenericPropertyValue<Widget>]=[],
   style:Style?=nil,
   contents:[Widget]=[]
 ) -> Widget {

@@ -9,7 +9,7 @@ var openWindows:[UInt32:Widget]=[:]
 private var sdlHasInit=false
 
 public func sdlCreateApp(
-  properties:PropertyValues<Widget>,
+  properties:[GenericPropertyValue<Widget>],
   style:Style?=nil,
   contents:[Widget]=[]
   ) -> Widget {

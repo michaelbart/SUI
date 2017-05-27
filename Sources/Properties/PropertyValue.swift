@@ -12,12 +12,12 @@ public class PropertyValue<T:Any,U:Any>:GenericPropertyValue<U> {
   */
   var value:T
 
-  /**
-    Sets the property in propertyValue to value.
-    - Parameter propertyValues: The PropertyValues to set property to value in.
-  */
-  override func set(in propertyValues:inout PropertyValues<U>) {
-    propertyValues.set(property:property, to: value)
+  override func getProperty() -> GenericProperty<U> {
+    return property
+  }
+
+  override func getValue() -> Any {
+    return value
   }
 
   /**

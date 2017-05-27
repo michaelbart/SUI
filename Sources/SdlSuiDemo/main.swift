@@ -4,10 +4,11 @@ import Foundation
 import Properties
 
 let app=sdlCreateApp(
-  properties: PropertyValues<Widget>(), contents:[
+  properties: [],
+  contents:[
     Widget(
       type:anyWidgetType,
-      properties: PropertyValues(propertyValues: PropertyValue(spriteSize, Point(200,300)))
+      properties: [PropertyValue(spriteSize, Point(200,300))]
     )
   ]
 )

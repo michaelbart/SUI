@@ -10,10 +10,20 @@ public class GenericPropertyValue<U:Any>:AbstractionAsserter, HashableUsingAddre
   }
 
   /**
-    Sets the property in propertyValue to value.
-    - Parameter propertyValues: The PropertyValues to set property to value in.
+    Returns the property.
+    - Returns: The propery.
   */
-  /*abstract*/ func set(in propertyValues:inout PropertyValues<U>) {
-    abstractMethod() 
+  func /*abstract*/ getProperty() -> GenericProperty<U> {
+    abstractMethod()
+    return GenericProperty<U>()
+  }
+
+  /**
+    Returns the value.
+    - Returns: The value.
+  */
+  func /*abstract*/ getValue() -> Any {
+    abstractMethod()
+    return 1
   }
 }

@@ -3,9 +3,9 @@ import HashableUsingAddress
 
 public struct Properties<U:Any> {
   /**
-    The PropertyValues contained in the properties.
+    The contains the values for each property.
   */
-  private var propertyValues:PropertyValues<U>
+  private var propertyValues:[GenericProperty<U>:Any] = [:]
 
   /**
     Gets the property.
@@ -13,7 +13,7 @@ public struct Properties<U:Any> {
     - Returns: nil if property is not set, else returns the property.
   */
   public func get<T:Any>(property:Property<T,U>) -> T? {
-    return propertyValues.get(property:property)
+    return propertyValues[property] as? T
   }
 
   /**
@@ -22,15 +22,30 @@ public struct Properties<U:Any> {
     - Prameter to value: The value of the propety to set.
   */
   public mutating func set<T:Any>(property:Property<T,U>, to value:T?, obj:U) {
-    propertyValues.set(property:property,to:value)
+    propertyValues[property] = value
     property.didSetObserver(obj)
   }
 
+
+  /**
+    creates a new Properties
+    - prameter propertyValues: The propery values to initalize
+      propertyValues to.
+  */
   public init(_ propertyValues:GenericPropertyValue<U>...) {
-    self.propertyValues=PropertyValues(propertyValues:propertyValues)
+    for propertyValue in propertyValues {
+      self.propertyValues[propertyValue.getProperty()] = propertyValue.getValue()
+    }
   }
 
-  public init(_ propertyValues:PropertyValues<U>) {
-    self.propertyValues=propertyValues
+  /**
+    creates a new Properties
+    - prameter propertyValues: The propery values to initalize
+      propertyValues to.
+  */
+  public init(_ propertyValues:[GenericPropertyValue<U>]) {
+    for propertyValue in propertyValues {
+      self.propertyValues[propertyValue.getProperty()] = propertyValue.getValue()
+    }
   }
 }

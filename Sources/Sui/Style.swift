@@ -92,7 +92,7 @@ public struct Style {
     - Parameter children: The children Styles.
   */
   public init(
-    properties:PropertyValues<Style>,
+    properties:[GenericPropertyValue<Style>],
     children:[WidgetType:Style]=[:]
   ) {
     self.properties=Properties(properties)
