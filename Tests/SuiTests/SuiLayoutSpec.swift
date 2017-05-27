@@ -86,9 +86,10 @@ class SuiLayoutSpec: QuickSpec {
     }
 
     describe("SpriteLayout") {
-      it("will getRequestedSize") {
-        let widgetType=WidgetType(parent:anyWidgetType)
-        let widget=Widget(type:widgetType)
+      let widgetType=WidgetType(parent:anyWidgetType)
+      let widget=Widget(type:widgetType)
+      var contained=Widget(type:widgetType)
+      beforeEach{
         widget.style=Style(
           properties:Properties(
             PropertyValue(
@@ -97,7 +98,7 @@ class SuiLayoutSpec: QuickSpec {
             )
           )
         )
-        let contained=Widget(type:widgetType)
+        contained=Widget(type:widgetType)
         contained.style=Style(
           properties:Properties(
             PropertyValue(
@@ -107,32 +108,14 @@ class SuiLayoutSpec: QuickSpec {
           )
         )
         contained.container=widget
+      }
+      it("will getRequestedSize") {
         expect{widget.requestedSize}.to(equal(RequestedSize(Point(0,0))))
         expect{contained.requestedSize}.to(equal(RequestedSize(Point(1,2))))
       }
       it("will AllocateSpace") {
-        let widgetType=WidgetType(parent:anyWidgetType)
-        let widget=Widget(type:widgetType)
-        widget.style=Style(
-          properties:Properties(
-            PropertyValue(
-              layoutProperty,
-              SpriteLayout()
-            )
-          )
-        )
-        let contained=Widget(type:widgetType)
-        contained.style=Style(
-          properties:Properties(
-            PropertyValue(
-              layoutProperty,
-              FixedLayout(RequestedSize(Point(1,2)))
-            )
-          )
-        )
         contained.set(property:spritePosition, to:Point(3,4))
         contained.set(property:spriteSize, to:Point(4,5))
-        contained.container=widget
         expect{widget.allocatedSpace}.to(equal(AllocatedSpace(Point(0,0),Point(0,0))))
         expect{contained.allocatedSpace}.to(equal(AllocatedSpace(Point(3,4),Point(4,5))))
       }
