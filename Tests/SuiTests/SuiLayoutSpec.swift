@@ -119,6 +119,16 @@ class SuiLayoutSpec: QuickSpec {
         expect{widget.allocatedSpace}.to(equal(AllocatedSpace(Point(0,0),Point(0,0))))
         expect{contained.allocatedSpace}.to(equal(AllocatedSpace(Point(3,4),Point(4,5))))
       }
+      it("will clear AllocatedSpace when spritePosition is modified") {
+        expect{contained.allocatedSpace}.to(equal(AllocatedSpace(Point(0,0),Point(1,2))))
+        contained.set(property:spritePosition, to:Point(3,4))
+        expect{contained.allocatedSpace}.to(equal(AllocatedSpace(Point(3,4),Point(1,2))))
+      }
+      it("will clear allocatedSpace Cashe when spriteSize is modified") {
+        expect{contained.allocatedSpace}.to(equal(AllocatedSpace(Point(0,0),Point(1,2))))
+        contained.set(property:spriteSize, to:Point(4,5))
+        expect{contained.allocatedSpace}.to(equal(AllocatedSpace(Point(0,0),Point(4,5))))
+      }
     }
 
     describe("VerticalLayout") {
