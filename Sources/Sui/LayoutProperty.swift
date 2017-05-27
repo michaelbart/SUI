@@ -1,5 +1,6 @@
 import Foundation
 import AbstractionAsserter
+import Properties
 
 open /*abstract*/ class Layout: AbstractionAsserter {
   /**
@@ -35,5 +36,5 @@ open /*abstract*/ class Layout: AbstractionAsserter {
   }
 }
 
-public let layoutProperty=StyleProperty(VerticalLayout() as Layout)
+public let layoutProperty=Property<Layout,Style>(VerticalLayout())
 

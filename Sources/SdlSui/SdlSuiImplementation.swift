@@ -2,13 +2,14 @@ import Dispatch
 
 import Sui
 import CSDL2
+import Properties
 
-let sdlWindow:WidgetProperty<OpaquePointer?> = WidgetProperty(nil)
+let sdlWindow:Property = Property<OpaquePointer?, Widget>(nil)
 var openWindows:[UInt32:Widget]=[:]
 private var sdlHasInit=false
 
 public func sdlCreateApp(
-  properties:WidgetProperties?=nil,
+  properties:PropertyValues<Widget>,
   style:Style?=nil,
   contents:[Widget]=[]
   ) -> Widget {

@@ -3,6 +3,7 @@ import Nimble
 @testable import Sui
 import Foundation
 import LimitOperator
+import Properties
 
 class SuiLayoutSpec: QuickSpec {
   override func spec() {
@@ -73,8 +74,8 @@ class SuiLayoutSpec: QuickSpec {
         let widgetType=WidgetType(parent:anyWidgetType)
         let widget=Widget(type:widgetType)
         widget.style=Style(
-          properties:StyleProperties(
-            StylePropertyValue(
+          properties:Properties(
+            PropertyValue(
               layoutProperty,
               FixedLayout(RequestedSize(Point(1,2)))
             )
@@ -89,8 +90,8 @@ class SuiLayoutSpec: QuickSpec {
         let widgetType=WidgetType(parent:anyWidgetType)
         let widget=Widget(type:widgetType)
         widget.style=Style(
-          properties:StyleProperties(
-            StylePropertyValue(
+          properties:Properties(
+            PropertyValue(
               layoutProperty,
               SpriteLayout()
             )
@@ -98,8 +99,8 @@ class SuiLayoutSpec: QuickSpec {
         )
         let contained=Widget(type:widgetType)
         contained.style=Style(
-          properties:StyleProperties(
-            StylePropertyValue(
+          properties:Properties(
+            PropertyValue(
               layoutProperty,
               FixedLayout(RequestedSize(Point(1,2)))
             )
@@ -113,8 +114,8 @@ class SuiLayoutSpec: QuickSpec {
         let widgetType=WidgetType(parent:anyWidgetType)
         let widget=Widget(type:widgetType)
         widget.style=Style(
-          properties:StyleProperties(
-            StylePropertyValue(
+          properties:Properties(
+            PropertyValue(
               layoutProperty,
               SpriteLayout()
             )
@@ -122,8 +123,8 @@ class SuiLayoutSpec: QuickSpec {
         )
         let contained=Widget(type:widgetType)
         contained.style=Style(
-          properties:StyleProperties(
-            StylePropertyValue(
+          properties:Properties(
+            PropertyValue(
               layoutProperty,
               FixedLayout(RequestedSize(Point(1,2)))
             )
@@ -150,11 +151,11 @@ class SuiLayoutSpec: QuickSpec {
         child2.container=widget
 
         widget.style=Style(
-          properties:StyleProperties(StylePropertyValue(layoutProperty, VerticalLayout())),
+          properties:Properties(PropertyValue(layoutProperty, VerticalLayout())),
           children:[
             widgetType:Style(
-              properties:StyleProperties(
-                StylePropertyValue(
+              properties:Properties(
+                PropertyValue(
                   layoutProperty,
                   FixedLayout(RequestedSize(Point(1,2)))
                 )
@@ -185,11 +186,11 @@ class SuiLayoutSpec: QuickSpec {
         child2.container=widget
 
         widget.style=Style(
-          properties:StyleProperties(StylePropertyValue(layoutProperty, HorizontalLayout())),
+          properties:Properties(PropertyValue(layoutProperty, HorizontalLayout())),
           children:[
             widgetType:Style(
-              properties:StyleProperties(
-                StylePropertyValue(
+              properties:Properties(
+                PropertyValue(
                   layoutProperty,
                   FixedLayout(RequestedSize(Point(1,2)))
                 )

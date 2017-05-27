@@ -1,10 +1,11 @@
 import AbstractionAsserter
 import LimitOperator
+import Properties
 
-private let topSide:WidgetProperty<Int32> = WidgetProperty(0)
-private let bottomSide:WidgetProperty<Int32> = WidgetProperty(0)
-private let topMoldable:WidgetProperty<Int32> = WidgetProperty(0)
-private let bottomMoldable:WidgetProperty<Int32> = WidgetProperty(0)
+private let topSide = Property<Int32, Widget>(0)
+private let bottomSide = Property<Int32, Widget>(0)
+private let topMoldable = Property<Int32, Widget>(0)
+private let bottomMoldable = Property<Int32, Widget>(0)
 
 public class VerticalLayout: Layout {
   /**

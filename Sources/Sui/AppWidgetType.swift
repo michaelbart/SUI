@@ -1,19 +1,20 @@
 import Foundation
+import Properties
 
 let appWidgetType=WidgetType(parent:anyWidgetType)
 
-let impementationProperty:WidgetProperty<Implementation> = WidgetProperty(Implementation())
+let impementationProperty = Property<Implementation, Widget>(Implementation())
 
 public func createApp(
   implementation:Implementation,
-  properties:WidgetProperties?=nil,
+  properties:PropertyValues<Widget>=PropertyValues(),
   style:Style?=nil, contents:[Widget]=[]
 ) -> Widget {
-  var widgetProperties=properties ?? WidgetProperties()
-  widgetProperties.set(property:impementationProperty, to:implementation)
+  var properties=properties
+  properties.set(property:impementationProperty, to:implementation) // TODO: only write if unset
   let widget=Widget(
     type:appWidgetType,
-    properties:widgetProperties,
+    properties:properties,
     style:style,
     contents:contents
   )
@@ -23,7 +24,7 @@ public func createApp(
 }
 
 @discardableResult public func mockCreateApp(
-  properties:WidgetProperties?=nil,
+  properties:PropertyValues<Widget>=PropertyValues(),
   style:Style?=nil,
   contents:[Widget]=[]
 ) -> Widget {

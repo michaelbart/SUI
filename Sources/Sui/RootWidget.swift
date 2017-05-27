@@ -1,13 +1,13 @@
 private let rootWidgetType=WidgetType(parent:anyWidgetType)
 import Darwin
+import Properties
 
 let rootWidget=Widget(
   type:rootWidgetType,
   style:Style(
-    properties:StyleProperties(
-      StylePropertyValue(
-        addedContained
-      ) {
+    properties:Properties<Style>(
+        PropertyValue(
+        addedContained) {
         (container, contained) in
         for window in contained.contents {
           contained.get(
@@ -15,7 +15,7 @@ let rootWidget=Widget(
           ).createWindow(window)
         }
       },
-      StylePropertyValue(
+      PropertyValue(
         removedContained
       ) {
         (container, contained) in
@@ -28,12 +28,12 @@ let rootWidget=Widget(
     ),
     children:[
       appWidgetType:Style(
-        properties:StyleProperties(
-          StylePropertyValue(
+        properties:Properties(
+          PropertyValue(
             layoutProperty,
             SpriteLayout()
           ),
-          StylePropertyValue(
+          PropertyValue(
             addedContained
           ) {
             (container, contained) in
@@ -41,7 +41,7 @@ let rootWidget=Widget(
               property:impementationProperty
             ).createWindow(contained)
           },
-          StylePropertyValue(
+          PropertyValue(
             removedContained
           ) {
             (container, contained) in
@@ -49,7 +49,7 @@ let rootWidget=Widget(
               property:impementationProperty
             ).destroyWindow(contained)
           },
-          StylePropertyValue(
+          PropertyValue(
             contentsEmptied
           ) {
             (widget) in
@@ -58,18 +58,18 @@ let rootWidget=Widget(
         )
       ),
       anyWidgetType:Style(
-        properties:StyleProperties(
-         StylePropertyValue(
+        properties:Properties(
+          PropertyValue(
             addedContained
           ) {
             (container, contained) in
           },
-          StylePropertyValue(
+          PropertyValue(
             removedContained
           ) {
             (container, contained) in
           },
-          StylePropertyValue(
+          PropertyValue(
             contentsEmptied
           ) {
             (widget) in

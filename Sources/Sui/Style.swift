@@ -1,12 +1,14 @@
+import Properties
+
 public struct Style {
   /**
     The properties for the Style.
     Treat this a let exsept for init.
   */
-  private var properties:StyleProperties?
+  private var properties:Properties<Style>
 
   /**
-    The children Styles. 
+    The children Styles.
     Treat this a let exsept for init.
   */
   private var children:[WidgetType:Style]
@@ -18,22 +20,22 @@ public struct Style {
     - Parameter child style: The style to add.
   */
   private mutating func addChild(type:WidgetType, child style:Style) {
-    if style.properties != nil {
+    //if style.properties != nil {
       if children[type] != nil {
         children[type]?.properties=style.properties
       } else {
-        children[type]=Style(properties:style.properties);
+        children[type]=Style(properties:style.properties)
       }
-    }
+  //  }
     for (childType, child) in style.children {
       if children[childType] == nil {
-        children[childType]=Style();
+        children[childType]=Style()
       }
       children[childType]!.addChild(type:type, child:child)
     }
   }
 
-  static func get<T:Any>(property:StyleProperty<T>, of widget:Widget) -> T {
+  static func get<T:Any>(property:Property<T, Style>, of widget:Widget) -> T {
     if let value=widget.style?.get(property:property) {
       return value
     }
@@ -64,7 +66,7 @@ public struct Style {
    - Parameter property: The property to get
    - Parameter of: The typeHierarchy of the type to get the paramiter for.
   */
-  private func get<T>(property:StyleProperty<T>, of:[WidgetType]=[]) -> T? {
+  private func get<T>(property:Property<T,Style>, of:[WidgetType]=[]) -> T? {
     var typeHierarchy=of
     if typeHierarchy.count != 0 {
       var type=typeHierarchy.removeLast()
@@ -81,15 +83,34 @@ public struct Style {
         return value
       }
     }
-    return properties?.get(property:property)
+    return properties.get(property:property)
   }
 
   /**
     creates a new Style.
     - Parameter properties: The properties for the style.
-    - Parameter children: The children Styles. 
+    - Parameter children: The children Styles.
   */
-  public init(properties:StyleProperties?=nil, children:[WidgetType:Style]=[:]) {
+  public init(
+    properties:PropertyValues<Style>,
+    children:[WidgetType:Style]=[:]
+  ) {
+    self.properties=Properties(properties)
+    self.children=[:]
+    for (childType, child) in children {
+      addChild(type:childType, child:child)
+    }
+  }
+
+  /**
+    creates a new Style.
+    - Parameter properties: The properties for the style.
+    - Parameter children: The children Styles.
+  */
+  public init(
+    properties:Properties<Style> = Properties(),
+    children:[WidgetType:Style]=[:]
+  ) {
     self.properties=properties
     self.children=[:]
     for (childType, child) in children {

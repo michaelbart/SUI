@@ -2,6 +2,7 @@ import Quick
 import Nimble
 @testable import Sui
 import Foundation
+import Properties
 
 class SuiStylePropertiesSpec: QuickSpec {
   override func spec() {
@@ -33,8 +34,8 @@ class SuiStylePropertiesSpec: QuickSpec {
 
         it("removedFromContainer when changing parents") {
           widget.style=Style(
-            properties:StyleProperties(
-              StylePropertyValue(
+            properties:Properties(
+                PropertyValue(
                 removedFromContainer
               ) {
                 (container, contained) in
@@ -48,9 +49,9 @@ class SuiStylePropertiesSpec: QuickSpec {
         }
 
         it("addedToContainer when changing parents") {
-          widget.style=Style(
-            properties:StyleProperties(
-              StylePropertyValue(
+            widget.style=Style(
+              properties:Properties(
+                PropertyValue(
                 addedToContainer
               ) {
                 (container, contained) in
@@ -65,8 +66,8 @@ class SuiStylePropertiesSpec: QuickSpec {
 
         it("addedContained when changing parents") {
           newContainer.style=Style(
-            properties:StyleProperties(
-              StylePropertyValue(
+            properties:Properties(
+              PropertyValue(
                 addedContained
               ) {
                 (container, contained) in
@@ -81,8 +82,8 @@ class SuiStylePropertiesSpec: QuickSpec {
 
         it("RemovedContained when changing parents") {
           oldContainer.style=Style(
-            properties:StyleProperties(
-              StylePropertyValue(
+            properties:Properties(
+              PropertyValue(
                 removedContained
               ) {
                 (container, contained) in
@@ -97,8 +98,8 @@ class SuiStylePropertiesSpec: QuickSpec {
 
         it("contentsEmptied when contents are emptied") {
           oldContainer.style=Style(
-            properties:StyleProperties(
-              StylePropertyValue(
+            properties:Properties(
+              PropertyValue(
                 contentsEmptied
               ) {
                 (container) in

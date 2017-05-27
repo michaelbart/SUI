@@ -1,14 +1,13 @@
 import SdlSui
 import Sui
 import Foundation
+import Properties
 
 let app=sdlCreateApp(
-  contents:[
+  properties: PropertyValues<Widget>(), contents:[
     Widget(
       type:anyWidgetType,
-      properties:WidgetProperties(
-        WidgetPropertyValue(spriteSize, Point(200,300))
-      )
+      properties: PropertyValues(propertyValues: PropertyValue(spriteSize, Point(200,300)))
     )
   ]
 )

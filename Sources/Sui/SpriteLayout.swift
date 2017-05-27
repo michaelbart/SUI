@@ -1,11 +1,12 @@
 import Foundation
 import AbstractionAsserter
+import Properties
 
-public let spritePosition=WidgetProperty(Point(0,0)) {
+public let spritePosition=Property<Point, Widget>(Point(0,0)) {
   $0.clearAllocatedSpaceCashe()
 }
 
-public let spriteSize:WidgetProperty<Point?>=WidgetProperty(nil) {
+public let spriteSize=Property<Point?, Widget>(nil) {
   $0.clearRequestedSizeCashe()
 }
 

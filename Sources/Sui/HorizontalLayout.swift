@@ -1,11 +1,12 @@
 import Foundation
 import AbstractionAsserter
 import LimitOperator
+import Properties
 
-private let leftSide:WidgetProperty<Int32> = WidgetProperty(0)
-private let rightSide:WidgetProperty<Int32> = WidgetProperty(0)
-private let leftMoldable:WidgetProperty<Int32> = WidgetProperty(0)
-private let rightMoldable:WidgetProperty<Int32> = WidgetProperty(0)
+private let leftSide = Property<Int32, Widget>(0)
+private let rightSide = Property<Int32, Widget>(0)
+private let leftMoldable = Property<Int32, Widget>(0)
+private let rightMoldable = Property<Int32, Widget>(0)
 
 public class HorizontalLayout: Layout {
   /**

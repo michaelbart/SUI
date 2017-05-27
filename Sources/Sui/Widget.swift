@@ -1,5 +1,6 @@
 import HashableUsingAddress
 import GeneratedValue
+import Properties
 
 public class Widget: HashableUsingAddress {
   let type:WidgetType
@@ -150,10 +151,10 @@ public class Widget: HashableUsingAddress {
       widget.clearStyleCashe()
   }
 
-  private var styleCashe=StyleProperties()
+  private var styleCashe=PropertyValues<Style>()
 
   func clearStyleCashe() {
-    styleCashe=StyleProperties()
+    styleCashe=PropertyValues()
     Widget.styleCasheClearedEvent(widget:self)
   }
 
@@ -178,7 +179,7 @@ public class Widget: HashableUsingAddress {
      - Parameter property: The property to get.
      - Returns: The property.
   */
-  public func get<T:Any>(property:StyleProperty<T>) -> T {
+  public func get<T:Any>(property:Property<T,Style>) -> T {
     if let value = styleCashe.get(property:property) {
       return value;
     }
@@ -188,15 +189,15 @@ public class Widget: HashableUsingAddress {
     return value;
   }
 
-  // MARK: WidgetProperties
-  private var properties=WidgetProperties()
+  // MARK: Widget Properties
+  private var properties:Properties<Widget>
 
   /**
      Get widget property for widget.
      - Parameter property: The property to get.
      - Returns: The property.
   */
-  public func get<T:Any>(property:WidgetProperty<T>) -> T {
+  public func get<T:Any>(property:Property<T, Widget>) -> T {
     return properties.get(property:property) ?? property.defaultValue
   }
 
@@ -205,14 +206,19 @@ public class Widget: HashableUsingAddress {
      - Parameter property: The property to set.
      - Parameter to value: The value to set the property to.
   */
-  public func set<T:Any>(property:WidgetProperty<T>, to value:T) {
-    properties.set(property:property, to:value, for: self)
+  public func set<T:Any>(property:Property<T, Widget>, to value:T) {
+    properties.set(property:property, to:value, obj: self)
   }
 
   // MARK: init
-  public init (type:WidgetType, properties:WidgetProperties?=nil, style:Style?=nil, contents:[Widget]=[]) {
+  public init (
+    type:WidgetType,
+    properties:PropertyValues<Widget>=PropertyValues(),
+    style:Style?=nil,
+    contents:[Widget]=[]
+  ) {
     self.type=type
-    self.properties=properties ?? WidgetProperties()
+    self.properties=Properties(properties)
     self.style=style
     self.contents=[]
     defer{
