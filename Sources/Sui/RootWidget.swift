@@ -55,7 +55,32 @@ let rootWidget=Widget(
             (widget) in
             exit(0)
           }
-        )
+        ),
+        children:[
+          anyWidgetType:Style(
+            properties:Properties(
+              PropertyValue(
+                allocatedSpaceChanged
+              ) {
+                (widget) in
+                widget.container?.get(
+                  property:impementationProperty
+                ).changeAllocatedSpace(widget)
+              }
+            ),
+            children:[
+              anyWidgetType:Style(
+                properties:Properties(
+                  PropertyValue(
+                    allocatedSpaceChanged
+                  ) {
+                    (widget) in
+                  }
+                )
+              ),
+            ]
+          ),
+        ]
       ),
       anyWidgetType:Style(
         properties:Properties(

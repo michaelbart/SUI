@@ -4,10 +4,13 @@ import Properties
 
 public let spritePosition=Property<Point, Widget>(Point(0,0)) {
   $0.clearAllocatedSpaceCashe()
+  $0.get(property:allocatedSpaceChanged)($0)
+
 }
 
 public let spriteSize=Property<Point?, Widget>(nil) {
   $0.clearRequestedSizeCashe()
+  $0.get(property:allocatedSpaceChanged)($0)
 }
 
 public class SpriteLayout: Layout {

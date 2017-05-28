@@ -127,9 +127,8 @@ public class Widget: HashableUsingAddress {
 
   func clearAllocatedSpaceCashe() {
     allocatedSpaceCashe.clearCashe()
-    for child in contents {
-      child.clearAllocatedSpaceCashe()
-    }
+    Widget.allocatedSpaceCasheClearedEvent(widget:self)
+    get(property:allocatedSpaceChanged)(self)
   }
 
   static func allocatedSpaceCasheClearedEvent(widget:Widget) {

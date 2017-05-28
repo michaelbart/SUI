@@ -37,3 +37,8 @@ func onDidSetContentsEvent1(widget:Widget) {
 
 let contentsEmptied = Property<(Widget)->(), Style>() { (widget) in }
 
+// MARK: property allocatedSpaceChanged
+
+let allocatedSpaceChanged = Property<(Widget)->(), Style>() { (widget) in
+}
+

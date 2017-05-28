@@ -57,11 +57,8 @@ public func sdlCreateApp(
             widget.allocatedSpace.size.x,
             widget.allocatedSpace.size.y,
             SDL_WINDOW_RESIZABLE
-          )
-        widget.set(
-          property:sdlWindow,
-          to:window
         )
+        widget.set(property:sdlWindow, to:window)
         openWindows[SDL_GetWindowID(window)]=widget
       },
       destroyWindow:{
@@ -70,6 +67,22 @@ public func sdlCreateApp(
           forKey:SDL_GetWindowID(widget.get(property:sdlWindow))
         )
         SDL_DestroyWindow(widget.get(property:sdlWindow))
+      },
+      changeAllocatedSpace: {
+        widget in
+        guard let _ = widget.get(property:sdlWindow) else {
+          return
+        }
+        SDL_SetWindowPosition(
+          widget.get(property:sdlWindow),
+          widget.allocatedSpace.position.x,
+          widget.allocatedSpace.position.y
+        )
+        SDL_SetWindowSize(
+          widget.get(property:sdlWindow),
+          widget.allocatedSpace.size.x,
+          widget.allocatedSpace.size.y
+        )
       }
     ),
     properties:properties,
