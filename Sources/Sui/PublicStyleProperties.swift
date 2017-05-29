@@ -42,3 +42,8 @@ let contentsEmptied = Property<(Widget)->(), Style>() { (widget) in }
 let allocatedSpaceChanged = Property<(Widget)->(), Style>() { (widget) in
 }
 
+// MARK: property redraw
+
+public let redrawWidget = Property<(Widget)->(), Style> {
+  (widget) in
+}

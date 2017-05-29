@@ -34,6 +34,8 @@ public func sdlCreateApp(
             openWindows[evt.window.windowID]?.set(property:spriteSize, to: Point(evt.window.data1,evt.window.data2))
           case SDL_WINDOWEVENT_CLOSE:
             openWindows[evt.window.windowID]?.container=nil
+          case SDL_WINDOWEVENT_EXPOSED:
+            openWindows[evt.window.windowID]?.get(property:redrawWidget)(openWindows[evt.window.windowID]!)
           default:
             break
           }

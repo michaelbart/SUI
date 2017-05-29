@@ -209,6 +209,10 @@ public class Widget: HashableUsingAddress {
     properties.set(property:property, to:value, obj: self)
   }
 
+  public func redraw () {
+    get(property:redrawWidget)(self)
+  }
+
   // MARK: init
   public init (
     type:WidgetType,
