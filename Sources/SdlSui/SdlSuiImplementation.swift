@@ -27,15 +27,18 @@ public func sdlCreateApp(
       while( SDL_PollEvent(&evt) != 0) {
         switch SDL_EventType(evt.type) {
         case SDL_WINDOWEVENT:
+          guard let window = openWindows[evt.window.windowID] else {
+            break;
+          }
           switch evt.window.event {
           case SDL_WINDOWEVENT_MOVED:
-            openWindows[evt.window.windowID]?.set(property:spritePosition, to: Point(evt.window.data1,evt.window.data2))
+            window.set(property:spritePosition, to: Point(evt.window.data1,evt.window.data2))
           case SDL_WINDOWEVENT_RESIZED:
-            openWindows[evt.window.windowID]?.set(property:spriteSize, to: Point(evt.window.data1,evt.window.data2))
+            window.set(property:spriteSize, to: Point(evt.window.data1,evt.window.data2))
           case SDL_WINDOWEVENT_CLOSE:
-            openWindows[evt.window.windowID]?.container=nil
+            window.container=nil
           case SDL_WINDOWEVENT_EXPOSED:
-            openWindows[evt.window.windowID]?.get(property:redrawWidget)(openWindows[evt.window.windowID]!)
+            window.get(property:redrawWidget)(window)
           default:
             break
           }
