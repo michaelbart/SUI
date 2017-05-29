@@ -5,28 +5,47 @@ func onDidSetContainerEvent4(widget:Widget, newContainer:Widget) {
   widget.get(property:addedToContainer)(newContainer, widget)
 }
 
-let addedToContainer = Property<(Widget, Widget)->(), Style>() { (Container, contained) in }
+public let addedToContainer = Property<
+  (Widget, Widget)->(),
+  Style
+>() {
+  (Container, contained) in
+}
 
 // MARK: property removedFromContainer
 func onWillSetContainerEvent3(widget:Widget, oldContainer:Widget) {
   widget.get(property:removedFromContainer)(oldContainer, widget)
 }
 
-let removedFromContainer = Property<(Widget, Widget)->(), Style>() { (container, contained) in }
+public let removedFromContainer = Property<
+ (Widget, Widget)->(), Style
+>() {
+ (container, contained) in
+}
 
 // MARK: property addedContained
 func onDidSetContainerEvent3(widget:Widget, newContainer:Widget) {
   newContainer.get(property:addedContained)(newContainer, widget)
 }
 
-let addedContained = Property<(Widget, Widget)->(), Style>() { (container, contained) in }
+public let addedContained = Property<
+  (Widget, Widget)->(),
+   Style
+>() {
+ (container, contained) in
+}
 
 // MARK: property removedContained
 func onWillSetContainerEvent2(widget:Widget, oldContainer:Widget) {
   oldContainer.get(property:removedContained)(oldContainer, widget)
 }
 
-let removedContained = Property<(Widget, Widget)->(), Style>() { (container, contained) in }
+public let removedContained = Property<
+  (Widget, Widget)->(),
+  Style
+>() {
+  (container, contained) in
+}
 
 // MARK: property contentsEmptied
 func onDidSetContentsEvent1(widget:Widget) {
@@ -39,7 +58,7 @@ let contentsEmptied = Property<(Widget)->(), Style>() { (widget) in }
 
 // MARK: property allocatedSpaceChanged
 
-let allocatedSpaceChanged = Property<(Widget)->(), Style>() { (widget) in
+public let allocatedSpaceChanged = Property<(Widget)->(), Style>() { (widget) in
 }
 
 // MARK: property redraw
