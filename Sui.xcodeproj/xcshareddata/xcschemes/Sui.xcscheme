@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_86"
+               BlueprintIdentifier = "OBJ_88"
                BuildableName = "Weak.framework"
                BlueprintName = "Weak"
                ReferencedContainer = "container:Sui.xcodeproj">
@@ -28,7 +28,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_93"
+               BlueprintIdentifier = "OBJ_95"
                BuildableName = "Properties.framework"
                BlueprintName = "Properties"
                ReferencedContainer = "container:Sui.xcodeproj">
@@ -42,7 +42,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_103"
+               BlueprintIdentifier = "OBJ_109"
                BuildableName = "HashableUsingAddress.framework"
                BlueprintName = "HashableUsingAddress"
                ReferencedContainer = "container:Sui.xcodeproj">
@@ -56,7 +56,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_112"
+               BlueprintIdentifier = "OBJ_118"
                BuildableName = "LimitOperator.framework"
                BlueprintName = "LimitOperator"
                ReferencedContainer = "container:Sui.xcodeproj">
@@ -70,7 +70,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_119"
+               BlueprintIdentifier = "OBJ_125"
                BuildableName = "SdlSui.framework"
                BlueprintName = "SdlSui"
                ReferencedContainer = "container:Sui.xcodeproj">
@@ -84,7 +84,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_105"
+               BlueprintIdentifier = "OBJ_111"
                BuildableName = "AbstractionAsserter.framework"
                BlueprintName = "AbstractionAsserter"
                ReferencedContainer = "container:Sui.xcodeproj">
@@ -98,7 +98,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_142"
+               BlueprintIdentifier = "OBJ_150"
                BuildableName = "Sui.framework"
                BlueprintName = "Sui"
                ReferencedContainer = "container:Sui.xcodeproj">
@@ -112,7 +112,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_188"
+               BlueprintIdentifier = "OBJ_193"
                BuildableName = "SdlSuiDemo"
                BlueprintName = "SdlSuiDemo"
                ReferencedContainer = "container:Sui.xcodeproj">
@@ -126,7 +126,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_138"
+               BlueprintIdentifier = "OBJ_146"
                BuildableName = "GeneratedValue.framework"
                BlueprintName = "GeneratedValue"
                ReferencedContainer = "container:Sui.xcodeproj">
@@ -144,7 +144,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_217"
+               BlueprintIdentifier = "OBJ_222"
                BuildableName = "GeneratedValueTests.xctest"
                BlueprintName = "GeneratedValueTests"
                ReferencedContainer = "container:Sui.xcodeproj">
@@ -154,7 +154,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_226"
+               BlueprintIdentifier = "OBJ_231"
                BuildableName = "LimitOperatorTests.xctest"
                BlueprintName = "LimitOperatorTests"
                ReferencedContainer = "container:Sui.xcodeproj">
@@ -164,7 +164,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_235"
+               BlueprintIdentifier = "OBJ_240"
                BuildableName = "AbstractionAsserterTests.xctest"
                BlueprintName = "AbstractionAsserterTests"
                ReferencedContainer = "container:Sui.xcodeproj">
@@ -174,7 +174,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_246"
+               BlueprintIdentifier = "OBJ_251"
                BuildableName = "PropertiesTests.xctest"
                BlueprintName = "PropertiesTests"
                ReferencedContainer = "container:Sui.xcodeproj">
@@ -184,7 +184,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_260"
+               BlueprintIdentifier = "OBJ_264"
                BuildableName = "SuiTests.xctest"
                BlueprintName = "SuiTests"
                ReferencedContainer = "container:Sui.xcodeproj">
@@ -207,7 +207,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "OBJ_86"
+            BlueprintIdentifier = "OBJ_88"
             BuildableName = "Weak.framework"
             BlueprintName = "Weak"
             ReferencedContainer = "container:Sui.xcodeproj">

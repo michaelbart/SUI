@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_375"
+               BlueprintIdentifier = "OBJ_188"
                BuildableName = "SdlSuiDemo"
                BlueprintName = "SdlSuiDemo"
                ReferencedContainer = "container:Sui.xcodeproj">
@@ -32,7 +32,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "OBJ_375"
+            BlueprintIdentifier = "OBJ_188"
             BuildableName = "SdlSuiDemo"
             BlueprintName = "SdlSuiDemo"
             ReferencedContainer = "container:Sui.xcodeproj">
@@ -55,7 +55,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "OBJ_375"
+            BlueprintIdentifier = "OBJ_188"
             BuildableName = "SdlSuiDemo"
             BlueprintName = "SdlSuiDemo"
             ReferencedContainer = "container:Sui.xcodeproj">
@@ -74,7 +74,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "OBJ_375"
+            BlueprintIdentifier = "OBJ_188"
             BuildableName = "SdlSuiDemo"
             BlueprintName = "SdlSuiDemo"
             ReferencedContainer = "container:Sui.xcodeproj">
