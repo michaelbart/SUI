@@ -1,3 +1,4 @@
+Package.pins
 Sources/Sui/StyleProperties.swift
 Sources/Sui/WidgetProperties.swift
 Sources/SdlSui/constants.swift
