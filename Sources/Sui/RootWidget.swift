@@ -12,7 +12,7 @@ let rootWidget=Widget(
         for window in contained.contents {
           contained.get(
             property:impementationProperty
-          ).createWindow(window)
+          )?.createWindow(window)
         }
       },
       PropertyValue(
@@ -22,7 +22,7 @@ let rootWidget=Widget(
         for window in contained.contents {
           contained.get(
             property:impementationProperty
-          ).destroyWindow(contained)
+          )?.destroyWindow(contained)
         }
       }
     ),
@@ -39,7 +39,7 @@ let rootWidget=Widget(
             (container, contained) in
             container.get(
               property:impementationProperty
-            ).createWindow(contained)
+            )?.createWindow(contained)
           },
           PropertyValue(
             removedContained
@@ -47,7 +47,7 @@ let rootWidget=Widget(
             (container, contained) in
             container.get(
               property:impementationProperty
-            ).destroyWindow(contained)
+            )?.destroyWindow(contained)
           },
           PropertyValue(
             contentsEmptied
@@ -65,7 +65,7 @@ let rootWidget=Widget(
                 (widget) in
                 widget.container?.get(
                   property:impementationProperty
-                ).changeAllocatedSpace(widget)
+                )?.changeAllocatedSpace(widget)
               }
             ),
             children:[

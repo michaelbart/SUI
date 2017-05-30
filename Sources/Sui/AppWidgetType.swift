@@ -3,10 +3,10 @@ import Properties
 
 let appWidgetType=WidgetType(parent:anyWidgetType)
 
-let impementationProperty = Property<Implementation, Widget>(Implementation())
+let impementationProperty = Property<Implementation?, Widget>(nil)
 
 public func createApp(
-  implementation:Implementation,
+  implementation:Implementation?,
   properties:[GenericPropertyValue<Widget>]=[],
   style:Style?=nil, contents:[Widget]=[]
 ) -> Widget {
@@ -29,7 +29,7 @@ public func createApp(
   contents:[Widget]=[]
 ) -> Widget {
   return createApp(
-    implementation:Implementation(),
+    implementation:nil,
     properties:properties,
     style:style,
     contents:contents

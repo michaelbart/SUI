@@ -4,6 +4,45 @@ import Sui
 import CSDL2
 import Properties
 
+class SdlImplementation: Implementation {
+  func createWindow(_ widget:Widget)->() {
+    let window:OpaquePointer=SDL_CreateWindow(
+      "Hello World",
+      widget.allocatedSpace.position.x,
+      widget.allocatedSpace.position.y,
+      widget.allocatedSpace.size.x,
+      widget.allocatedSpace.size.y,
+      SDL_WINDOW_RESIZABLE
+    )
+    widget.set(property:sdlWindow, to:window)
+    openWindows[SDL_GetWindowID(window)]=widget
+  }
+  func destroyWindow(_ widget:Widget)->() {
+    let window = widget.get(property:sdlWindow)
+    openWindows.removeValue(
+      forKey:SDL_GetWindowID(window)
+    )
+    SDL_DestroyWindow(window)
+  }
+  func changeAllocatedSpace(_ widget:Widget)->() {
+    guard let _ = widget.get(property:sdlWindow) else {
+      return
+    }
+    SDL_SetWindowPosition(
+      widget.get(property:sdlWindow),
+      widget.allocatedSpace.position.x,
+      widget.allocatedSpace.position.y
+    )
+    SDL_SetWindowSize(
+      widget.get(property:sdlWindow),
+      widget.allocatedSpace.size.x,
+      widget.allocatedSpace.size.y
+    )
+  }
+  init() {
+  }
+}
+
 let sdlWindow:Property = Property<OpaquePointer?, Widget>(nil)
 var openWindows:[UInt32:Widget]=[:]
 private var sdlHasInit=false
@@ -52,44 +91,7 @@ public func sdlCreateApp(
   }
 
   return createApp(
-    implementation:Implementation(
-      createWindow:{
-        widget in
-        let window:OpaquePointer=SDL_CreateWindow(
-            "Hello World",
-            widget.allocatedSpace.position.x,
-            widget.allocatedSpace.position.y,
-            widget.allocatedSpace.size.x,
-            widget.allocatedSpace.size.y,
-            SDL_WINDOW_RESIZABLE
-        )
-        widget.set(property:sdlWindow, to:window)
-        openWindows[SDL_GetWindowID(window)]=widget
-      },
-      destroyWindow:{
-        widget in
-        openWindows.removeValue(
-          forKey:SDL_GetWindowID(widget.get(property:sdlWindow))
-        )
-        SDL_DestroyWindow(widget.get(property:sdlWindow))
-      },
-      changeAllocatedSpace: {
-        widget in
-        guard let _ = widget.get(property:sdlWindow) else {
-          return
-        }
-        SDL_SetWindowPosition(
-          widget.get(property:sdlWindow),
-          widget.allocatedSpace.position.x,
-          widget.allocatedSpace.position.y
-        )
-        SDL_SetWindowSize(
-          widget.get(property:sdlWindow),
-          widget.allocatedSpace.size.x,
-          widget.allocatedSpace.size.y
-        )
-      }
-    ),
+    implementation:SdlImplementation(),
     properties:properties,
     style:style,
     contents:contents
