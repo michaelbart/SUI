@@ -60,6 +60,10 @@ let rootWidget=Widget(
           anyWidgetType:Style(
             properties:Properties(
               PropertyValue(
+                layoutProperty,
+                VerticalLayout()
+              ),
+              PropertyValue(
                 allocatedSpaceChanged
               ) {
                 (widget) in

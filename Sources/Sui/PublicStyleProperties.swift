@@ -63,6 +63,10 @@ public let allocatedSpaceChanged = Property<(Widget)->(), Style>() { (widget) in
 
 // MARK: property redraw
 
-public let redrawWidget = Property<(Widget)->(), Style> {
-  (widget) in
+public let drawBackground = Property<(Widget, Renderer)->(), Style> {
+  (widget, renderer) in
+}
+
+public let drawForground = Property<(Widget, Renderer)->(), Style> {
+  (widget, renderer) in
 }

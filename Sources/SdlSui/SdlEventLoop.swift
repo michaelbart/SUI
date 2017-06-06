@@ -22,7 +22,10 @@ func startEventLoop() {
         case SDL_WINDOWEVENT_CLOSE:
           window.container=nil
         case SDL_WINDOWEVENT_EXPOSED:
-          window.get(property:redrawWidget)(window)
+          let canvas = SdlCanvas(for:window)
+          let renderer = Renderer(canvas:canvas)
+          window.draw(renderer:renderer)
+SDL_RenderPresent(canvas.image)
         default:
           break
         }

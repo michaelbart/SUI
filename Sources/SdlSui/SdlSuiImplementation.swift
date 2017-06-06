@@ -3,6 +3,8 @@ import CSDL2
 import Properties
 
 let sdlWindow:Property = Property<OpaquePointer?, Widget>(nil)
+let sdlRenderer:Property = Property<OpaquePointer?, Widget>(nil)
+
 var openWindows:[UInt32:Widget]=[:]
 
 class SdlImplementation: Implementation {
@@ -17,6 +19,9 @@ class SdlImplementation: Implementation {
     )
     widget.set(property:sdlWindow, to:window)
     openWindows[SDL_GetWindowID(window)]=widget
+
+    let renderer = SDL_CreateRenderer(window, -1, 0)
+    widget.set(property:sdlRenderer, to:renderer)
   }
 
   func destroyWindow(_ widget:Widget)->() {

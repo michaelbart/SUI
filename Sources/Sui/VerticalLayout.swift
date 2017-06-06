@@ -16,7 +16,7 @@ public class VerticalLayout: Layout {
     - Returns: The RequestedSize for the widget.
   */
   override public func getRequestedSize(_ widget:Widget) -> RequestedSize {
-    var requestedSize=RequestedSize(Point(0,0))
+    var requestedSize=RequestedSize(Point(0,0), moldable: Point(0,0))
 
     for child in widget.contents {
       let childRequestedSize=child.requestedSize
@@ -73,15 +73,15 @@ public class VerticalLayout: Layout {
       )
     }
 
-    let remainder=container.requestedSize.size.y - container.allocatedSpace.size.y
+    let remainder = container.allocatedSpace.size.y - container.requestedSize.size.y
 
     let modledTopSide =
        widget.get(property:topSide) + remainder
-       * container.requestedSize.moldable.y / widget.get(property:topMoldable)
+       * widget.get(property:topMoldable) / container.requestedSize.moldable.y
 
     let modledBottomSide =
         widget.get(property:bottomSide) + remainder
-        * container.requestedSize.moldable.y / widget.get(property:bottomMoldable)
+        * widget.get(property:bottomMoldable) / container.requestedSize.moldable.y
         - modledTopSide
 
     return AllocatedSpace(

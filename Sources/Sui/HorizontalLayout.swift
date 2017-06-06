@@ -17,7 +17,7 @@ public class HorizontalLayout: Layout {
     - Returns: The RequestedSize for the widget.
   */
   override public func getRequestedSize(_ widget:Widget) -> RequestedSize {
-    var requestedSize=RequestedSize(Point(0,0))
+    var requestedSize=RequestedSize(Point(0,0), moldable: Point(0,0))
 
     for child in widget.contents {
       let childRequestedSize=child.requestedSize
@@ -75,15 +75,15 @@ public class HorizontalLayout: Layout {
       )
     }
 
-    let remainder=container.requestedSize.size.x - container.allocatedSpace.size.x
+    let remainder = container.allocatedSpace.size.x - container.requestedSize.size.x
 
     let modledLeftSide =
        widget.get(property:leftSide) + remainder
-       * container.requestedSize.moldable.x / widget.get(property:leftMoldable)
+       * widget.get(property:leftMoldable) / container.requestedSize.moldable.x
 
     let modledRightSide =
         widget.get(property:rightSide) + remainder
-        * container.requestedSize.moldable.x / widget.get(property:rightMoldable)
+        *  widget.get(property:rightMoldable) / container.requestedSize.moldable.x
         - modledLeftSide
 
     return AllocatedSpace(

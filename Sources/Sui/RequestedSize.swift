@@ -7,7 +7,7 @@ public struct RequestedSize {
     - Paramiter size: The requested size for x and y.
     - Parameter moldable: The willingness widget has to accept a different size.
   */
-  init(_ size:Point, moldable:Point=Point(1,1)) {
+  public init(_ size:Point, moldable:Point=Point(1,1)) {
     self.size=size
     self.moldable=moldable
   }
