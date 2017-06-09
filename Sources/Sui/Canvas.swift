@@ -1,5 +1,7 @@
 public protocol Canvas : class {
   var size:Point { get }
+  var color:Color { get set }
+
   func draw(point:Point, renderer:Renderer)
   func fill(renderer:Renderer)
   func drawLine(from pointA:Point, to pointB: Point, renderer:Renderer)

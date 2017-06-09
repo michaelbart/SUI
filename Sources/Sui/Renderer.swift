@@ -1,7 +1,16 @@
 public struct Renderer {
-  var size: Point
-  var position: Point
+    public internal(set) var size: Point
+    public internal(set) var position: Point
   let canvas: Canvas
+
+  public var color: Color {
+    get {
+      return canvas.color
+    }
+    set {
+      canvas.color = newValue
+    }
+  }
 
   public func draw(point:Point) {
     canvas.draw(point:point, renderer:self)
