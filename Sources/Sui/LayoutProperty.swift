@@ -2,7 +2,7 @@ import Foundation
 import AbstractionAsserter
 import Properties
 
-open /*abstract*/ class Layout: AbstractionAsserter {
+public protocol Layout {
   /**
     Gets RequestedSize of widget.
     This is called automaticly when getting Widget.requestedSize.
@@ -10,10 +10,7 @@ open /*abstract*/ class Layout: AbstractionAsserter {
     - Parameter widget: The widget to get the RequestedSize for.
     - Returns: The RequestedSize for the widget.
   */
-  public func getRequestedSize(_ widget:Widget) -> RequestedSize {
-    abstractMethod()
-    return RequestedSize(Point(0,0))
-  }
+  func getRequestedSize(_ widget:Widget) -> RequestedSize
 
   /**
     Allocate space for contained widget.
@@ -22,18 +19,7 @@ open /*abstract*/ class Layout: AbstractionAsserter {
     - Parameter widget: The widget to allocate space for.
     - Returns: The AllocatedSpace for the widget.
   */
-  public func allocateSpace(_ widget:Widget) -> AllocatedSpace {
-    abstractMethod()
-    return AllocatedSpace(Point(0,0),Point(0,0))
-  }
-
-  /**
-    Creates a new Layout.
-    This class is abstract and this should only be called by child classes.
-  */
-  public init() {
-    abstractInit()
-  }
+  func allocateSpace(_ widget:Widget) -> AllocatedSpace
 }
 
 public let layoutProperty=Property<Layout,Style>(VerticalLayout())

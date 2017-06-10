@@ -22,7 +22,7 @@ public class SpriteLayout: Layout {
     - Parameter widget: The widget to get the RequestedSize for.
     - Returns: The RequestedSize for the widget.
   */
-  override public func getRequestedSize(_ widget:Widget) -> RequestedSize {
+  public func getRequestedSize(_ widget:Widget) -> RequestedSize {
     return RequestedSize(Point(0,0))
 }
 
@@ -33,18 +33,14 @@ public class SpriteLayout: Layout {
     - Parameter widget: The widget to allocate space for.
     - Returns: The AllocatedSpace for the widget.
   */
-  override public func allocateSpace(_ widget:Widget) -> AllocatedSpace {
+  public func allocateSpace(_ widget:Widget) -> AllocatedSpace {
     return AllocatedSpace(
       widget.get(property:spritePosition),
       widget.get(property:spriteSize) ?? widget.requestedSize.size
     )
   }
 
-  /**
-    Creates a new SpriteLayout.
-  */
-  public override init()  {
-    super.init()
+  public init() {
   }
 }
 

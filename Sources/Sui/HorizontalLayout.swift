@@ -16,7 +16,7 @@ public class HorizontalLayout: Layout {
     - Parameter widget: The widget to get the RequestedSize for.
     - Returns: The RequestedSize for the widget.
   */
-  override public func getRequestedSize(_ widget:Widget) -> RequestedSize {
+  public func getRequestedSize(_ widget:Widget) -> RequestedSize {
     var requestedSize=RequestedSize(Point(0,0), moldable: Point(0,0))
 
     for child in widget.contents {
@@ -66,7 +66,7 @@ public class HorizontalLayout: Layout {
     - Parameter widget: The widget to allocate space for.
     - Returns: The AllocatedSpace for the widget.
   */
-  override public func allocateSpace(_ widget:Widget) -> AllocatedSpace {
+  public func allocateSpace(_ widget:Widget) -> AllocatedSpace {
     guard let container=widget.container else {
       /* TODO Swift warn */
       return AllocatedSpace(
@@ -96,6 +96,9 @@ public class HorizontalLayout: Layout {
         container.allocatedSpace.size.y
       )
     )
+  }
+
+  public init() {
   }
 }
 
