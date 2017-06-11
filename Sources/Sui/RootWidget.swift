@@ -6,8 +6,7 @@ let rootWidget=Widget(
   type:rootWidgetType,
   style:Style(
     properties:Properties<Style>(
-        PropertyValue(
-        addedContained) {
+      addedContained <- {
         (container, contained) in
         for window in contained.contents {
           contained.get(
@@ -15,9 +14,7 @@ let rootWidget=Widget(
           )?.createWindow(window)
         }
       },
-      PropertyValue(
-        removedContained
-      ) {
+      removedContained <- {
         (container, contained) in
         for window in contained.contents {
           contained.get(
@@ -29,29 +26,20 @@ let rootWidget=Widget(
     children:[
       appWidgetType:Style(
         properties:Properties(
-          PropertyValue(
-            layoutProperty,
-            SpriteLayout()
-          ),
-          PropertyValue(
-            addedContained
-          ) {
+          layoutProperty <- SpriteLayout(),
+          addedContained <- {
             (container, contained) in
             container.get(
               property:impementationProperty
             )?.createWindow(contained)
           },
-          PropertyValue(
-            removedContained
-          ) {
+          removedContained <- {
             (container, contained) in
             container.get(
               property:impementationProperty
             )?.destroyWindow(contained)
           },
-          PropertyValue(
-            contentsEmptied
-          ) {
+          contentsEmptied <- {
             (widget) in
             exit(0)
           }
@@ -59,13 +47,8 @@ let rootWidget=Widget(
         children:[
           anyWidgetType:Style(
             properties:Properties(
-              PropertyValue(
-                layoutProperty,
-                VerticalLayout()
-              ),
-              PropertyValue(
-                allocatedSpaceChanged
-              ) {
+              layoutProperty <- VerticalLayout(),
+              allocatedSpaceChanged <- {
                 (widget) in
                 widget.container?.get(
                   property:impementationProperty
@@ -75,9 +58,7 @@ let rootWidget=Widget(
             children:[
               anyWidgetType:Style(
                 properties:Properties(
-                  PropertyValue(
-                    allocatedSpaceChanged
-                  ) {
+                  allocatedSpaceChanged <- {
                     (widget) in
                   }
                 )
@@ -88,19 +69,13 @@ let rootWidget=Widget(
       ),
       anyWidgetType:Style(
         properties:Properties(
-          PropertyValue(
-            addedContained
-          ) {
+          addedContained <- {
             (container, contained) in
           },
-          PropertyValue(
-            removedContained
-          ) {
+          removedContained <- {
             (container, contained) in
           },
-          PropertyValue(
-            contentsEmptied
-          ) {
+          contentsEmptied <- {
             (widget) in
           }
         )

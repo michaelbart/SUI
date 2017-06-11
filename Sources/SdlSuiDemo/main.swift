@@ -18,19 +18,13 @@ let style = Style (
   children: [
     hBoxWidgetType: Style(
       properties: [
-        PropertyValue(
-          layoutProperty,
-          HorizontalLayout()
-        )
+        layoutProperty <- HorizontalLayout(),
       ]
     ),
     colorWidgetType:Style(
       properties: [
-        PropertyValue(
-          layoutProperty,
-          FixedLayout(RequestedSize(Point(1,1)))
-        ),
-        PropertyValue(drawBackground) {
+        layoutProperty <- FixedLayout(RequestedSize(Point(1,1))),
+        drawBackground <- {
           (widget, renderer) in
           var renderer = renderer
           renderer.color = widget.get(property:colorProperty)
@@ -40,26 +34,17 @@ let style = Style (
     ),
     redWidgetType:Style(
       properties: [
-        PropertyValue(
-          colorProperty,
-          Color(red: 255, green: 0, blue: 0)
-        ),
+        colorProperty <- Color(red: 255, green: 0, blue: 0),
       ]
     ),
     greenWidgetType:Style(
       properties: [
-        PropertyValue(
-          colorProperty,
-          Color(red: 0, green: 255, blue: 0)
-        ),
+        colorProperty <- Color(red: 0, green: 255, blue: 0),
       ]
     ),
     blueWidgetType:Style(
       properties: [
-        PropertyValue(
-          colorProperty,
-          Color(red: 0, green: 0, blue: 255)
-        ),
+        colorProperty <- Color(red: 0, green: 0, blue: 255),
       ]
     ),
   ]

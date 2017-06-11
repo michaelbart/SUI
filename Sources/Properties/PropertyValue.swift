@@ -1,6 +1,13 @@
 import AbstractionAsserter
 import HashableUsingAddress
 
+
+infix operator <-
+
+public func <- <T,U>(property:Property<T,U>, value:T) -> GenericPropertyValue<U> {
+  return PropertyValue(property, value)
+}
+
 public class PropertyValue<T:Any,U:Any>:GenericPropertyValue<U> {
   /**
     The property of the PropertyValue
