@@ -11,14 +11,12 @@ class SuiRendererSpec: QuickSpec {
         var hasRedrawn=false
         let widget=Widget(type:anyWidgetType)
         widget.style=Style(
-          properties:Properties(
-            PropertyValue(
-              drawForground
-            ) {
+          anyWidgetType <- [
+            drawForground <- {
               (window) in
               hasRedrawn = true
             }
-          )
+          ]
         )
         let canvas = MocCanvas()
         let renderer = Renderer(canvas:canvas)
@@ -29,14 +27,12 @@ class SuiRendererSpec: QuickSpec {
         var hasRedrawn=false
         let widget=Widget(type:anyWidgetType)
         widget.style=Style(
-          properties:Properties(
-            PropertyValue(
-              drawBackground
-            ) {
+          anyWidgetType <- [
+            drawBackground <- {
               (window) in
               hasRedrawn = true
             }
-          )
+          ]
         )
         let canvas = MocCanvas()
         let renderer = Renderer(canvas:canvas)
@@ -49,18 +45,13 @@ class SuiRendererSpec: QuickSpec {
         let widget=Widget(type:anyWidgetType)
         widget.container = container
         widget.style=Style(
-          properties:Properties(
-            PropertyValue(
-              layoutProperty,
-              FixedLayout(RequestedSize(Point(1,1)))
-            ),
-            PropertyValue(
-              drawBackground
-            ) {
+          anyWidgetType <- [
+            layoutProperty <- FixedLayout(RequestedSize(Point(1,1))),
+            drawBackground <- {
               (window) in
               hasRedrawn = true
             }
-          )
+          ]
         )
         let canvas = MocCanvas()
         let renderer = Renderer(canvas:canvas)
@@ -71,31 +62,24 @@ class SuiRendererSpec: QuickSpec {
         var hasRedrawn=false
         let container=Widget(type:anyWidgetType)
         container.style=Style(
-          properties:Properties(
-            PropertyValue(
-              drawBackground
-            ) {
+          anyWidgetType <- [
+            layoutProperty <- FixedLayout(RequestedSize(Point(1,1))),
+            drawBackground <- {
               (window) in
               hasRedrawn = true
             }
-          )
-        )
-        let widget=Widget(type:anyWidgetType)
-        widget.container = container
-        widget.style=Style(
-          properties:Properties(
-            PropertyValue(
-              layoutProperty,
-              FixedLayout(RequestedSize(Point(1,1)))
-            ),
-            PropertyValue(
-              drawBackground
-            ) {
+          ],
+
+          WidgetHierarchy.compound(.type(anyWidgetType), .type(anyWidgetType)) <- [
+            layoutProperty <- FixedLayout(RequestedSize(Point(1,1))),
+            drawBackground <- {
               (window) in
               expect(hasRedrawn).to(equal(true))
             }
-          )
+          ]
         )
+        let widget=Widget(type:anyWidgetType)
+        widget.container = container
         let canvas = MocCanvas()
         let renderer = Renderer(canvas:canvas)
         container.draw(renderer: renderer)
@@ -104,31 +88,24 @@ class SuiRendererSpec: QuickSpec {
         var hasRedrawn=false
         let container=Widget(type:anyWidgetType)
         container.style=Style(
-          properties:Properties(
-            PropertyValue(
-              drawForground
-            ) {
+          anyWidgetType <- [
+            layoutProperty <- FixedLayout(RequestedSize(Point(1,1))),
+            drawForground <- {
               (window) in
               expect(hasRedrawn).to(equal(true))
             }
-          )
-        )
-        let widget=Widget(type:anyWidgetType)
-        widget.container = container
-        widget.style=Style(
-          properties:Properties(
-            PropertyValue(
-              layoutProperty,
-              FixedLayout(RequestedSize(Point(1,1)))
-            ),
-            PropertyValue(
-              drawBackground
-            ) {
+          ],
+
+          WidgetHierarchy.compound(.type(anyWidgetType), .type(anyWidgetType)) <- [
+            layoutProperty <- FixedLayout(RequestedSize(Point(1,1))),
+            drawBackground <- {
               (window) in
               hasRedrawn = true
             }
-          )
+          ]
         )
+        let widget=Widget(type:anyWidgetType)
+        widget.container = container
         let canvas = MocCanvas()
         let renderer = Renderer(canvas:canvas)
         container.draw(renderer: renderer)

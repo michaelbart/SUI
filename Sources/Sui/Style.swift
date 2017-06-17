@@ -1,120 +1,73 @@
 import Properties
 
 public struct Style {
-  /**
-    The properties for the Style.
-    Treat this a let exsept for init.
-  */
-  private var properties:Properties<Style>
-
-  /**
-    The children Styles.
-    Treat this a let exsept for init.
-  */
-  private var children:[WidgetType:Style]
-
-  /**
-    Adds a child to the Style.
-    This should only be used to construct styles.
-    - Parameter type: The widgetType style is for.
-    - Parameter child style: The style to add.
-  */
-  private mutating func addChild(type:WidgetType, child style:Style) {
-    //if style.properties != nil {
-      if children[type] != nil {
-        children[type]?.properties=style.properties
-      } else {
-        children[type]=Style(properties:style.properties)
-      }
-  //  }
-    for (childType, child) in style.children {
-      if children[childType] == nil {
-        children[childType]=Style()
-      }
-      children[childType]!.addChild(type:type, child:child)
-    }
-  }
+  private let widgetStyles:[WidgetStyle]
 
   static func get<T:Any>(property:Property<T, Style>, of widget:Widget) -> T {
-    if let value=widget.style?.get(property:property) {
-      return value
-    }
-
-    var hierarchy:[Widget]=[]
-    var container:Widget=widget
-    while(true) {
-      hierarchy.append(container)
-      guard let nextContainer=container.container else {
-        break;
-      }
-      container = nextContainer
-    }
-
-    let typeHierarchy=Array(hierarchy.map{$0.type}.reversed())
-
-    /* for each container */
-    for container in hierarchy {
-      if let value = container.style?.get(property:property, of:typeHierarchy) {
-        return value
-      }
-    }
-   return property.defaultValue
-  }
-
-  /**
-   Gets the the property from the style with the closest matching typeHierarchy.
-   - Parameter property: The property to get
-   - Parameter of: The typeHierarchy of the type to get the paramiter for.
-  */
-  private func get<T>(property:Property<T,Style>, of:[WidgetType]=[]) -> T? {
-    var typeHierarchy=of
-    if typeHierarchy.count != 0 {
-      var type=typeHierarchy.removeLast()
-      while(true) {
-        if let value = children[type]?.get(property:property, of:typeHierarchy){
-          return value
+    for container in widget.hierarchy {
+      if let style = container.style {
+        for widgetStyle in style.widgetStyles.reversed() {
+          if widgetStyle.hierarchy.matches(widget.hierarchy) {
+            if let value = widgetStyle.properties.get(property:property) {
+              return value
+            }
+          }
         }
-        guard let nextType=type.parent else {
-          break;
-        }
-        type=nextType
-      }
-      if let value = get(property:property, of:typeHierarchy) {
-        return value
       }
     }
-    return properties.get(property:property)
+    return property.defaultValue
   }
 
   /**
     creates a new Style.
-    - Parameter properties: The properties for the style.
-    - Parameter children: The children Styles.
   */
-  public init(
-    properties:[GenericPropertyValue<Style>],
-    children:[WidgetType:Style]=[:]
-  ) {
-    self.properties=Properties(properties)
-    self.children=[:]
-    for (childType, child) in children {
-      addChild(type:childType, child:child)
+  public init(_ widgetStyles: WidgetStyle ...) {
+    self.widgetStyles = widgetStyles
+  }
+}
+
+public class WidgetStyle {
+  let hierarchy: WidgetHierarchy
+  let properties:Properties<Style>
+  init(hierarchy: WidgetHierarchy, properties: [GenericPropertyValue<Style>]) {
+    self.hierarchy = hierarchy
+    self.properties = Properties(properties)
+  }
+}
+
+public enum WidgetHierarchy {
+  case type(WidgetType)
+  indirect case compound(WidgetHierarchy, WidgetHierarchy)
+
+  private func getValidRemains(_ hierarchy: [WidgetType]) -> [[WidgetType]] {
+    switch (self) {
+    case .type(let type):
+      var lastType: WidgetType? = hierarchy.last
+      while lastType != nil {
+        if lastType == type {
+          var hierarchy = hierarchy
+          hierarchy.removeLast()
+          return [hierarchy]
+        }
+        lastType = lastType?.parent
+      }
+      return []
+    case .compound(let lhs, let rhs):
+      return rhs.getValidRemains(hierarchy).flatMap{
+        lhs.getValidRemains($0)
+      }
     }
   }
 
-  /**
-    creates a new Style.
-    - Parameter properties: The properties for the style.
-    - Parameter children: The children Styles.
-  */
-  public init(
-    properties:Properties<Style> = Properties(),
-    children:[WidgetType:Style]=[:]
-  ) {
-    self.properties=properties
-    self.children=[:]
-    for (childType, child) in children {
-      addChild(type:childType, child:child)
-    }
+  func matches(_ hierarchy: [Widget]) -> Bool {
+    return getValidRemains(hierarchy.map{$0.type}).count != 0
   }
+}
+
+public func <- (hierarchy: WidgetHierarchy, properties: [GenericPropertyValue<Style>]) -> WidgetStyle {
+  return WidgetStyle(hierarchy: hierarchy, properties: properties)
+}
+
+public func <- (widgetType: WidgetType, properties: [GenericPropertyValue<Style>]) -> WidgetStyle {
+  return WidgetStyle(hierarchy: .type(widgetType), properties: properties)
 }

@@ -1,6 +1,5 @@
 import Foundation
 import AbstractionAsserter
-import LimitOperator
 import Properties
 
 private let leftSide = Property<Int32, Widget>(0)
@@ -27,7 +26,7 @@ public class HorizontalLayout: Layout {
 
       requestedSize=RequestedSize(
         Point(
-          requestedSize.size.x^+childRequestedSize.size.x,
+          requestedSize.size.x+childRequestedSize.size.x,
           (
             requestedSize.moldable.y
               * requestedSize.size.x

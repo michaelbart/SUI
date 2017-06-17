@@ -34,79 +34,69 @@ class SuiStylePropertiesSpec: QuickSpec {
 
         it("removedFromContainer when changing parents") {
           widget.style=Style(
-            properties:Properties(
-                PropertyValue(
-                removedFromContainer
-              ) {
+            widgetType <- [
+              removedFromContainer <- {
                 (container, contained) in
                 expect{contained}.to(equal(widget))
                 expect{container}.to(equal(oldContainer))
                 called=true
               }
-            )
+            ]
           )
           widget.container=newContainer
         }
 
         it("addedToContainer when changing parents") {
             widget.style=Style(
-              properties:Properties(
-                PropertyValue(
-                addedToContainer
-              ) {
+              widgetType <- [
+              addedToContainer <- {
                 (container, contained) in
                 expect{contained}.to(equal(widget))
                 expect{container}.to(equal(newContainer))
                 called=true
               }
-            )
+            ]
           )
           widget.container=newContainer
         }
 
         it("addedContained when changing parents") {
           newContainer.style=Style(
-            properties:Properties(
-              PropertyValue(
-                addedContained
-              ) {
+            newContainerType <- [
+              addedContained <- {
                 (container, contained) in
                 expect{contained}.to(equal(widget))
                 expect{container}.to(equal(newContainer))
                 called=true
               }
-            )
+            ]
           )
           widget.container=newContainer
         }
 
         it("RemovedContained when changing parents") {
           oldContainer.style=Style(
-            properties:Properties(
-              PropertyValue(
-                removedContained
-              ) {
+            oldContainerType <- [
+              removedContained <- {
                 (container, contained) in
                 expect{contained}.to(equal(widget))
                 expect{container}.to(equal(oldContainer))
                 called=true
               }
-            )
+            ]
           )
           widget.container=newContainer
         }
 
         it("contentsEmptied when contents are emptied") {
           oldContainer.style=Style(
-            properties:Properties(
-              PropertyValue(
-                contentsEmptied
-              ) {
+            oldContainerType <- [
+              contentsEmptied <- {
                 (container) in
                 expect{container}.to(equal(oldContainer))
                 called=true
               }
-            )
+            ]
           )
           otherWidget.container=oldContainer
           expect{called}.to(equal(false))

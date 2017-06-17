@@ -15,38 +15,30 @@ let hBoxWidgetType=WidgetType(parent:anyWidgetType)
 let colorProperty = Property<Color, Style>(Color(red:255, green:255, blue:255))
 
 let style = Style (
-  children: [
-    hBoxWidgetType: Style(
-      properties: [
-        layoutProperty <- HorizontalLayout(),
-      ]
-    ),
-    colorWidgetType:Style(
-      properties: [
-        layoutProperty <- FixedLayout(RequestedSize(Point(1,1))),
-        drawBackground <- {
-          (widget, renderer) in
-          var renderer = renderer
-          renderer.color = widget.get(property:colorProperty)
-          renderer.fill()
-        },
-      ]
-    ),
-    redWidgetType:Style(
-      properties: [
-        colorProperty <- Color(red: 255, green: 0, blue: 0),
-      ]
-    ),
-    greenWidgetType:Style(
-      properties: [
-        colorProperty <- Color(red: 0, green: 255, blue: 0),
-      ]
-    ),
-    blueWidgetType:Style(
-      properties: [
-        colorProperty <- Color(red: 0, green: 0, blue: 255),
-      ]
-    ),
+  hBoxWidgetType <- [
+    layoutProperty <- HorizontalLayout(), /* TODO: This should come with Sui */
+  ],
+
+  colorWidgetType <- [
+    layoutProperty <- FixedLayout(RequestedSize(Point(1,1))), /* TODO This should not be required */
+    drawBackground <- {
+      (widget, renderer) in
+      var renderer = renderer
+     renderer.color = widget.get(property:colorProperty)
+      renderer.fill()
+    },
+  ],
+
+  WidgetHierarchy.type(redWidgetType) <- [
+    colorProperty <- Color(red: 255, green: 0, blue: 0),
+  ],
+
+  greenWidgetType <- [
+    colorProperty <- Color(red: 0, green: 255, blue: 0),
+  ],
+
+  blueWidgetType <- [
+    colorProperty <- Color(red: 0, green: 0, blue: 255),
   ]
 )
 
@@ -56,14 +48,15 @@ let app=sdlCreateApp(
     Widget(
       type:anyWidgetType,
       properties: [
-        PropertyValue(spriteSize, Point(200,300)),
-        PropertyValue(spritePosition, Point(200,300)),
+        spriteSize <- Point(200,300),
+        spritePosition <- Point(200,300),
       ],
       style:style,
       contents: [
         Widget(
           type:redWidgetType
         ),
+
         Widget(
           type:hBoxWidgetType,
           contents: [
@@ -75,6 +68,7 @@ let app=sdlCreateApp(
             ),
           ]
         ),
+
         Widget(
           type:blueWidgetType
         )

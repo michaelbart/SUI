@@ -1,9 +1,8 @@
 Package.pins
-Sources/Sui/StyleProperties.swift
-Sources/Sui/WidgetProperties.swift
+Sui.xcodeproj
 Sources/SdlSui/constants.swift
 Tests/LinuxMain.swift
-Tests/PropertiesTests/Properties.swift
 .build
 Packages
 .*.swp
+

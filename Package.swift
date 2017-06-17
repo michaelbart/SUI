@@ -23,14 +23,12 @@ let package = Package(
         .Target(name: "Weak"),
         .Target(name: "GeneratedValue"),
         .Target(name: "Properties"),
-        .Target(name: "LimitOperator"),
       ]
     ),
     Target(name: "HashableUsingAddress"),
     Target(name: "AbstractionAsserter"),
     Target(name: "Weak"),
     Target(name: "GeneratedValue"),
-    Target(name: "LimitOperator"),
     Target(
       name: "Properties",
       dependencies: [

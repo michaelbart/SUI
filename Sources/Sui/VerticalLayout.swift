@@ -1,5 +1,4 @@
 import AbstractionAsserter
-import LimitOperator
 import Properties
 
 private let topSide = Property<Int32, Widget>(0)
@@ -37,7 +36,7 @@ public class VerticalLayout: Layout {
             requestedSize.size.y * requestedSize.moldable.x
             + childRequestedSize.size.y * childRequestedSize.moldable.x
           ),
-          requestedSize.size.y^+childRequestedSize.size.y
+          requestedSize.size.y+childRequestedSize.size.y
         ),
         moldable:Point(
           (

@@ -67,19 +67,16 @@ class SuiLayoutSpec: QuickSpec {
         expect{String(describing:type(of:widget.get(property:layoutProperty)))}
           .to(equal(String(describing:VerticalLayout.self)))
       }
-   }
+    }
 
     describe("FixedLayout") {
       it("will getRequestedSize") {
         let widgetType=WidgetType(parent:anyWidgetType)
         let widget=Widget(type:widgetType)
         widget.style=Style(
-          properties:Properties(
-            PropertyValue(
-              layoutProperty,
-              FixedLayout(RequestedSize(Point(1,2)))
-            )
-          )
+          widgetType <- [
+            layoutProperty <- FixedLayout(RequestedSize(Point(1,2)))
+          ]
         )
         expect{widget.requestedSize}.to(equal(RequestedSize(Point(1,2))))
       }
@@ -90,22 +87,14 @@ class SuiLayoutSpec: QuickSpec {
       let widget=Widget(type:widgetType)
       var contained=Widget(type:widgetType)
       beforeEach{
-        widget.style=Style(
-          properties:Properties(
-            PropertyValue(
-              layoutProperty,
-              SpriteLayout()
-            )
-          )
-        )
         contained=Widget(type:widgetType)
-        contained.style=Style(
-          properties:Properties(
-            PropertyValue(
-              layoutProperty,
-              FixedLayout(RequestedSize(Point(1,2)))
-            )
-          )
+        widget.style=Style(
+          widgetType <- [
+            layoutProperty <- SpriteLayout()
+          ],
+          WidgetHierarchy.compound(WidgetHierarchy.type(widgetType), WidgetHierarchy.type(widgetType)) <- [
+            layoutProperty <- FixedLayout(RequestedSize(Point(1,2)))
+          ]
         )
         contained.container=widget
       }
@@ -144,16 +133,12 @@ class SuiLayoutSpec: QuickSpec {
         child2.container=widget
 
         widget.style=Style(
-          properties:Properties(PropertyValue(layoutProperty, VerticalLayout())),
-          children:[
-            widgetType:Style(
-              properties:Properties(
-                PropertyValue(
-                  layoutProperty,
-                  FixedLayout(RequestedSize(Point(1,2)))
-                )
-              )
-            )
+          widgetType <- [
+            layoutProperty <- VerticalLayout()
+          ],
+
+          WidgetHierarchy.compound(WidgetHierarchy.type(widgetType), WidgetHierarchy.type(widgetType)) <- [
+             layoutProperty <- FixedLayout(RequestedSize(Point(1,2)))
           ]
         )
       }
@@ -179,17 +164,13 @@ class SuiLayoutSpec: QuickSpec {
         child2.container=widget
 
         widget.style=Style(
-          properties:Properties(PropertyValue(layoutProperty, HorizontalLayout())),
-          children:[
-            widgetType:Style(
-              properties:Properties(
-                PropertyValue(
-                  layoutProperty,
-                  FixedLayout(RequestedSize(Point(1,2)))
-                )
-              )
-            )
-          ]
+            widgetType <- [
+                layoutProperty <- HorizontalLayout()
+            ],
+
+            WidgetHierarchy.compound(WidgetHierarchy.type(widgetType), WidgetHierarchy.type(widgetType)) <- [
+                layoutProperty <- FixedLayout(RequestedSize(Point(1,2)))
+            ]
         )
       }
       it("will getRequestedSize") {

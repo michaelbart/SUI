@@ -65,6 +65,16 @@ public class Widget: HashableUsingAddress {
       onDidSetContainerEvent4(widget:widget, newContainer:newContainer)
   }
 
+  // MARK: hierarchy
+  var hierarchy:[Widget] {
+    if let container = container {
+      var hierarchy = container.hierarchy
+      hierarchy.append(self)
+      return hierarchy
+    }
+    return [self]
+  }
+
   // MARK: property requestedSize
   private static func onStyleCasheClearedEvent2(widget:Widget) {
     widget.clearRequestedSizeCashe()

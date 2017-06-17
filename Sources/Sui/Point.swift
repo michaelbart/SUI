@@ -1,5 +1,3 @@
-import LimitOperator
-
 public struct Point {
   public var x:Int32
   public var y:Int32
@@ -26,12 +24,8 @@ extension Point /* :IntegerArithmetic */ {
     return Point(lhs.x+rhs.x, lhs.y+rhs.y)
   }
 
-  public static func ^+(lhs: Point, rhs: Point) -> Point {
-    return Point(lhs.x^+rhs.x, lhs.y^+rhs.y)
-  }
-
   public static func -(lhs: Point, rhs: Point) -> Point {
-    return Point(lhs.x^-rhs.x, lhs.y^-rhs.y)
+    return Point(lhs.x-rhs.x, lhs.y-rhs.y)
   }
 
   public static func /(lhs: Point, rhs: Int32) -> Point {
