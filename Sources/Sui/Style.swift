@@ -3,7 +3,7 @@ import Properties
 public struct Style {
   private let widgetStyles:[WidgetStyle]
 
-  static func get<T:Any>(property:Property<T, Style>, of widget:Widget) -> T {
+  public static func get<T:Any>(property:Property<T, Style>, of widget:Widget) -> T {
     for container in widget.hierarchy {
       if let style = container.style {
         for widgetStyle in style.widgetStyles.reversed() {
@@ -26,18 +26,18 @@ public struct Style {
   }
 }
 
-public class WidgetStyle {
-  let hierarchy: WidgetHierarchy
+public struct WidgetStyle {
+  let hierarchy: WidgetTypeHierarchy
   let properties:Properties<Style>
-  init(hierarchy: WidgetHierarchy, properties: [GenericPropertyValue<Style>]) {
+  init(hierarchy: WidgetTypeHierarchy, properties: [GenericPropertyValue<Style>]) {
     self.hierarchy = hierarchy
     self.properties = Properties(properties)
   }
 }
 
-public enum WidgetHierarchy {
+public enum WidgetTypeHierarchy {
   case type(WidgetType)
-  indirect case compound(WidgetHierarchy, WidgetHierarchy)
+  indirect case compound(WidgetTypeHierarchy, WidgetTypeHierarchy)
 
   private func getValidRemains(_ hierarchy: [WidgetType]) -> [[WidgetType]] {
     switch (self) {
@@ -64,10 +64,27 @@ public enum WidgetHierarchy {
   }
 }
 
-public func <- (hierarchy: WidgetHierarchy, properties: [GenericPropertyValue<Style>]) -> WidgetStyle {
+public func / (lhs: WidgetType, rhs: WidgetType) -> WidgetTypeHierarchy {
+  return .compound(.type(lhs), .type(rhs))
+}
+
+public func / (lhs: WidgetType, rhs: WidgetTypeHierarchy) -> WidgetTypeHierarchy {
+  return .compound(.type(lhs), rhs)
+}
+
+public func / (lhs: WidgetTypeHierarchy, rhs: WidgetType) -> WidgetTypeHierarchy {
+  return .compound(lhs, .type(rhs))
+}
+
+public func / (lhs: WidgetTypeHierarchy, rhs: WidgetTypeHierarchy) -> WidgetTypeHierarchy {
+  return .compound(lhs, rhs)
+}
+
+public func <- (hierarchy: WidgetTypeHierarchy, properties: [GenericPropertyValue<Style>]) -> WidgetStyle {
   return WidgetStyle(hierarchy: hierarchy, properties: properties)
 }
 
 public func <- (widgetType: WidgetType, properties: [GenericPropertyValue<Style>]) -> WidgetStyle {
   return WidgetStyle(hierarchy: .type(widgetType), properties: properties)
 }
+

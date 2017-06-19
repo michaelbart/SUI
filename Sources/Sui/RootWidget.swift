@@ -44,7 +44,7 @@ let rootWidget=Widget(
        }
     ],
 
-    WidgetHierarchy.compound(.type(appWidgetType), .type(anyWidgetType)) <- [
+    (appWidgetType / anyWidgetType) <- [
       allocatedSpaceChanged <- {
         (widget) in
         widget.container?.get(

@@ -29,7 +29,7 @@ let style = Style (
     },
   ],
 
-  WidgetHierarchy.type(redWidgetType) <- [
+  WidgetTypeHierarchy.type(redWidgetType) <- [
     colorProperty <- Color(red: 255, green: 0, blue: 0),
   ],
 
