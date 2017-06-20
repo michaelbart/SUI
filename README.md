@@ -2,7 +2,7 @@
 
 1. Clone this repository
 ```bash
-git clone https://github.com/amnykon/SUI/tree/mac
+git clone https://github.com/amnykon/SUI
 ```
 
 2. Install SDL2 via Homebrew
