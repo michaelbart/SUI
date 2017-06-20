@@ -24,7 +24,7 @@ vim .build/checkouts/CSDL2.swift.git-84403830401767267/module.modulemap
 5. Replace all headers with: `/usr/local/include/`
 ```bash
 # Example using vim
-:%s/\/usr\/include/usr\/local\/include/g
+:%s/\/usr\/include/\/usr\/local\/include/g
 ```
 
 6. Open `Package.swift` in your preferred text editor
